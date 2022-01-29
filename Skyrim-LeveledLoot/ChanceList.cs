@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-using Form = Mutagen.Bethesda.Plugins.IFormLink<Mutagen.Bethesda.Plugins.Records.IMajorRecordCommonGetter>;
+using Form = Mutagen.Bethesda.Plugins.IFormLink<Mutagen.Bethesda.Plugins.Records.IMajorRecordGetter>;
 
 
 namespace LeveledLoot {

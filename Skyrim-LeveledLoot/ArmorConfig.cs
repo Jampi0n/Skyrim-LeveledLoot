@@ -10,7 +10,7 @@ using Mutagen.Bethesda.FormKeys.SkyrimLE;
 using Mutagen.Bethesda.Plugins;
 using Mutagen.Bethesda.Plugins.Records;
 
-using Form = Mutagen.Bethesda.Plugins.IFormLink<Mutagen.Bethesda.Plugins.Records.IMajorRecordCommonGetter>;
+using Form = Mutagen.Bethesda.Plugins.IFormLink<Mutagen.Bethesda.Plugins.Records.IMajorRecordGetter>;
 using SKY = Mutagen.Bethesda.FormKeys.SkyrimLE.Skyrim.Armor;
 using DB = Mutagen.Bethesda.FormKeys.SkyrimLE.Dragonborn.Armor;
 using DG = Mutagen.Bethesda.FormKeys.SkyrimLE.Dawnguard.Armor;
