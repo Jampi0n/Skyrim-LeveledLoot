@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-using Form = Mutagen.Bethesda.Plugins.IFormLink<Mutagen.Bethesda.Plugins.Records.IMajorRecordCommonGetter>;
+using Form = Mutagen.Bethesda.Plugins.IFormLink<Mutagen.Bethesda.Plugins.Records.IMajorRecordGetter>;
 
 
 namespace LeveledLoot {
@@ -112,7 +112,7 @@ namespace LeveledLoot {
             ChanceList start = this;
             ChanceList current = this;
             bool loop = false;
-            ChanceList[] array = new ChanceList[size];
+            var array = new ChanceList[size];
             int j = 0;
             while(true) {
                 j++;
@@ -126,7 +126,6 @@ namespace LeveledLoot {
                 current = current.next;
                 array[j - 1] = tmp;
             }
-            return array;
         }
 
         public string Hash() {

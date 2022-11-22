@@ -19,7 +19,7 @@ namespace LeveledLoot
         {
             return await SynthesisPipeline.Instance
                 .AddPatch<ISkyrimMod, ISkyrimModGetter>(RunPatch)
-                .SetTypicalOpen(GameRelease.SkyrimLE, "YourPatcher.esp")
+                .SetTypicalOpen(GameRelease.SkyrimLE, "LeveledLoot.esp")
                 .Run(args);
         }
 

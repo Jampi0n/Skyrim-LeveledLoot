@@ -10,7 +10,7 @@ using Mutagen.Bethesda.FormKeys.SkyrimLE;
 using Mutagen.Bethesda.Plugins;
 using Mutagen.Bethesda.Plugins.Records;
 
-using Form = Mutagen.Bethesda.Plugins.IFormLink<Mutagen.Bethesda.Plugins.Records.IMajorRecordCommonGetter>;
+using Form = Mutagen.Bethesda.Plugins.IFormLink<Mutagen.Bethesda.Plugins.Records.IMajorRecordGetter>;
 
 using SKYA = Mutagen.Bethesda.FormKeys.SkyrimLE.Skyrim.Armor;
 using DBA = Mutagen.Bethesda.FormKeys.SkyrimLE.Dragonborn.Armor;
