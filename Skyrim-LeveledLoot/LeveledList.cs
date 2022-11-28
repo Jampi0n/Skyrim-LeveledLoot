@@ -124,7 +124,7 @@ namespace LeveledLoot {
         public static LeveledItem CreateListCount(Enum itemType, string name, short count, int levelFactor, IEnumerable<ItemMaterial> materials, params LootRQ[] requirements) {
             LeveledItem leveledList = Program.state!.PatchMod.LeveledItems.AddNew();
             leveledList.EditorID = name;
-            leveledList.Flags |= LeveledItem.Flag.CalculateForEachItemInCount;
+            leveledList.Flags = LeveledItem.Flag.CalculateForEachItemInCount | LeveledItem.Flag.SpecialLoot;
             foreach(int level in LEVEL_LIST) {
                 Form f = CreateSubList(itemType, level * levelFactor, name, materials, requirements);
                 LeveledItemEntry entry = new();
