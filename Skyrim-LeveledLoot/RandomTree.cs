@@ -30,7 +30,7 @@ namespace LeveledLoot {
             }
         }
 
-        public RandomTree(ChanceList chanceList, string name) {
+        private RandomTree(ChanceList chanceList, string name) {
             string key = chanceList.Hash();
             treeMap.Add(key, this);
             this.name = name;
@@ -79,7 +79,7 @@ namespace LeveledLoot {
                     Console.WriteLine("????");
                     Console.WriteLine(key);
                 }
-                linkedItem = leveledList.AsLink();
+                linkedItem = leveledList.ToLink();
             } else {
                 linkedItem = this.chanceList.item;
             }

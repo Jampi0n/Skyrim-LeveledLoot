@@ -21,6 +21,11 @@ namespace LeveledLoot {
     }
 
     enum ItemType {
+        Helmet,
+        Cuirass,
+        Gauntlets,
+        Boots,
+        Shield,
         HeavyHelmet,
         HeavyCuirass,
         HeavyGauntlets,
@@ -42,14 +47,79 @@ namespace LeveledLoot {
         SetNoHelmet,
         SetWithHelmet,
         Arrow,
+        Arrow6,
+        Arrow12,
+        SoulGemFilled,
+        SoulGemEmpty
     }
+
+    class ItemTypeConfig {
+
+        private static Dictionary<Enum, HashSet<Enum>> childItemTypes = new();
+        private static Dictionary<Enum, HashSet<Enum>> parentItemTypes = new();
+
+        public static void AddChildItemType(Enum parent, Enum child) {
+            if(!childItemTypes.ContainsKey(parent)) {
+                childItemTypes.Add(parent, new HashSet<Enum>());
+            }
+            childItemTypes[parent].Add(child);
+            if(!parentItemTypes.ContainsKey(child)) {
+                parentItemTypes.Add(child, new HashSet<Enum>());
+            }
+            parentItemTypes[child].Add(parent);
+        }
+
+        public static HashSet<Enum> GetAllChildItemTypes(Enum parent) {
+            if(!childItemTypes.ContainsKey(parent)) {
+                return new HashSet<Enum>() { parent };
+            }
+            var result = new HashSet<Enum>() { parent };
+            foreach(var child in childItemTypes[parent]) {
+                foreach(var i in GetAllChildItemTypes(child)) {
+                    result.Add(i);
+                }
+            }
+            return result;
+        }
+
+        public static HashSet<Enum> GetAllParentItemTypes(Enum child) {
+            if(!parentItemTypes.ContainsKey(child)) {
+                return new HashSet<Enum>() { child };
+            }
+            var result = new HashSet<Enum>() { child };
+            foreach(var parent in parentItemTypes[child]) {
+                foreach(var i in GetAllParentItemTypes(parent)) {
+                    result.Add(i);
+                }
+            }
+            return result;
+        }
+
+        public static void Config() {
+            AddChildItemType(ItemType.Helmet, ItemType.HeavyHelmet);
+            AddChildItemType(ItemType.Helmet, ItemType.LightHelmet);
+            AddChildItemType(ItemType.Cuirass, ItemType.HeavyCuirass);
+            AddChildItemType(ItemType.Cuirass, ItemType.LightCuirass);
+            AddChildItemType(ItemType.Gauntlets, ItemType.HeavyGauntlets);
+            AddChildItemType(ItemType.Gauntlets, ItemType.LightGauntlets);
+            AddChildItemType(ItemType.Boots, ItemType.HeavyBoots);
+            AddChildItemType(ItemType.Boots, ItemType.LightBoots);
+            AddChildItemType(ItemType.Shield, ItemType.HeavyShield);
+            AddChildItemType(ItemType.Shield, ItemType.LightShield);
+        }
+    }
+
 
     class ItemVariant {
         public readonly Form item;
         public readonly int weight;
-        public ItemVariant(Form item, int weight) {
+        public readonly short count;
+        public readonly byte chanceNone;
+        public ItemVariant(Form item, int weight, short count, byte chanceNone) {
             this.item = item;
             this.weight = weight;
+            this.count = count;
+            this.chanceNone = chanceNone;
         }
     }
 
@@ -60,7 +130,7 @@ namespace LeveledLoot {
         public int lastLevel;
 
         public static LinkedList<ItemMaterial> ALL = new();
-        string name;
+        public string name;
         public Dictionary<Enum, LinkedList<ItemVariant>> itemMap = new();
         public Dictionary<Enum, Form> listMap = new();
         public HashSet<LootRQ> requirements;
@@ -102,18 +172,42 @@ namespace LeveledLoot {
             AddItem(ItemType.Bow, bow);
         }
 
-        public void AddItem(Enum itemType, Form? item, int weight) {
+        public void Arrow75(Form? baseArrowList) {
+            AddItemCount(ItemType.Arrow, 1, 0, baseArrowList);
+            AddItemCount(ItemType.Arrow6, 6, 0, baseArrowList);
+            AddItemCount(ItemType.Arrow12, 12, 0, baseArrowList);
+        }
+
+        public void AddItem(Enum itemType, Form? item, int weight, short count = 1, byte chanceNone = 0) {
             if(item == null) {
                 return;
             }
-            if(!itemMap.ContainsKey(itemType)) {
-                itemMap.Add(itemType, new LinkedList<ItemVariant>());
+
+            HashSet<Enum> itemTypeSet = ItemTypeConfig.GetAllParentItemTypes(itemType);
+            foreach(var i in itemTypeSet) {
+                if(!itemMap.ContainsKey(i)) {
+                    itemMap.Add(i, new LinkedList<ItemVariant>());
+                }
+                itemMap[i].AddLast(new ItemVariant(item, weight, count, chanceNone));
             }
-            itemMap[itemType].AddLast(new ItemVariant(item, weight));
         }
         public void AddItem(Enum itemType, params Form?[] items) {
             foreach(Form? item in items) {
                 AddItem(itemType, item, 1);
+            }
+        }
+
+        public void AddItemCount(Enum itemType, short count, byte chanceNone, params Form?[] items) {
+            foreach(Form? item in items) {
+                AddItem(itemType, item, 1, count, chanceNone);
+            }
+        }
+
+        public void AddItemEnch(Enum itemType, params Form?[] items) {
+            int weight = items.Length;
+            foreach(Form? item in items) {
+                AddItem(itemType, item, weight);
+                weight--;
             }
         }
 
@@ -122,31 +216,36 @@ namespace LeveledLoot {
                 return null;
             }
             if(itemMap[itemType].Count == 1) {
-                return itemMap[itemType].First!.Value.item;
-            } else {
-                if(!listMap.ContainsKey(itemType)) {
-                    LeveledItem leveledList = Program.state!.PatchMod.LeveledItems.AddNew();
-                    leveledList.EditorID = name + "_" + itemType.ToString() + "_Variants";
-                    for(int i = 0; i < itemMap[itemType].Count; ++i) {
-                        for(int j = 0; j < itemMap[itemType].ElementAt(i).weight; ++j) {
-                            LeveledItemEntry entry = new();
-                            if(entry.Data == null) {
-                                entry.Data = new LeveledItemEntryData();
-                            }
-                            entry.Data.Count = 1;
-                            entry.Data.Level = 1;
-                            entry.Data.Reference = (Mutagen.Bethesda.Plugins.IFormLink<IItemGetter>)itemMap[itemType].ElementAt(i).item;
-                            if(leveledList.Entries == null) {
-                                leveledList.Entries = new Noggog.ExtendedList<LeveledItemEntry>();
-                            }
-                            leveledList.Entries!.Add(entry);
-                        }
-                    }
-                    listMap.Add(itemType, leveledList.AsLink());
-                }
-                return listMap[itemType];
-            }
-        }
+                var itemVariant = itemMap[itemType].First!.Value;
+                if(itemVariant.count == 1 && itemVariant.chanceNone == 0) {
 
+                    return itemMap[itemType].First!.Value.item;
+                }
+            }
+            if(!listMap.ContainsKey(itemType)) {
+                LeveledItem leveledList = Program.state!.PatchMod.LeveledItems.AddNew();
+                leveledList.EditorID = name + "_" + itemType.ToString() + "_Variants";
+                for(int i = 0; i < itemMap[itemType].Count; ++i) {
+                    var itemVariant = itemMap[itemType].ElementAt(i);
+                    for(int j = 0; j < itemVariant.weight; ++j) {
+                        LeveledItemEntry entry = new();
+                        if(entry.Data == null) {
+                            entry.Data = new LeveledItemEntryData();
+                        }
+                        leveledList.ChanceNone = Math.Max(itemVariant.chanceNone, leveledList.ChanceNone);
+                        entry.Data.Count = itemVariant.count;
+                        entry.Data.Level = 1;
+                        entry.Data.Reference = (Mutagen.Bethesda.Plugins.IFormLink<IItemGetter>)itemVariant.item;
+                        if(leveledList.Entries == null) {
+                            leveledList.Entries = new Noggog.ExtendedList<LeveledItemEntry>();
+                        }
+                        leveledList.Entries!.Add(entry);
+                    }
+                }
+                listMap.Add(itemType, leveledList.ToLink());
+            }
+            return listMap[itemType];
+
+        }
     }
 }

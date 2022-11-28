@@ -136,6 +136,15 @@ namespace LeveledLoot {
             }
             return str;
         }
+
+        public override string ToString() {
+            string str = "";
+            foreach(ChanceList chanceElement in this.ToArray()) {
+                var item = chanceElement.item.TryResolve(Program.state.LinkCache);
+                str += "" + chanceElement.chance + ":" + item!.EditorID + ", ";
+            }
+            return str;
+        }
     }
 
 }
