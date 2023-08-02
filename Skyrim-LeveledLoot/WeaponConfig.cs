@@ -23,34 +23,23 @@ namespace LeveledLoot {
 
 
     class WeaponConfig {
-        public static ItemMaterial DRAUGR = new("Iron", 0.0002, 400, 1, 50, LootRQ.NoEnch, LootRQ.Special);
-        public static ItemMaterial DRAUGR_HONED = new("Iron", 0, 300, 8, 150, LootRQ.NoEnch, LootRQ.Special);
-        public static ItemMaterial DRAUGR_HERO = new("Iron", 0, 200, 17, 275, LootRQ.NoEnch, LootRQ.Special);
-        public static ItemMaterial IRON = new("Iron", 0.0001, 250, 1, 50, LootRQ.NoEnch);
-        public static ItemMaterial STEEL = new("Steel", 0, 250, 4, 50, LootRQ.NoEnch);
-        public static ItemMaterial DWARVEN = new("Dwarven", 0, 100, 7, 75, LootRQ.NoEnch);
-        public static ItemMaterial ELVEN = new("Elven", 0, 90, 12, 150, LootRQ.NoEnch);
-        public static ItemMaterial ORCISH = new("Orcish", 0, 80, 16, 250, LootRQ.NoEnch);
+        public static ItemMaterial DRAUGR = new("Draugr", 75, 22, 0, 20, LootRQ.NoEnch, LootRQ.Special);
+        public static ItemMaterial DRAUGR_HONED = new("Draugr Honed", 0, 300, 8, 150, LootRQ.Special);
+        public static ItemMaterial DRAUGR_HERO = new("Draugr Hero", 0, 200, 17, 275, LootRQ.Special);
+        public static ItemMaterial IRON = new("Iron", 75, 22, 0, 20);
+        public static ItemMaterial STEEL = new("Steel", 20, 18, 0, 30);
+        public static ItemMaterial DWARVEN = new("Dwarven", 5, 15, 0, 45);
+        public static ItemMaterial ELVEN = new("Elven", 0, 13, 10, 55);
+        public static ItemMaterial ORCISH = new("Orcish", 0, 10, 16, 75);
 
-        public static ItemMaterial NORDIC = new("Nordic", 0, 100, 17, 275, LootRQ.NoEnch, LootRQ.DLC2);
-        public static ItemMaterial GLASS = new("Glass", 0, 70, 19, 300, LootRQ.NoEnch);
-        public static ItemMaterial EBONY = new("Ebony", 0, 60, 22, 350, LootRQ.NoEnch);
-        public static ItemMaterial STALHRIM = new("Stalhrim", 0, 40, 25, 375, LootRQ.NoEnch, LootRQ.Rare, LootRQ.DLC2);
-        public static ItemMaterial DRAGON = new("Dragon", 0, 30, 27, 375, LootRQ.NoEnch, LootRQ.Rare);
-        public static ItemMaterial DAEDRIC = new("Daedric", 0, 20, 35, 400, LootRQ.NoEnch, LootRQ.Rare);
+        public static ItemMaterial NORDIC = new("Nordic", 0, 8, 32, 125, LootRQ.DLC2);
+        public static ItemMaterial GLASS = new("Glass", 0, 7, 40, 140);
+        public static ItemMaterial EBONY = new("Ebony", 0, 6, 48, 160);
+        public static ItemMaterial STALHRIM = new("Stalhrim", 0, 5, 56, 180, LootRQ.Rare, LootRQ.DLC2);
+        public static ItemMaterial DRAGON = new("Dragon", 0, 4, 64, 200, LootRQ.Rare);
+        public static ItemMaterial DAEDRIC = new("Daedric", 0, 3, 80, 220, LootRQ.Rare);
+        public static ItemMaterial ULTIMATE = new("Ultimate", 0, 2, 100, 240, LootRQ.Rare);
 
-        public static ItemMaterial IRON_ENCH = new("IronEnch", 0.0001, 250, 1, 50, LootRQ.Ench);
-        public static ItemMaterial STEEL_ENCH = new("SteelEnch", 0, 250, 4, 50, LootRQ.Ench);
-        public static ItemMaterial DWARVEN_ENCH = new("DwarvenEnch", 0, 100, 7, 75, LootRQ.Ench);
-        public static ItemMaterial ELVEN_ENCH = new("ElvenEnch", 0, 90, 12, 150, LootRQ.Ench);
-        public static ItemMaterial ORCISH_ENCH = new("OrcishEnch", 0, 80, 16, 250, LootRQ.Ench);
-
-        public static ItemMaterial NORDIC_ENCH = new("NordicEnch", 0, 100, 17, 275, LootRQ.Ench, LootRQ.DLC2);
-        public static ItemMaterial GLASS_ENCH = new("GlassEnch", 0, 70, 19, 300, LootRQ.Ench);
-        public static ItemMaterial EBONY_ENCH = new("EbonyEnch", 0, 60, 22, 350, LootRQ.Ench);
-        public static ItemMaterial STALHRIM_ENCH = new("StalhrimEnch", 0, 30, 25, 375, LootRQ.Ench, LootRQ.Rare, LootRQ.DLC2);
-        //public static ItemMaterial DRAGON_ENCH = new("DragonEnch", 0, 6, 27, LootRQ.Ench, LootRQ.Rare);
-        public static ItemMaterial DAEDRIC_ENCH = new("DaedricEnch", 0, 20, 35, 400, LootRQ.Ench, LootRQ.Rare);
         public static void Config() {
             var baseArrowDragon75 = Program.state.PatchMod.LeveledItems.AddNew();
             baseArrowDragon75.EditorID = "JLL_BaseArrowDragon75";
@@ -104,16 +93,6 @@ namespace LeveledLoot {
             DAEDRIC.DefaultWeapon(SKY.DaedricSword, SKY.DaedricWarAxe, SKY.DaedricMace, SKY.DaedricDagger, SKY.DaedricGreatsword, SKY.DaedricBattleaxe, SKY.DaedricWarhammer, SKY.DaedricBow);
             DAEDRIC.Arrow75(SKYL.BaseArrowDaedric75);
 
-            IRON_ENCH.DefaultWeapon(SKYL.LItemEnchIronSword, SKYL.LItemEnchIronWarAxe, SKYL.LItemEnchIronMace, SKYL.LItemEnchIronDagger, SKYL.LItemEnchIronGreatsword, SKYL.LItemEnchIronBattleaxe, SKYL.LItemEnchIronWarhammer, SKYL.LItemEnchHuntingBow);
-            STEEL_ENCH.DefaultWeapon(SKYL.LItemEnchSteelSword, SKYL.LItemEnchSteelWarAxe, SKYL.LItemEnchSteelMace, SKYL.LItemEnchSteelDagger, SKYL.LItemEnchSteelGreatsword, SKYL.LItemEnchSteelBattleaxe, SKYL.LItemEnchSteelWarhammer, SKYL.LItemEnchHuntingBow);
-            DWARVEN_ENCH.DefaultWeapon(SKYL.LItemEnchDwarvenSword, SKYL.LItemEnchDwarvenWarAxe, SKYL.LItemEnchDwarvenMace, SKYL.LItemEnchDwarvenDagger, SKYL.LItemEnchDwarvenGreatSword, SKYL.LItemEnchDwarvenBattleaxe, SKYL.LItemEnchDwarvenWarhammer, SKYL.LItemEnchDwarvenBow);
-            ORCISH_ENCH.DefaultWeapon(SKYL.LItemEnchOrcishSword, SKYL.LItemEnchOrcishWarAxe, SKYL.LItemEnchOrcishMace, SKYL.LItemEnchOrcishDagger, SKYL.LItemEnchOrcishGreatsword, SKYL.LItemEnchOrcishBattleaxe, SKYL.LItemEnchOrcishWarHammer, SKYL.LItemEnchOrcishBow);
-            ELVEN_ENCH.DefaultWeapon(SKYL.LItemEnchElvenSword, SKYL.LItemEnchElvenWarAxe, SKYL.LItemEnchElvenMace, SKYL.LItemEnchElvenDagger, SKYL.LItemEnchElvenGreatsword, SKYL.LItemEnchElvenBattleaxe, SKYL.LItemEnchElvenWarhammer, SKYL.LItemEnchElvenBow);
-            NORDIC_ENCH.DefaultWeapon(DBL.DLC2LItemEnchNordicSword, DBL.DLC2LItemEnchNordicWarAxe, DBL.DLC2LItemEnchNordicMace, DBL.DLC2LItemEnchNordicDagger, DBL.DLC2LItemEnchNordicGreatsword, DBL.DLC2LItemEnchNordicBattleaxe, DBL.DLC2LItemEnchNordicWarhammer, DBL.DLC2LItemEnchNordicBow);
-            GLASS_ENCH.DefaultWeapon(SKYL.LItemEnchGlassSword, SKYL.LItemEnchGlassWarAxe, SKYL.LItemEnchGlassMace, SKYL.LItemEnchGlassDagger, SKYL.LItemEnchGlassGreatsword, SKYL.LItemEnchGlassBattleaxe, SKYL.LItemEnchGlassWarhammer, SKYL.LItemEnchGlassBow);
-            EBONY_ENCH.DefaultWeapon(SKYL.LItemEnchEbonySword, SKYL.LItemEnchEbonyWarAxe, SKYL.LItemEnchEbonyMace, SKYL.LItemEnchEbonyDagger, SKYL.LItemEnchEbonyGreatsword, SKYL.LItemEnchEbonyBattleaxe, SKYL.LItemEnchEbonyWarhammer, SKYL.LItemEnchEbonyBow);
-            STALHRIM_ENCH.DefaultWeapon(DBL.DLC2LItemEnchStalhrimSword, DBL.DLC2LItemEnchStalhrimWarAxe, DBL.DLC2LItemEnchStalhrimMace, DBL.DLC2LItemEnchStalhrimDagger, DBL.DLC2LItemEnchStalhrimGreatsword, DBL.DLC2LItemEnchStalhrimBattleaxe, DBL.DLC2LItemEnchStalhrimWarhammer, DBL.DLC2LItemEnchStalhrimBow);
-            DAEDRIC_ENCH.DefaultWeapon(SKYL.LItemEnchDaedricSword, SKYL.LItemEnchDaedricWarAxe, SKYL.LItemEnchDaedricMace, SKYL.LItemEnchDaedricDagger, SKYL.LItemEnchDaedricGreatsword, SKYL.LItemEnchDaedricBattleaxe, SKYL.LItemEnchDaedricWarhammer, SKYL.LItemEnchDaedricBow);
 
             LeveledList.LinkList(SKYL.LItemWeaponSword, LeveledList.FACTOR_COMMON, ItemType.Sword, LootRQ.NoEnch, LootRQ.Rare);
             LeveledList.LinkList(SKYL.LItemWeaponSwordBest, LeveledList.FACTOR_BEST, ItemType.Sword, LootRQ.NoEnch, LootRQ.Rare);
@@ -292,11 +271,6 @@ namespace LeveledLoot {
             draugrWeapons.AddLast(EBONY);
             draugrWeapons.AddLast(DRAGON);
 
-            LinkedList<ItemMaterial> draugrWeaponsEnch = new();
-            draugrWeaponsEnch.AddLast(IRON_ENCH);
-            draugrWeaponsEnch.AddLast(STEEL_ENCH);
-            draugrWeaponsEnch.AddLast(EBONY_ENCH);
-            draugrWeaponsEnch.AddLast(DRAGON);
 
             var factorDraugr = LeveledList.FACTOR_COMMON;
             var draugrSword = LeveledList.CreateList(ItemType.Sword, "JLL_DraugrSword", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
@@ -309,14 +283,14 @@ namespace LeveledLoot {
             var draugrWarhammer = LeveledList.CreateList(ItemType.Warhammer, "JLL_DraugrWarhammer", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
             var draugrArrows = LeveledList.CreateList(ItemType.Arrow12, "JLL_DraugrArrows", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
 
-            var draugrSwordEnch = LeveledList.CreateList(ItemType.Sword, "JLL_DraugrSwordEnch", factorDraugr, draugrWeaponsEnch, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrWaraxeEnch = LeveledList.CreateList(ItemType.Waraxe, "JLL_DraugrWaraxeEnch", factorDraugr, draugrWeaponsEnch, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrMaceEnch = LeveledList.CreateList(ItemType.Mace, "JLL_DraugrMaceEnch", factorDraugr, draugrWeaponsEnch, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrDaggerEnch = LeveledList.CreateList(ItemType.Dagger, "JLL_DraugrDaggerEnch", factorDraugr, draugrWeaponsEnch, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrBowEnch = LeveledList.CreateList(ItemType.Bow, "JLL_DraugrBowEnch", factorDraugr, draugrWeaponsEnch, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrGreatswordEnch = LeveledList.CreateList(ItemType.Greatsword, "JLL_DraugrGreatswordEnch", factorDraugr, draugrWeaponsEnch, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrBattleaxeEnch = LeveledList.CreateList(ItemType.Battleaxe, "JLL_DraugrBattleaxeEnch", factorDraugr, draugrWeaponsEnch, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrWarhammerEnch = LeveledList.CreateList(ItemType.Warhammer, "JLL_DraugrWarhammerEnch", factorDraugr, draugrWeaponsEnch, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrSwordEnch = LeveledList.CreateList(ItemType.Sword, "JLL_DraugrSwordEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrWaraxeEnch = LeveledList.CreateList(ItemType.Waraxe, "JLL_DraugrWaraxeEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrMaceEnch = LeveledList.CreateList(ItemType.Mace, "JLL_DraugrMaceEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrDaggerEnch = LeveledList.CreateList(ItemType.Dagger, "JLL_DraugrDaggerEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrBowEnch = LeveledList.CreateList(ItemType.Bow, "JLL_DraugrBowEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrGreatswordEnch = LeveledList.CreateList(ItemType.Greatsword, "JLL_DraugrGreatswordEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrBattleaxeEnch = LeveledList.CreateList(ItemType.Battleaxe, "JLL_DraugrBattleaxeEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrWarhammerEnch = LeveledList.CreateList(ItemType.Warhammer, "JLL_DraugrWarhammerEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
 
             LeveledList.LinkList(SKYL.LootDraugrWeapon100, draugrSword.ToLink(), draugrWaraxe.ToLink(), draugrMace.ToLink(), draugrDagger.ToLink(), draugrBow.ToLink(), draugrGreatsword.ToLink(), draugrBattleaxe.ToLink(), draugrWarhammer.ToLink(), draugrArrows.ToLink());
             LeveledList.LinkList(SKYL.LootDraugrWeapon15, draugrSword.ToLink(), draugrWaraxe.ToLink(), draugrMace.ToLink(), draugrDagger.ToLink(), draugrBow.ToLink(), draugrGreatsword.ToLink(), draugrBattleaxe.ToLink(), draugrWarhammer.ToLink(), draugrArrows.ToLink());

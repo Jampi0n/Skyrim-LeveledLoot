@@ -22,54 +22,34 @@ namespace LeveledLoot {
 
 
     class ArmorConfig {
-        public static ItemMaterial IRON = new("Iron", 0.0001, 250, 1, 50, LootRQ.NoEnch);
-        public static ItemMaterial DRAUGR = new("Iron", 0.0001, 250, 1, 50, LootRQ.NoEnch, LootRQ.Special);
-        public static ItemMaterial STEEL = new("Steel", 0, 250, 4, 50, LootRQ.NoEnch);
-        public static ItemMaterial DWARVEN = new("Dwarven", 0, 80, 7, 75, LootRQ.NoEnch);
-        public static ItemMaterial BONEMOLD = new("Bonemold", 0, 100, 4, 75, LootRQ.NoEnch, LootRQ.DLC2);
-        public static ItemMaterial CHITIN_HEAVY = new("ChitinHeavy", 0, 100, 12, 150, LootRQ.NoEnch, LootRQ.DLC2);
-        public static ItemMaterial ORCISH = new("Orcish", 0, 80, 16, 250, LootRQ.NoEnch);
-        public static ItemMaterial STEELPLATE = new("SteelPlate", 0, 120, 11, 200, LootRQ.NoEnch);
-        public static ItemMaterial NORDIC = new("Nordic", 0, 90, 19, 275, LootRQ.NoEnch, LootRQ.DLC2);
-        public static ItemMaterial EBONY = new("Ebony", 0, 60, 22, 350, LootRQ.NoEnch);
-        public static ItemMaterial STALHRIM_HEAVY = new("StalhrimHeavy", 0, 40, 25, 375, LootRQ.NoEnch, LootRQ.Rare, LootRQ.DLC2);
-        public static ItemMaterial DRAGON_HEAVY = new("DragonHeavy", 0, 20, 27, 375, LootRQ.NoEnch, LootRQ.Rare);
-        public static ItemMaterial DAEDRIC = new("Daedric", 0, 10, 35, 400, LootRQ.NoEnch, LootRQ.Rare);
+        public static ItemMaterial IRON = new("Iron", 75, 22, 0, 20);
+        public static ItemMaterial DRAUGR = new("Draugr", 75, 22, 0, 20, LootRQ.Special);
+        public static ItemMaterial STEEL = new("Steel", 20, 18, 0, 30);
+        public static ItemMaterial DWARVEN = new("Dwarven", 5, 15, 0, 50);
+        public static ItemMaterial BONEMOLD = new("Bonemold", 20, 18, 0, 30, LootRQ.DLC2);
+        public static ItemMaterial CHITIN_HEAVY = new("ChitinHeavy", 5, 15, 0, 50, LootRQ.DLC2);
+        public static ItemMaterial ORCISH = new("Orcish", 0, 10, 16, 75);
+        public static ItemMaterial STEELPLATE = new("SteelPlate", 0, 12, 8, 60);
+        public static ItemMaterial NORDIC = new("Nordic", 0, 8, 32, 125, LootRQ.DLC2);
+        public static ItemMaterial EBONY = new("Ebony", 0, 6, 48, 160);
+        public static ItemMaterial STALHRIM_HEAVY = new("StalhrimHeavy", 0, 5, 56, 180, LootRQ.Rare, LootRQ.DLC2);
+        public static ItemMaterial DRAGON_HEAVY = new("DragonHeavy", 0, 4, 64, 200, LootRQ.Rare);
+        public static ItemMaterial DAEDRIC = new("Daedric", 0, 3, 80, 220, LootRQ.Rare);
+        public static ItemMaterial ULTIMATE = new("Ultimate", 0, 2, 100, 240, LootRQ.Rare);
 
 
-        public static ItemMaterial HIDE = new("Hide", 0.0001, 250, 1, 50, LootRQ.NoEnch);
+        public static ItemMaterial HIDE = new("Hide", 75, 22, 0, 20);
         //public static ItemMaterial FUR = new("Fur");
-        public static ItemMaterial LEATHER = new("Leather", 0, 250, 4, 50, LootRQ.NoEnch);
-        public static ItemMaterial ELVEN = new("Elven", 0, 80, 7, 150, LootRQ.NoEnch);
-        public static ItemMaterial ELVEN_LIGHT = new("ElvenLight", 0.0001, 200, 1, 75, LootRQ.NoEnch, LootRQ.Special);
+        public static ItemMaterial LEATHER = new("Leather", 20, 18, 0, 30);
+        public static ItemMaterial ELVEN = new("Elven", 5, 15, 0, 50);
+        public static ItemMaterial ELVEN_LIGHT = new("ElvenLight", 75, 22, 0, 20, LootRQ.Special);
 
-        public static ItemMaterial CHITIN_LIGHT = new("ChitinLight", 0, 100, 10, 150, LootRQ.NoEnch, LootRQ.DLC2);
-        public static ItemMaterial SCALED = new("Scaled", 0, 120, 13, 175, LootRQ.NoEnch);
-        public static ItemMaterial GLASS = new("Glass", 0, 60, 19, 300, LootRQ.NoEnch);
-        public static ItemMaterial STALHRIM_LIGHT = new("StalhrimLight", 0, 40, 25, 375, LootRQ.NoEnch, LootRQ.Rare, LootRQ.DLC2);
-        public static ItemMaterial DRAGON_LIGHT = new("DragonLight", 0, 30, 27, 400, LootRQ.NoEnch, LootRQ.Rare);
+        public static ItemMaterial CHITIN_LIGHT = new("ChitinLight", 5, 15, 0, 50, LootRQ.DLC2);
+        public static ItemMaterial SCALED = new("Scaled", 0, 12, 8, 60);
+        public static ItemMaterial GLASS = new("Glass", 0, 6, 48, 160);
+        public static ItemMaterial STALHRIM_LIGHT = new("StalhrimLight", 0, 5, 56, 180, LootRQ.Rare, LootRQ.DLC2);
+        public static ItemMaterial DRAGON_LIGHT = new("DragonLight", 0, 3, 80, 220, LootRQ.Rare);
 
-        public static ItemMaterial IRON_ENCH = new("IronEnch", 0.0001, 250, 1, 50, LootRQ.Ench);
-        public static ItemMaterial STEEL_ENCH = new("SteelEnch", 0, 250, 4, 50, LootRQ.Ench);
-        public static ItemMaterial DWARVEN_ENCH = new("DwarvenEnch", 0, 80, 7, 75, LootRQ.Ench);
-        public static ItemMaterial BONEMOLD_ENCH = new("BonemoldEnch", 0, 100, 4, 75, LootRQ.Ench, LootRQ.DLC2);
-        public static ItemMaterial CHITIN_HEAVY_ENCH = new("ChitinHeavyEnch", 0, 100, 12, 150, LootRQ.Ench, LootRQ.DLC2);
-        public static ItemMaterial ORCISH_ENCH = new("OrcishEnch", 0, 70, 16, 250, LootRQ.Ench);
-        public static ItemMaterial STEELPLATE_ENCH = new("SteelplateEnch", 0, 120, 11, 200, LootRQ.Ench);
-        public static ItemMaterial NORDIC_ENCH = new("NordicEnch", 0, 90, 19, 275, LootRQ.Ench, LootRQ.DLC2);
-        public static ItemMaterial EBONY_ENCH = new("EbonyEnch", 0, 60, 22, 350, LootRQ.Ench);
-        public static ItemMaterial STALHRIM_HEAVY_ENCH = new("StalhrimHeavyEnch", 0, 40, 25, 375, LootRQ.Ench, LootRQ.Rare, LootRQ.DLC2);
-        public static ItemMaterial DRAGON_HEAVY_ENCH = new("DragonHeavyEnch", 0, 30, 27, 375, LootRQ.Ench, LootRQ.Rare);
-        public static ItemMaterial DAEDRIC_ENCH = new("DaedricEnch", 0, 20, 35, 400, LootRQ.Ench, LootRQ.Rare);
-
-        public static ItemMaterial HIDE_ENCH = new("HideEnch", 0.0001, 250, 1, 50, LootRQ.Ench);
-        public static ItemMaterial LEATHER_ENCH = new("LeatherEnch", 0, 250, 4, 50, LootRQ.Ench);
-        public static ItemMaterial ELVEN_ENCH = new("ElvenEnch", 0, 80, 7, 150, LootRQ.Ench);
-        public static ItemMaterial CHITIN_LIGHT_ENCH = new("ChitinLightEnch", 0, 100, 10, 150, LootRQ.Ench, LootRQ.DLC2);
-        public static ItemMaterial SCALED_ENCH = new("ScaledEnch", 0, 120, 13, 175, LootRQ.Ench);
-        public static ItemMaterial GLASS_ENCH = new("GlassEnch", 0, 60, 19, 300, LootRQ.Ench);
-        public static ItemMaterial STALHRIM_LIGHT_ENCH = new("StalhrimLightEnch", 0, 40, 25, 375, LootRQ.Ench, LootRQ.Rare, LootRQ.DLC2);
-        public static ItemMaterial DRAGON_LIGHT_ENCH = new("DragonLightEnch", 0, 20, 27, 400, LootRQ.Ench, LootRQ.Rare);
 
         public static void Config() {
             IRON.DefaultHeavyArmor(SKY.ArmorIronHelmet, null, SKY.ArmorIronGauntlets, SKY.ArmorIronBoots, null);
@@ -110,14 +90,6 @@ namespace LeveledLoot {
             HIDE.AddItem(ItemType.LightCuirass, SKY.ArmorHideCuirass, 3);
             HIDE.AddItem(ItemType.LightCuirass, SKY.ArmorStuddedCuirass, 1);
 
-            /*FUR.AddItem(ItemType.LightHelmet, SKY.ArmorBanditHelmet, 1);
-            FUR.AddItem(ItemType.LightCuirass, SKY.ArmorBanditCuirass, 1);
-            FUR.AddItem(ItemType.LightCuirass, SKY.ArmorBanditCuirass1, 1);
-            FUR.AddItem(ItemType.LightCuirass, SKY.ArmorBanditCuirass2, 1);
-            FUR.AddItem(ItemType.LightCuirass, SKY.ArmorBanditCuirass3, 1);
-            FUR.AddItem(ItemType.LightGauntlets, SKY.ArmorBanditGauntlets, 1);
-            FUR.AddItem(ItemType.LightBoots, SKY.ArmorBanditBoots, 1);*/
-
             LEATHER.DefaultLightArmor(SKY.ArmorLeatherHelmet, SKY.ArmorLeatherCuirass, SKY.ArmorLeatherGauntlets, SKY.ArmorLeatherBoots, null);
 
             ELVEN_LIGHT.DefaultLightArmor(SKY.ArmorElvenLightHelmet, SKY.ArmorElvenLightCuirass, SKY.ArmorElvenLightGauntlets, SKY.ArmorElvenLightBoots, SKY.ArmorElvenShield);
@@ -136,128 +108,270 @@ namespace LeveledLoot {
             STALHRIM_LIGHT.DefaultLightArmor(DB.DLC2ArmorStalhrimLightHelmet, DB.DLC2ArmorStalhrimLightCuirass, DB.DLC2ArmorStalhrimLightGauntlets, DB.DLC2ArmorStalhrimLightBoots, DB.DLC2ArmorStalhrimShield);
             DRAGON_LIGHT.DefaultLightArmor(SKY.ArmorDragonscaleHelmet, SKY.ArmorDragonscaleCuirass, SKY.ArmorDragonscaleGauntlets, SKY.ArmorDragonscaleBoots, SKY.ArmorDragonscaleShield);
 
-            IRON_ENCH.AddItemEnch(ItemType.HeavyHelmet, SKYL.SublistEnchArmorIronHelmet01, SKYL.SublistEnchArmorIronHelmet02, SKYL.SublistEnchArmorIronHelmet03);
-            IRON_ENCH.AddItemEnch(ItemType.HeavyCuirass, SKYL.SublistEnchArmorIronCuirass01, SKYL.SublistEnchArmorIronCuirass02, SKYL.SublistEnchArmorIronCuirass03);
-            IRON_ENCH.AddItemEnch(ItemType.HeavyGauntlets, SKYL.SublistEnchArmorIronGauntlets01, SKYL.SublistEnchArmorIronGauntlets02, SKYL.SublistEnchArmorIronGauntlets03);
-            IRON_ENCH.AddItemEnch(ItemType.HeavyBoots, SKYL.SublistEnchArmorIronBoots01, SKYL.SublistEnchArmorIronBoots02, SKYL.SublistEnchArmorIronBoots03);
-            IRON_ENCH.AddItemEnch(ItemType.HeavyShield, SKYL.SublistEnchArmorIronShield01, SKYL.SublistEnchArmorIronShield02, SKYL.SublistEnchArmorIronShield03);
+            // Find enchantments
+            Enchanter.RegisterEnchantments(ItemType.HeavyHelmet, Skyrim.Armor.ArmorIronHelmet, Skyrim.LeveledItem.SublistEnchArmorIronHelmet01, 1);
+            Enchanter.RegisterEnchantments(ItemType.HeavyHelmet, Skyrim.Armor.ArmorIronHelmet, Skyrim.LeveledItem.SublistEnchArmorIronHelmet02, 2);
+            Enchanter.RegisterEnchantments(ItemType.HeavyHelmet, Skyrim.Armor.ArmorDwarvenHelmet, Skyrim.LeveledItem.SublistEnchArmorDwarvenHelmet02, 2);            
+            Enchanter.RegisterEnchantments(ItemType.HeavyHelmet, Skyrim.Armor.ArmorIronHelmet, Skyrim.LeveledItem.SublistEnchArmorIronHelmet03, 3);
+            Enchanter.RegisterEnchantments(ItemType.HeavyHelmet, Skyrim.Armor.ArmorDwarvenHelmet, Skyrim.LeveledItem.SublistEnchArmorDwarvenHelmet03, 3);
+            Enchanter.RegisterEnchantments(ItemType.HeavyHelmet, Skyrim.Armor.ArmorOrcishHelmet, Skyrim.LeveledItem.SublistEnchArmorOrcishHelmet03, 3);
+            Enchanter.RegisterEnchantments(ItemType.HeavyHelmet, Skyrim.Armor.ArmorDwarvenHelmet, Skyrim.LeveledItem.SublistEnchArmorDwarvenHelmet04, 4);
+            Enchanter.RegisterEnchantments(ItemType.HeavyHelmet, Skyrim.Armor.ArmorOrcishHelmet, Skyrim.LeveledItem.SublistEnchArmorOrcishHelmet04, 4);
+            Enchanter.RegisterEnchantments(ItemType.HeavyHelmet, Skyrim.Armor.ArmorEbonyHelmet, Skyrim.LeveledItem.SublistEnchArmorEbonyHelmet04, 4);
+            Enchanter.RegisterEnchantments(ItemType.HeavyHelmet, Skyrim.Armor.ArmorDaedricHelmet, Skyrim.LeveledItem.SublistEnchArmorDaedricHelmet04, 4);
+            Enchanter.RegisterEnchantments(ItemType.HeavyHelmet, Skyrim.Armor.ArmorOrcishHelmet, Skyrim.LeveledItem.SublistEnchArmorOrcishHelmet05, 5);
+            Enchanter.RegisterEnchantments(ItemType.HeavyHelmet, Skyrim.Armor.ArmorEbonyHelmet, Skyrim.LeveledItem.SublistEnchArmorEbonyHelmet05, 5);
+            Enchanter.RegisterEnchantments(ItemType.HeavyHelmet, Skyrim.Armor.ArmorDaedricHelmet, Skyrim.LeveledItem.SublistEnchArmorDaedricHelmet05, 5);
+            Enchanter.RegisterEnchantments(ItemType.HeavyHelmet, Skyrim.Armor.ArmorDaedricHelmet, Skyrim.LeveledItem.SublistEnchArmorDaedricHelmet06, 6);
 
-            STEEL_ENCH.AddItemEnch(ItemType.HeavyHelmet, SKYL.SublistEnchArmorSteelHelmet01, SKYL.SublistEnchArmorSteelHelmet02, SKYL.SublistEnchArmorSteelHelmet03);
-            STEEL_ENCH.AddItemEnch(ItemType.HeavyCuirass, SKYL.SublistEnchArmorSteelCuirass01, SKYL.SublistEnchArmorSteelCuirass02, SKYL.SublistEnchArmorSteelCuirass03);
-            STEEL_ENCH.AddItemEnch(ItemType.HeavyGauntlets, SKYL.SublistEnchArmorSteelGauntlets01, SKYL.SublistEnchArmorSteelGauntlets02, SKYL.SublistEnchArmorSteelGauntlets03);
-            STEEL_ENCH.AddItemEnch(ItemType.HeavyBoots, SKYL.SublistEnchArmorSteelBoots01, SKYL.SublistEnchArmorSteelBoots02, SKYL.SublistEnchArmorSteelBoots03);
-            STEEL_ENCH.AddItemEnch(ItemType.HeavyShield, SKYL.SublistEnchArmorSteelShield01, SKYL.SublistEnchArmorSteelShield02, SKYL.SublistEnchArmorSteelShield03);
+            Enchanter.RegisterEnchantments(ItemType.HeavyCuirass, Skyrim.Armor.ArmorIronCuirass, Skyrim.LeveledItem.SublistEnchArmorIronCuirass01, 1);
+            Enchanter.RegisterEnchantments(ItemType.HeavyCuirass, Skyrim.Armor.ArmorIronCuirass, Skyrim.LeveledItem.SublistEnchArmorIronCuirass02, 2);
+            Enchanter.RegisterEnchantments(ItemType.HeavyCuirass, Skyrim.Armor.ArmorDwarvenCuirass, Skyrim.LeveledItem.SublistEnchArmorDwarvenCuirass02, 2);
+            Enchanter.RegisterEnchantments(ItemType.HeavyCuirass, Skyrim.Armor.ArmorIronCuirass, Skyrim.LeveledItem.SublistEnchArmorIronCuirass03, 3);
+            Enchanter.RegisterEnchantments(ItemType.HeavyCuirass, Skyrim.Armor.ArmorDwarvenCuirass, Skyrim.LeveledItem.SublistEnchArmorDwarvenCuirass03, 3);
+            Enchanter.RegisterEnchantments(ItemType.HeavyCuirass, Skyrim.Armor.ArmorOrcishCuirass, Skyrim.LeveledItem.SublistEnchArmorOrcishCuirass03, 3);
+            Enchanter.RegisterEnchantments(ItemType.HeavyCuirass, Skyrim.Armor.ArmorDwarvenCuirass, Skyrim.LeveledItem.SublistEnchArmorDwarvenCuirass04, 4);
+            Enchanter.RegisterEnchantments(ItemType.HeavyCuirass, Skyrim.Armor.ArmorOrcishCuirass, Skyrim.LeveledItem.SublistEnchArmorOrcishCuirass04, 4);
+            Enchanter.RegisterEnchantments(ItemType.HeavyCuirass, Skyrim.Armor.ArmorEbonyCuirass, Skyrim.LeveledItem.SublistEnchArmorEbonyCuirass04, 4);
+            Enchanter.RegisterEnchantments(ItemType.HeavyCuirass, Skyrim.Armor.ArmorDaedricCuirass, Skyrim.LeveledItem.SublistEnchArmorDaedricCuirass04, 4);
+            Enchanter.RegisterEnchantments(ItemType.HeavyCuirass, Skyrim.Armor.ArmorOrcishCuirass, Skyrim.LeveledItem.SublistEnchArmorOrcishCuirass05, 5);
+            Enchanter.RegisterEnchantments(ItemType.HeavyCuirass, Skyrim.Armor.ArmorEbonyCuirass, Skyrim.LeveledItem.SublistEnchArmorEbonyCuirass05, 5);
+            Enchanter.RegisterEnchantments(ItemType.HeavyCuirass, Skyrim.Armor.ArmorDaedricCuirass, Skyrim.LeveledItem.SublistEnchArmorDaedricCuirass05, 5);
+            Enchanter.RegisterEnchantments(ItemType.HeavyCuirass, Skyrim.Armor.ArmorDaedricCuirass, Skyrim.LeveledItem.SublistEnchArmorDaedricCuirass06, 6);
 
-            BONEMOLD_ENCH.AddItemEnch(ItemType.HeavyHelmet, DBL.DLC2SublistEnchArmorBonemoldHelmet01, DBL.DLC2SublistEnchArmorBonemoldHelmet02, DBL.DLC2SublistEnchArmorBonemoldHelmet03);
-            BONEMOLD_ENCH.AddItemEnch(ItemType.HeavyCuirass, DBL.DLC2SublistEnchArmorBonemoldCuirass01, DBL.DLC2SublistEnchArmorBonemoldCuirass02, DBL.DLC2SublistEnchArmorBonemoldCuirass03);
-            BONEMOLD_ENCH.AddItemEnch(ItemType.HeavyGauntlets, DBL.DLC2SublistEnchArmorBonemoldGauntlets01, DBL.DLC2SublistEnchArmorBonemoldGauntlets02, DBL.DLC2SublistEnchArmorBonemoldGauntlets03);
-            BONEMOLD_ENCH.AddItemEnch(ItemType.HeavyBoots, DBL.DLC2SublistEnchArmorBonemoldBoots01, DBL.DLC2SublistEnchArmorBonemoldBoots02, DBL.DLC2SublistEnchArmorBonemoldBoots03);
-            BONEMOLD_ENCH.AddItemEnch(ItemType.HeavyShield, DBL.DLC2SublistEnchArmorBonemoldShield01, DBL.DLC2SublistEnchArmorBonemoldShield02, DBL.DLC2SublistEnchArmorBonemoldShield03);
+            Enchanter.RegisterEnchantments(ItemType.HeavyGauntlets, Skyrim.Armor.ArmorIronGauntlets, Skyrim.LeveledItem.SublistEnchArmorIronGauntlets01, 1);
+            Enchanter.RegisterEnchantments(ItemType.HeavyGauntlets, Skyrim.Armor.ArmorIronGauntlets, Skyrim.LeveledItem.SublistEnchArmorIronGauntlets02, 2);
+            Enchanter.RegisterEnchantments(ItemType.HeavyGauntlets, Skyrim.Armor.ArmorDwarvenGauntlets, Skyrim.LeveledItem.SublistEnchArmorDwarvenGauntlets02, 2);
+            Enchanter.RegisterEnchantments(ItemType.HeavyGauntlets, Skyrim.Armor.ArmorIronGauntlets, Skyrim.LeveledItem.SublistEnchArmorIronGauntlets03, 3);
+            Enchanter.RegisterEnchantments(ItemType.HeavyGauntlets, Skyrim.Armor.ArmorDwarvenGauntlets, Skyrim.LeveledItem.SublistEnchArmorDwarvenGauntlets03, 3);
+            Enchanter.RegisterEnchantments(ItemType.HeavyGauntlets, Skyrim.Armor.ArmorOrcishGauntlets, Skyrim.LeveledItem.SublistEnchArmorOrcishGauntlets03, 3);
+            Enchanter.RegisterEnchantments(ItemType.HeavyGauntlets, Skyrim.Armor.ArmorDwarvenGauntlets, Skyrim.LeveledItem.SublistEnchArmorDwarvenGauntlets04, 4);
+            Enchanter.RegisterEnchantments(ItemType.HeavyGauntlets, Skyrim.Armor.ArmorOrcishGauntlets, Skyrim.LeveledItem.SublistEnchArmorOrcishGauntlets04, 4);
+            Enchanter.RegisterEnchantments(ItemType.HeavyGauntlets, Skyrim.Armor.ArmorEbonyGauntlets, Skyrim.LeveledItem.SublistEnchArmorEbonyGauntlets04, 4);
+            Enchanter.RegisterEnchantments(ItemType.HeavyGauntlets, Skyrim.Armor.ArmorDaedricGauntlets, Skyrim.LeveledItem.SublistEnchARmorDaedricGauntlets04, 4);
+            Enchanter.RegisterEnchantments(ItemType.HeavyGauntlets, Skyrim.Armor.ArmorOrcishGauntlets, Skyrim.LeveledItem.SublistEnchArmorOrcishGauntlets05, 5);
+            Enchanter.RegisterEnchantments(ItemType.HeavyGauntlets, Skyrim.Armor.ArmorEbonyGauntlets, Skyrim.LeveledItem.SublistEnchArmorEbonyGauntlets05, 5);
+            Enchanter.RegisterEnchantments(ItemType.HeavyGauntlets, Skyrim.Armor.ArmorDaedricGauntlets, Skyrim.LeveledItem.SublistEnchARmorDaedricGauntlets05, 5);
+            Enchanter.RegisterEnchantments(ItemType.HeavyGauntlets, Skyrim.Armor.ArmorDaedricGauntlets, Skyrim.LeveledItem.SublistEnchARmorDaedricGauntlets06, 6);
 
-            DWARVEN_ENCH.AddItemEnch(ItemType.HeavyHelmet, SKYL.SublistEnchArmorDwarvenHelmet02, SKYL.SublistEnchArmorDwarvenHelmet03, SKYL.SublistEnchArmorDwarvenHelmet04);
-            DWARVEN_ENCH.AddItemEnch(ItemType.HeavyCuirass, SKYL.SublistEnchArmorDwarvenCuirass02, SKYL.SublistEnchArmorDwarvenCuirass03, SKYL.SublistEnchArmorDwarvenCuirass04);
-            DWARVEN_ENCH.AddItemEnch(ItemType.HeavyGauntlets, SKYL.SublistEnchArmorDwarvenGauntlets02, SKYL.SublistEnchArmorDwarvenGauntlets03, SKYL.SublistEnchArmorDwarvenGauntlets04);
-            DWARVEN_ENCH.AddItemEnch(ItemType.HeavyBoots, SKYL.SublistEnchArmorDwarvenBoots02, SKYL.SublistEnchArmorDwarvenBoots03, SKYL.SublistEnchArmorDwarvenBoots04);
-            DWARVEN_ENCH.AddItemEnch(ItemType.HeavyShield, SKYL.SublistEnchArmorDwarvenShield02, SKYL.SublistEnchArmorDwarvenShield03, SKYL.SublistEnchArmorDwarvenShield04);
+            Enchanter.RegisterEnchantments(ItemType.HeavyBoots, Skyrim.Armor.ArmorIronBoots, Skyrim.LeveledItem.SublistEnchArmorIronBoots01, 1);
+            Enchanter.RegisterEnchantments(ItemType.HeavyBoots, Skyrim.Armor.ArmorIronBoots, Skyrim.LeveledItem.SublistEnchArmorIronBoots02, 2);
+            Enchanter.RegisterEnchantments(ItemType.HeavyBoots, Skyrim.Armor.ArmorDwarvenBoots, Skyrim.LeveledItem.SublistEnchArmorDwarvenBoots02, 2);
+            Enchanter.RegisterEnchantments(ItemType.HeavyBoots, Skyrim.Armor.ArmorIronBoots, Skyrim.LeveledItem.SublistEnchArmorIronBoots03, 3);
+            Enchanter.RegisterEnchantments(ItemType.HeavyBoots, Skyrim.Armor.ArmorDwarvenBoots, Skyrim.LeveledItem.SublistEnchArmorDwarvenBoots03, 3);
+            Enchanter.RegisterEnchantments(ItemType.HeavyBoots, Skyrim.Armor.ArmorOrcishBoots, Skyrim.LeveledItem.SublistEnchArmorOrcishBoots03, 3);
+            Enchanter.RegisterEnchantments(ItemType.HeavyBoots, Skyrim.Armor.ArmorDwarvenBoots, Skyrim.LeveledItem.SublistEnchArmorDwarvenBoots04, 4);
+            Enchanter.RegisterEnchantments(ItemType.HeavyBoots, Skyrim.Armor.ArmorOrcishBoots, Skyrim.LeveledItem.SublistEnchArmorOrcishBoots04, 4);
+            Enchanter.RegisterEnchantments(ItemType.HeavyBoots, Skyrim.Armor.ArmorEbonyBoots, Skyrim.LeveledItem.SublistEnchArmorEbonyBoots04, 4);
+            Enchanter.RegisterEnchantments(ItemType.HeavyBoots, Skyrim.Armor.ArmorDaedricBoots, Skyrim.LeveledItem.SublistEnchArmorDaedricBoots04, 4);
+            Enchanter.RegisterEnchantments(ItemType.HeavyBoots, Skyrim.Armor.ArmorOrcishBoots, Skyrim.LeveledItem.SublistEnchArmorOrcishBoots05, 5);
+            Enchanter.RegisterEnchantments(ItemType.HeavyBoots, Skyrim.Armor.ArmorEbonyBoots, Skyrim.LeveledItem.SublistEnchArmorEbonyBoots05, 5);
+            Enchanter.RegisterEnchantments(ItemType.HeavyBoots, Skyrim.Armor.ArmorDaedricBoots, Skyrim.LeveledItem.SublistEnchArmorDaedricBoots05, 5);
+            Enchanter.RegisterEnchantments(ItemType.HeavyBoots, Skyrim.Armor.ArmorDaedricBoots, Skyrim.LeveledItem.SublistEnchArmorDaedricBoots06, 6);
 
-            CHITIN_HEAVY_ENCH.AddItemEnch(ItemType.HeavyHelmet, DBL.DLC2SublistEnchArmorChitinHeavyHelmet02, DBL.DLC2SublistEnchArmorChitinHeavyHelmet03, DBL.DLC2SublistEnchArmorChitinHeavyHelmet04);
-            CHITIN_HEAVY_ENCH.AddItemEnch(ItemType.HeavyCuirass, DBL.DLC2SublistEnchArmorChitinHeavyCuirass02, DBL.DLC2SublistEnchArmorChitinHeavyCuirass03, DBL.DLC2SublistEnchArmorChitinHeavyCuirass04);
-            CHITIN_HEAVY_ENCH.AddItemEnch(ItemType.HeavyGauntlets, DBL.DLC2SublistEnchArmorChitinHeavyGauntlets02, DBL.DLC2SublistEnchArmorChitinHeavyGauntlets03, DBL.DLC2SublistEnchArmorChitinHeavyGauntlets04);
-            CHITIN_HEAVY_ENCH.AddItemEnch(ItemType.HeavyBoots, DBL.DLC2SublistEnchArmorChitinHeavyBoots02, DBL.DLC2SublistEnchArmorChitinHeavyBoots03, DBL.DLC2SublistEnchArmorChitinHeavyBoots04);
+            Enchanter.RegisterEnchantments(ItemType.HeavyShield, Skyrim.Armor.ArmorIronShield, Skyrim.LeveledItem.SublistEnchArmorIronShield01, 1);
+            Enchanter.RegisterEnchantments(ItemType.HeavyShield, Skyrim.Armor.ArmorIronShield, Skyrim.LeveledItem.SublistEnchArmorIronShield02, 2);
+            Enchanter.RegisterEnchantments(ItemType.HeavyShield, Skyrim.Armor.ArmorDwarvenShield, Skyrim.LeveledItem.SublistEnchArmorDwarvenShield02, 2);
+            Enchanter.RegisterEnchantments(ItemType.HeavyShield, Skyrim.Armor.ArmorIronShield, Skyrim.LeveledItem.SublistEnchArmorIronShield03, 3);
+            Enchanter.RegisterEnchantments(ItemType.HeavyShield, Skyrim.Armor.ArmorDwarvenShield, Skyrim.LeveledItem.SublistEnchArmorDwarvenShield03, 3);
+            Enchanter.RegisterEnchantments(ItemType.HeavyShield, Skyrim.Armor.ArmorOrcishShield, Skyrim.LeveledItem.SublistEnchArmorOrcishShield03, 3);
+            Enchanter.RegisterEnchantments(ItemType.HeavyShield, Skyrim.Armor.ArmorDwarvenShield, Skyrim.LeveledItem.SublistEnchArmorDwarvenShield04, 4);
+            Enchanter.RegisterEnchantments(ItemType.HeavyShield, Skyrim.Armor.ArmorOrcishShield, Skyrim.LeveledItem.SublistEnchArmorOrcishShield04, 4);
+            Enchanter.RegisterEnchantments(ItemType.HeavyShield, Skyrim.Armor.ArmorEbonyShield, Skyrim.LeveledItem.SublistEnchArmorEbonyShield04, 4);
+            Enchanter.RegisterEnchantments(ItemType.HeavyShield, Skyrim.Armor.ArmorDaedricShield, Skyrim.LeveledItem.SublistEnchArmorDaedricShield04, 4);
+            Enchanter.RegisterEnchantments(ItemType.HeavyShield, Skyrim.Armor.ArmorOrcishShield, Skyrim.LeveledItem.SublistEnchArmorOrcishShield05, 5);
+            Enchanter.RegisterEnchantments(ItemType.HeavyShield, Skyrim.Armor.ArmorEbonyShield, Skyrim.LeveledItem.SublistEnchArmorEbonyShield05, 5);
+            Enchanter.RegisterEnchantments(ItemType.HeavyShield, Skyrim.Armor.ArmorDaedricShield, Skyrim.LeveledItem.SublistEnchArmorDaedricShield05, 5);
+            Enchanter.RegisterEnchantments(ItemType.HeavyShield, Skyrim.Armor.ArmorDaedricShield, Skyrim.LeveledItem.SublistEnchArmorDaedricShield06, 6);
 
-            STEELPLATE_ENCH.AddItemEnch(ItemType.HeavyHelmet, SKYL.SublistEnchArmorSteelPlateHelmet02, SKYL.SublistEnchArmorSteelPlateHelmet03, SKYL.SublistEnchArmorSteelPlateHelmet04);
-            STEELPLATE_ENCH.AddItemEnch(ItemType.HeavyCuirass, SKYL.SublistEnchArmorSteelPlateCuirass02, SKYL.SublistEnchArmorSteelPlateCuirass03, SKYL.SublistEnchArmorSteelPlateCuirass04);
-            STEELPLATE_ENCH.AddItemEnch(ItemType.HeavyGauntlets, SKYL.SublistEnchArmorSteelPlateGauntlets02, SKYL.SublistEnchArmorSteelPlateGauntlets03, SKYL.SublistEnchArmorSteelPlateGauntlets04);
-            STEELPLATE_ENCH.AddItemEnch(ItemType.HeavyBoots, SKYL.SublistEnchArmorSteelPlateBoots02, SKYL.SublistEnchArmorSteelPlateBoots03, SKYL.SublistEnchArmorSteelPlateBoots04);
+            Enchanter.RegisterEnchantments(ItemType.LightHelmet, Skyrim.Armor.ArmorHideHelmet, Skyrim.LeveledItem.SublistEnchArmorHideHelmet01, 1);
+            Enchanter.RegisterEnchantments(ItemType.LightHelmet, Skyrim.Armor.ArmorHideHelmet, Skyrim.LeveledItem.SublistEnchArmorHideHelmet02, 2);
+            Enchanter.RegisterEnchantments(ItemType.LightHelmet, Skyrim.Armor.ArmorElvenHelmet, Skyrim.LeveledItem.SublistEnchArmorElvenHelmet02, 2);
+            Enchanter.RegisterEnchantments(ItemType.LightHelmet, Skyrim.Armor.ArmorHideHelmet, Skyrim.LeveledItem.SublistEnchArmorHideHelmet03, 3);
+            Enchanter.RegisterEnchantments(ItemType.LightHelmet, Skyrim.Armor.ArmorElvenHelmet, Skyrim.LeveledItem.SublistEnchArmorElvenHelmet03, 3);
+            Enchanter.RegisterEnchantments(ItemType.LightHelmet, Skyrim.Armor.ArmorScaledHelmet, Skyrim.LeveledItem.SublistEnchArmorScaledHelmet03, 3);
+            Enchanter.RegisterEnchantments(ItemType.LightHelmet, Skyrim.Armor.ArmorElvenHelmet, Skyrim.LeveledItem.SublistEnchArmorElvenHelmet04, 4);
+            Enchanter.RegisterEnchantments(ItemType.LightHelmet, Skyrim.Armor.ArmorScaledHelmet, Skyrim.LeveledItem.SublistEnchArmorScaledHelmet04, 4);
+            Enchanter.RegisterEnchantments(ItemType.LightHelmet, Skyrim.Armor.ArmorGlassHelmet, Skyrim.LeveledItem.SublistEnchArmorGlassHelmet04, 4);
+            Enchanter.RegisterEnchantments(ItemType.LightHelmet, Skyrim.Armor.ArmorDragonscaleHelmet, Skyrim.LeveledItem.SublistEnchArmorDragonscaleHelmet04, 4);
+            Enchanter.RegisterEnchantments(ItemType.LightHelmet, Skyrim.Armor.ArmorGlassHelmet, Skyrim.LeveledItem.SublistEnchArmorGlassHelmet05, 5);
+            Enchanter.RegisterEnchantments(ItemType.LightHelmet, Skyrim.Armor.ArmorDragonscaleHelmet, Skyrim.LeveledItem.SublistEnchArmorDragonscaleHelmet05, 5);
+            Enchanter.RegisterEnchantments(ItemType.LightHelmet, Skyrim.Armor.ArmorDragonscaleHelmet, Skyrim.LeveledItem.SublistEnchArmorDragonscaleHelmet06, 6);
 
-            ORCISH_ENCH.AddItemEnch(ItemType.HeavyHelmet, SKYL.SublistEnchArmorOrcishHelmet03, SKYL.SublistEnchArmorOrcishHelmet04, SKYL.SublistEnchArmorOrcishHelmet05);
-            ORCISH_ENCH.AddItemEnch(ItemType.HeavyCuirass, SKYL.SublistEnchArmorOrcishCuirass03, SKYL.SublistEnchArmorOrcishCuirass04, SKYL.SublistEnchArmorOrcishCuirass05);
-            ORCISH_ENCH.AddItemEnch(ItemType.HeavyGauntlets, SKYL.SublistEnchArmorOrcishGauntlets03, SKYL.SublistEnchArmorOrcishGauntlets04, SKYL.SublistEnchArmorOrcishGauntlets05);
-            ORCISH_ENCH.AddItemEnch(ItemType.HeavyBoots, SKYL.SublistEnchArmorOrcishBoots03, SKYL.SublistEnchArmorOrcishBoots04, SKYL.SublistEnchArmorOrcishBoots05);
-            ORCISH_ENCH.AddItemEnch(ItemType.HeavyShield, SKYL.SublistEnchArmorOrcishShield03, SKYL.SublistEnchArmorOrcishShield04, SKYL.SublistEnchArmorOrcishShield05);
+            Enchanter.RegisterEnchantments(ItemType.LightCuirass, Skyrim.Armor.ArmorHideCuirass, Skyrim.LeveledItem.SublistEnchArmorHideCuirass01, 1);
+            Enchanter.RegisterEnchantments(ItemType.LightCuirass, Skyrim.Armor.ArmorHideCuirass, Skyrim.LeveledItem.SublistEnchArmorHideCuirass02, 2);
+            Enchanter.RegisterEnchantments(ItemType.LightCuirass, Skyrim.Armor.ArmorElvenCuirass, Skyrim.LeveledItem.SublistEnchArmorElvenCuirass02, 2);
+            Enchanter.RegisterEnchantments(ItemType.LightCuirass, Skyrim.Armor.ArmorHideCuirass, Skyrim.LeveledItem.SublistEnchArmorHideCuirass03, 3);
+            Enchanter.RegisterEnchantments(ItemType.LightCuirass, Skyrim.Armor.ArmorElvenCuirass, Skyrim.LeveledItem.SublistEnchArmorElvenCuirass03, 3);
+            Enchanter.RegisterEnchantments(ItemType.LightCuirass, Skyrim.Armor.ArmorScaledCuirass, Skyrim.LeveledItem.SublistEnchArmorScaledCuirass03, 3);
+            Enchanter.RegisterEnchantments(ItemType.LightCuirass, Skyrim.Armor.ArmorElvenCuirass, Skyrim.LeveledItem.SublistEnchArmorElvenCuirass04, 4);
+            Enchanter.RegisterEnchantments(ItemType.LightCuirass, Skyrim.Armor.ArmorScaledCuirass, Skyrim.LeveledItem.SublistEnchArmorScaledCuirass04, 4);
+            Enchanter.RegisterEnchantments(ItemType.LightCuirass, Skyrim.Armor.ArmorGlassCuirass, Skyrim.LeveledItem.SublistEnchArmorGlassCuirass04, 4);
+            Enchanter.RegisterEnchantments(ItemType.LightCuirass, Skyrim.Armor.ArmorDragonscaleCuirass, Skyrim.LeveledItem.SublistEnchArmorDragonscaleCuirass04, 4);
+            Enchanter.RegisterEnchantments(ItemType.LightCuirass, Skyrim.Armor.ArmorGlassCuirass, Skyrim.LeveledItem.SublistEnchArmorGlassCuirass05, 5);
+            Enchanter.RegisterEnchantments(ItemType.LightCuirass, Skyrim.Armor.ArmorDragonscaleCuirass, Skyrim.LeveledItem.SublistEnchArmorDragonscaleCuirass05, 5);
+            Enchanter.RegisterEnchantments(ItemType.LightCuirass, Skyrim.Armor.ArmorDragonscaleCuirass, Skyrim.LeveledItem.SublistEnchArmorDragonscaleCuirass06, 6);
 
-            NORDIC_ENCH.AddItemEnch(ItemType.HeavyHelmet, DBL.DLC2SublistEnchArmorNordicHeavyHelmet03, DBL.DLC2SublistEnchArmorNordicHeavyHelmet04, DBL.DLC2SublistEnchArmorNordicHeavyHelmet05);
-            NORDIC_ENCH.AddItemEnch(ItemType.HeavyCuirass, DBL.DLC2SublistEnchArmorNordicHeavyCuirass03, DBL.DLC2SublistEnchArmorNordicHeavyCuirass04, DBL.DLC2SublistEnchArmorNordicHeavyCuirass05);
-            NORDIC_ENCH.AddItemEnch(ItemType.HeavyGauntlets, DBL.DLC2SublistEnchArmorNordicHeavyGauntlets03, DBL.DLC2SublistEnchArmorNordicHeavyGauntlets04, DBL.DLC2SublistEnchArmorNordicHeavyGauntlets05);
-            NORDIC_ENCH.AddItemEnch(ItemType.HeavyBoots, DBL.DLC2SublistEnchArmorNordicHeavyBoots03, DBL.DLC2SublistEnchArmorNordicHeavyBoots04, DBL.DLC2SublistEnchArmorNordicHeavyBoots05);
-            NORDIC_ENCH.AddItemEnch(ItemType.HeavyShield, DBL.DLC2SublistEnchArmorNordicShield03, DBL.DLC2SublistEnchArmorNordicShield04, DBL.DLC2SublistEnchArmorNordicShield05);
+            Enchanter.RegisterEnchantments(ItemType.LightGauntlets, Skyrim.Armor.ArmorHideGauntlets, Skyrim.LeveledItem.SublistEnchArmorHideGauntlets01, 1);
+            Enchanter.RegisterEnchantments(ItemType.LightGauntlets, Skyrim.Armor.ArmorHideGauntlets, Skyrim.LeveledItem.SublistEnchArmorHideGauntlets02, 2);
+            Enchanter.RegisterEnchantments(ItemType.LightGauntlets, Skyrim.Armor.ArmorElvenGauntlets, Skyrim.LeveledItem.SublistEnchArmorElvenGauntlets02, 2);
+            Enchanter.RegisterEnchantments(ItemType.LightGauntlets, Skyrim.Armor.ArmorHideGauntlets, Skyrim.LeveledItem.SublistEnchArmorHideGauntlets03, 3);
+            Enchanter.RegisterEnchantments(ItemType.LightGauntlets, Skyrim.Armor.ArmorElvenGauntlets, Skyrim.LeveledItem.SublistEnchArmorElvenGauntlets03, 3);
+            Enchanter.RegisterEnchantments(ItemType.LightGauntlets, Skyrim.Armor.ArmorScaledGauntlets, Skyrim.LeveledItem.SublistEnchArmorScaledGauntlets03, 3);
+            Enchanter.RegisterEnchantments(ItemType.LightGauntlets, Skyrim.Armor.ArmorElvenGauntlets, Skyrim.LeveledItem.SublistEnchArmorElvenGauntlets04, 4);
+            Enchanter.RegisterEnchantments(ItemType.LightGauntlets, Skyrim.Armor.ArmorScaledGauntlets, Skyrim.LeveledItem.SublistEnchArmorScaledGauntlets04, 4);
+            Enchanter.RegisterEnchantments(ItemType.LightGauntlets, Skyrim.Armor.ArmorGlassGauntlets, Skyrim.LeveledItem.SublistEnchArmorGlassGauntlets04, 4);
+            Enchanter.RegisterEnchantments(ItemType.LightGauntlets, Skyrim.Armor.ArmorDragonscaleGauntlets, Skyrim.LeveledItem.SublistEnchArmorDragonscaleGauntlets04, 4);
+            Enchanter.RegisterEnchantments(ItemType.LightGauntlets, Skyrim.Armor.ArmorGlassGauntlets, Skyrim.LeveledItem.SublistEnchArmorGlassGauntlets05, 5);
+            Enchanter.RegisterEnchantments(ItemType.LightGauntlets, Skyrim.Armor.ArmorDragonscaleGauntlets, Skyrim.LeveledItem.SublistEnchArmorDragonscaleGauntlets05, 5);
+            Enchanter.RegisterEnchantments(ItemType.LightGauntlets, Skyrim.Armor.ArmorDragonscaleGauntlets, Skyrim.LeveledItem.SublistEnchArmorDragonscaleGauntlets06, 6);
 
-            EBONY_ENCH.AddItemEnch(ItemType.HeavyHelmet, SKYL.SublistEnchArmorEbonyHelmet03, SKYL.SublistEnchArmorEbonyHelmet04, SKYL.SublistEnchArmorEbonyHelmet05);
-            EBONY_ENCH.AddItemEnch(ItemType.HeavyCuirass, SKYL.SublistEnchArmorEbonyCuirass03, SKYL.SublistEnchArmorEbonyCuirass04, SKYL.SublistEnchArmorEbonyCuirass05);
-            EBONY_ENCH.AddItemEnch(ItemType.HeavyGauntlets, SKYL.SublistEnchArmorEbonyGauntlets03, SKYL.SublistEnchArmorEbonyGauntlets04, SKYL.SublistEnchArmorEbonyGauntlets05);
-            EBONY_ENCH.AddItemEnch(ItemType.HeavyBoots, SKYL.SublistEnchArmorEbonyBoots03, SKYL.SublistEnchArmorEbonyBoots04, SKYL.SublistEnchArmorEbonyBoots05);
-            EBONY_ENCH.AddItemEnch(ItemType.HeavyShield, SKYL.SublistEnchArmorEbonyShield03, SKYL.SublistEnchArmorEbonyShield04, SKYL.SublistEnchArmorEbonyShield05);
+            Enchanter.RegisterEnchantments(ItemType.LightBoots, Skyrim.Armor.ArmorHideBoots, Skyrim.LeveledItem.SublistEnchArmorHideBoots01, 1);
+            Enchanter.RegisterEnchantments(ItemType.LightBoots, Skyrim.Armor.ArmorHideBoots, Skyrim.LeveledItem.SublistEnchArmorHideBoots02, 2);
+            Enchanter.RegisterEnchantments(ItemType.LightBoots, Skyrim.Armor.ArmorElvenBoots, Skyrim.LeveledItem.SublistEnchArmorElvenBoots02, 2);
+            Enchanter.RegisterEnchantments(ItemType.LightBoots, Skyrim.Armor.ArmorHideBoots, Skyrim.LeveledItem.SublistEnchArmorHideBoots03, 3);
+            Enchanter.RegisterEnchantments(ItemType.LightBoots, Skyrim.Armor.ArmorElvenBoots, Skyrim.LeveledItem.SublistEnchArmorElvenBoots03, 3);
+            Enchanter.RegisterEnchantments(ItemType.LightBoots, Skyrim.Armor.ArmorScaledBoots, Skyrim.LeveledItem.SublistEnchArmorScaledBoots03, 3);
+            Enchanter.RegisterEnchantments(ItemType.LightBoots, Skyrim.Armor.ArmorElvenBoots, Skyrim.LeveledItem.SublistEnchArmorElvenBoots04, 4);
+            Enchanter.RegisterEnchantments(ItemType.LightBoots, Skyrim.Armor.ArmorScaledBoots, Skyrim.LeveledItem.SublistEnchArmorScaledBoots04, 4);
+            Enchanter.RegisterEnchantments(ItemType.LightBoots, Skyrim.Armor.ArmorGlassBoots, Skyrim.LeveledItem.SublistEnchArmorGlassBoots04, 4);
+            Enchanter.RegisterEnchantments(ItemType.LightBoots, Skyrim.Armor.ArmorDragonscaleBoots, Skyrim.LeveledItem.SublistEnchArmorDragonscaleBoots04, 4);
+            Enchanter.RegisterEnchantments(ItemType.LightBoots, Skyrim.Armor.ArmorGlassBoots, Skyrim.LeveledItem.SublistEnchArmorGlassBoots05, 5);
+            Enchanter.RegisterEnchantments(ItemType.LightBoots, Skyrim.Armor.ArmorDragonscaleBoots, Skyrim.LeveledItem.SublistEnchArmorDragonscaleBoots05, 5);
+            Enchanter.RegisterEnchantments(ItemType.LightBoots, Skyrim.Armor.ArmorDragonscaleBoots, Skyrim.LeveledItem.SublistEnchArmorDragonscaleBoots06, 6);
 
-            STALHRIM_HEAVY_ENCH.AddItemEnch(ItemType.HeavyHelmet, DBL.DLC2SublistEnchArmorStalhrimHeavyHelmet04, DBL.DLC2SublistEnchArmorStalhrimHeavyHelmet05, DBL.DLC2SublistEnchArmorStalhrimHeavyHelmet06);
-            STALHRIM_HEAVY_ENCH.AddItemEnch(ItemType.HeavyCuirass, DBL.DLC2SublistEnchArmorStalhrimHeavyCuirass04, DBL.DLC2SublistEnchArmorStalhrimHeavyCuirass05, DBL.DLC2SublistEnchArmorStalhrimHeavyCuirass06);
-            STALHRIM_HEAVY_ENCH.AddItemEnch(ItemType.HeavyGauntlets, DBL.DLC2SublistEnchArmorStalhrimHeavyGauntlets04, DBL.DLC2SublistEnchArmorStalhrimHeavyGauntlets05, DBL.DLC2SublistEnchArmorStalhrimHeavyGauntlets06);
-            STALHRIM_HEAVY_ENCH.AddItemEnch(ItemType.HeavyBoots, DBL.DLC2SublistEnchArmorStalhrimHeavyBoots04, DBL.DLC2SublistEnchArmorStalhrimHeavyBoots05, DBL.DLC2SublistEnchArmorStalhrimHeavyBoots06);
+            Enchanter.RegisterEnchantments(ItemType.LightShield, Skyrim.Armor.ArmorHideShield, Skyrim.LeveledItem.SublistEnchArmorHideShield01, 1);
+            Enchanter.RegisterEnchantments(ItemType.LightShield, Skyrim.Armor.ArmorHideShield, Skyrim.LeveledItem.SublistEnchArmorHideShield02, 2);
+            Enchanter.RegisterEnchantments(ItemType.LightShield, Skyrim.Armor.ArmorElvenShield, Skyrim.LeveledItem.SublistEnchArmorElvenShield02, 2);
+            Enchanter.RegisterEnchantments(ItemType.LightShield, Skyrim.Armor.ArmorHideShield, Skyrim.LeveledItem.SublistEnchArmorHideShield03, 3);
+            Enchanter.RegisterEnchantments(ItemType.LightShield, Skyrim.Armor.ArmorElvenShield, Skyrim.LeveledItem.SublistEnchArmorElvenShield03, 3);
+            Enchanter.RegisterEnchantments(ItemType.LightShield, Skyrim.Armor.ArmorElvenShield, Skyrim.LeveledItem.SublistEnchArmorElvenShield04, 4);
+            Enchanter.RegisterEnchantments(ItemType.LightShield, Skyrim.Armor.ArmorGlassShield, Skyrim.LeveledItem.SublistEnchArmorGlassShield04, 4);
+            Enchanter.RegisterEnchantments(ItemType.LightShield, Skyrim.Armor.ArmorDragonscaleShield, Skyrim.LeveledItem.SublistEnchArmorDragonscaleShield04, 4);
+            Enchanter.RegisterEnchantments(ItemType.LightShield, Skyrim.Armor.ArmorGlassShield, Skyrim.LeveledItem.SublistEnchArmorGlassShield05, 5);
+            Enchanter.RegisterEnchantments(ItemType.LightShield, Skyrim.Armor.ArmorDragonscaleShield, Skyrim.LeveledItem.SublistEnchArmorDragonscaleShield05, 5);
+            Enchanter.RegisterEnchantments(ItemType.LightShield, Skyrim.Armor.ArmorDragonscaleShield, Skyrim.LeveledItem.SublistEnchArmorDragonscaleShield06, 6);
 
-            DRAGON_HEAVY_ENCH.AddItemEnch(ItemType.HeavyHelmet, SKYL.SublistEnchArmorDragonplateHelmet04, SKYL.SublistEnchArmorDragonplateHelmet05, SKYL.SublistEnchArmorDragonplateHelmet06);
-            DRAGON_HEAVY_ENCH.AddItemEnch(ItemType.HeavyCuirass, SKYL.SublistEnchArmorDragonplateCuirass04, SKYL.SublistEnchArmorDragonplateCuirass05, SKYL.SublistEnchArmorDragonplateCuirass06);
-            DRAGON_HEAVY_ENCH.AddItemEnch(ItemType.HeavyGauntlets, SKYL.SublistEnchArmorDragonplateGauntlets04, SKYL.SublistEnchArmorDragonplateGauntlets05, SKYL.SublistEnchArmorDragonplateGauntlets06);
-            DRAGON_HEAVY_ENCH.AddItemEnch(ItemType.HeavyBoots, SKYL.SublistEnchArmorDragonplateBoots04, SKYL.SublistEnchArmorDragonplateBoots05, SKYL.SublistEnchArmorDragonplateBoots06);
-            DRAGON_HEAVY_ENCH.AddItemEnch(ItemType.HeavyShield, SKYL.SublistEnchArmorDragonplateShield04, SKYL.SublistEnchArmorDragonplateShield05, SKYL.SublistEnchArmorDragonplateShield06);
+            // Add craftable armor to loot
+            HashSet<FormKey> craftingPerks = new();
+            if(Skyrim.ActorValueInformation.AVSmithing.TryResolve(Program.state.LinkCache, out var avSmithing)) {
+                foreach(var perk in avSmithing.PerkTree) {
+                    craftingPerks.Add(perk.Perk.FormKey);
+                }
+            }
 
-            DAEDRIC_ENCH.AddItemEnch(ItemType.HeavyHelmet, SKYL.SublistEnchArmorDaedricHelmet04, SKYL.SublistEnchArmorDaedricHelmet05, SKYL.SublistEnchArmorDaedricHelmet06);
-            DAEDRIC_ENCH.AddItemEnch(ItemType.HeavyCuirass, SKYL.SublistEnchArmorDaedricCuirass04, SKYL.SublistEnchArmorDaedricCuirass05, SKYL.SublistEnchArmorDaedricCuirass06);
-            DAEDRIC_ENCH.AddItemEnch(ItemType.HeavyGauntlets, SKYL.SublistEnchARmorDaedricGauntlets04, SKYL.SublistEnchARmorDaedricGauntlets05, SKYL.SublistEnchARmorDaedricGauntlets06);
-            DAEDRIC_ENCH.AddItemEnch(ItemType.HeavyBoots, SKYL.SublistEnchArmorDaedricBoots04, SKYL.SublistEnchArmorDaedricBoots05, SKYL.SublistEnchArmorDaedricBoots06);
-            DAEDRIC_ENCH.AddItemEnch(ItemType.HeavyShield, SKYL.SublistEnchArmorDaedricShield04, SKYL.SublistEnchArmorDaedricShield05, SKYL.SublistEnchArmorDaedricShield06);
+            List<ItemMaterial> regularMaterials = new();
+            foreach(var material in ItemMaterial.ALL) {
+                if(!material.requirements.Contains(LootRQ.Special) && !material.requirements.Contains(LootRQ.DLC2)) {
+                    regularMaterials.Add(material);
+                }
+            }
 
+            List<ItemType> itemTypes = new List<ItemType>();
+            itemTypes.Add(ItemType.HeavyHelmet);
+            itemTypes.Add(ItemType.HeavyCuirass);
+            itemTypes.Add(ItemType.HeavyGauntlets);
+            itemTypes.Add(ItemType.HeavyBoots);
+            itemTypes.Add(ItemType.HeavyShield);
+            itemTypes.Add(ItemType.LightHelmet);
+            itemTypes.Add(ItemType.LightCuirass);
+            itemTypes.Add(ItemType.LightGauntlets);
+            itemTypes.Add(ItemType.LightBoots);
+            itemTypes.Add(ItemType.LightShield);
 
-            HIDE_ENCH.AddItemEnch(ItemType.LightHelmet, SKYL.SublistEnchArmorHideHelmet01, SKYL.SublistEnchArmorHideHelmet02, SKYL.SublistEnchArmorHideHelmet03);
-            HIDE_ENCH.AddItemEnch(ItemType.LightCuirass, SKYL.SublistEnchArmorHideCuirass01, SKYL.SublistEnchArmorHideCuirass02, SKYL.SublistEnchArmorHideCuirass03);
-            HIDE_ENCH.AddItemEnch(ItemType.LightGauntlets, SKYL.SublistEnchArmorHideGauntlets01, SKYL.SublistEnchArmorHideGauntlets02, SKYL.SublistEnchArmorHideGauntlets03);
-            HIDE_ENCH.AddItemEnch(ItemType.LightBoots, SKYL.SublistEnchArmorHideBoots01, SKYL.SublistEnchArmorHideBoots02, SKYL.SublistEnchArmorHideBoots03);
-            HIDE_ENCH.AddItemEnch(ItemType.LightShield, SKYL.SublistEnchArmorHideShield01, SKYL.SublistEnchArmorHideShield02, SKYL.SublistEnchArmorHideShield03);
+            Dictionary<ItemType, List<Tuple<uint, ItemMaterial>>> tierList = new();
+            foreach(var itemType in itemTypes) {
+                tierList.Add(itemType, new List<Tuple<uint, ItemMaterial>>());
+                foreach(var mat in regularMaterials) {
+                    var item = mat.GetFirst(itemType);
+                    if(item is IFormLink<IArmorGetter> armorLink) {
+                        if(armorLink.TryResolve(Program.state.LinkCache, out var armor)) {
+                            tierList[itemType].Add(new Tuple<uint, ItemMaterial>(armor.Value, mat));
+                        }
+                    }
+                }
+                tierList[itemType].Sort((Tuple<uint, ItemMaterial> a, Tuple<uint, ItemMaterial> b) => {
+                    return (int)a.Item1 - (int)b.Item1;
+                });
+                tierList[itemType].Add(new Tuple<uint, ItemMaterial>(uint.MaxValue, ULTIMATE));
+            }
 
-            LEATHER_ENCH.AddItemEnch(ItemType.LightHelmet, SKYL.SublistEnchArmorLeatherHelmet01, SKYL.SublistEnchArmorLeatherHelmet02, SKYL.SublistEnchArmorLeatherHelmet03);
-            LEATHER_ENCH.AddItemEnch(ItemType.LightCuirass, SKYL.SublistEnchArmorLeatherCuirass01, SKYL.SublistEnchArmorLeatherCuirass02, SKYL.SublistEnchArmorLeatherCuirass03);
-            LEATHER_ENCH.AddItemEnch(ItemType.LightGauntlets, SKYL.SublistEnchArmorLeatherGauntlets01, SKYL.SublistEnchArmorLeatherGauntlets02, SKYL.SublistEnchArmorLeatherGauntlets03);
-            LEATHER_ENCH.AddItemEnch(ItemType.LightBoots, SKYL.SublistEnchArmorLeatherBoots01, SKYL.SublistEnchArmorLeatherBoots02, SKYL.SublistEnchArmorLeatherBoots03);
-
-            ELVEN_ENCH.AddItemEnch(ItemType.LightHelmet, SKYL.SublistEnchArmorElvenHelmet02, SKYL.SublistEnchArmorElvenHelmet03, SKYL.SublistEnchArmorElvenHelmet04);
-            ELVEN_ENCH.AddItemEnch(ItemType.LightCuirass, SKYL.SublistEnchArmorElvenCuirass02, SKYL.SublistEnchArmorElvenCuirass03, SKYL.SublistEnchArmorElvenCuirass04);
-            ELVEN_ENCH.AddItemEnch(ItemType.LightGauntlets, SKYL.SublistEnchArmorElvenGauntlets02, SKYL.SublistEnchArmorElvenGauntlets03, SKYL.SublistEnchArmorElvenGauntlets04);
-            ELVEN_ENCH.AddItemEnch(ItemType.LightBoots, SKYL.SublistEnchArmorElvenBoots02, SKYL.SublistEnchArmorElvenBoots03, SKYL.SublistEnchArmorElvenBoots04);
-            ELVEN_ENCH.AddItemEnch(ItemType.LightShield, SKYL.SublistEnchArmorElvenShield02, SKYL.SublistEnchArmorElvenShield03, SKYL.SublistEnchArmorElvenShield04);
-
-            CHITIN_LIGHT_ENCH.AddItemEnch(ItemType.LightHelmet, DBL.DLC2SublistEnchArmorChitinLightHelmet02, DBL.DLC2SublistEnchArmorChitinLightHelmet03, DBL.DLC2SublistEnchArmorChitinLightHelmet04);
-            CHITIN_LIGHT_ENCH.AddItemEnch(ItemType.LightCuirass, DBL.DLC2SublistEnchArmorChitinLightCuirass02, DBL.DLC2SublistEnchArmorChitinLightCuirass03, DBL.DLC2SublistEnchArmorChitinLightCuirass04);
-            CHITIN_LIGHT_ENCH.AddItemEnch(ItemType.LightGauntlets, DBL.DLC2SublistEnchArmorChitinLightGauntlets02, DBL.DLC2SublistEnchArmorChitinLightGauntlets03, DBL.DLC2SublistEnchArmorChitinLightGauntlets04);
-            CHITIN_LIGHT_ENCH.AddItemEnch(ItemType.LightBoots, DBL.DLC2SublistEnchArmorChitinLightBoots02, DBL.DLC2SublistEnchArmorChitinLightBoots03, DBL.DLC2SublistEnchArmorChitinLightBoots04);
-            CHITIN_LIGHT_ENCH.AddItemEnch(ItemType.LightShield, DBL.DLC2SublistEnchArmorChitinShield02, DBL.DLC2SublistEnchArmorChitinShield03, DBL.DLC2SublistEnchArmorChitinShield04);
-
-            SCALED_ENCH.AddItemEnch(ItemType.LightHelmet, SKYL.SublistEnchArmorScaledHelmet02, SKYL.SublistEnchArmorScaledHelmet03, SKYL.SublistEnchArmorScaledHelmet04);
-            SCALED_ENCH.AddItemEnch(ItemType.LightCuirass, SKYL.SublistEnchArmorScaledCuirass02, SKYL.SublistEnchArmorScaledCuirass03, SKYL.SublistEnchArmorScaledCuirass04);
-            SCALED_ENCH.AddItemEnch(ItemType.LightGauntlets, SKYL.SublistEnchArmorScaledGauntlets02, SKYL.SublistEnchArmorScaledGauntlets03, SKYL.SublistEnchArmorScaledGauntlets04);
-            SCALED_ENCH.AddItemEnch(ItemType.LightBoots, SKYL.SublistEnchArmorScaledBoots02, SKYL.SublistEnchArmorScaledBoots03, SKYL.SublistEnchArmorScaledBoots04);
-
-            GLASS_ENCH.AddItemEnch(ItemType.LightHelmet, SKYL.SublistEnchArmorGlassHelmet03, SKYL.SublistEnchArmorGlassHelmet04, SKYL.SublistEnchArmorGlassHelmet05);
-            GLASS_ENCH.AddItemEnch(ItemType.LightCuirass, SKYL.SublistEnchArmorGlassCuirass03, SKYL.SublistEnchArmorGlassCuirass04, SKYL.SublistEnchArmorGlassCuirass05);
-            GLASS_ENCH.AddItemEnch(ItemType.LightGauntlets, SKYL.SublistEnchArmorGlassGauntlets03, SKYL.SublistEnchArmorGlassGauntlets04, SKYL.SublistEnchArmorGlassGauntlets05);
-            GLASS_ENCH.AddItemEnch(ItemType.LightBoots, SKYL.SublistEnchArmorGlassBoots03, SKYL.SublistEnchArmorGlassBoots04, SKYL.SublistEnchArmorGlassBoots05);
-            GLASS_ENCH.AddItemEnch(ItemType.LightShield, SKYL.SublistEnchArmorGlassShield03, SKYL.SublistEnchArmorGlassShield04, SKYL.SublistEnchArmorGlassShield05);
-
-            STALHRIM_LIGHT_ENCH.AddItemEnch(ItemType.LightHelmet, DBL.DLC2SublistEnchArmorStalhrimLightHelmet03, DBL.DLC2SublistEnchArmorStalhrimLightHelmet04, DBL.DLC2SublistEnchArmorStalhrimLightHelmet05);
-            STALHRIM_LIGHT_ENCH.AddItemEnch(ItemType.LightCuirass, DBL.DLC2SublistEnchArmorStalhrimLightCuirass03, DBL.DLC2SublistEnchArmorStalhrimLightCuirass04, DBL.DLC2SublistEnchArmorStalhrimLightCuirass05);
-            STALHRIM_LIGHT_ENCH.AddItemEnch(ItemType.LightGauntlets, DBL.DLC2SublistEnchArmorStalhrimLightGauntlets03, DBL.DLC2SublistEnchArmorStalhrimLightGauntlets04, DBL.DLC2SublistEnchArmorStalhrimLightGauntlets05);
-            STALHRIM_LIGHT_ENCH.AddItemEnch(ItemType.LightBoots, DBL.DLC2SublistEnchArmorStalhrimLightBoots03, DBL.DLC2SublistEnchArmorStalhrimLightBoots04, DBL.DLC2SublistEnchArmorStalhrimLightBoots05);
-            STALHRIM_LIGHT_ENCH.AddItemEnch(ItemType.LightShield, DBL.DLC2SublistEnchArmorStalhrimShield03, DBL.DLC2SublistEnchArmorStalhrimShield04, DBL.DLC2SublistEnchArmorStalhrimShield05);
-
-            DRAGON_LIGHT_ENCH.AddItemEnch(ItemType.LightHelmet, SKYL.SublistEnchArmorDragonscaleHelmet04, SKYL.SublistEnchArmorDragonscaleHelmet05, SKYL.SublistEnchArmorDragonscaleHelmet06);
-            DRAGON_LIGHT_ENCH.AddItemEnch(ItemType.LightCuirass, SKYL.SublistEnchArmorDragonscaleCuirass04, SKYL.SublistEnchArmorDragonscaleCuirass05, SKYL.SublistEnchArmorDragonscaleCuirass06);
-            DRAGON_LIGHT_ENCH.AddItemEnch(ItemType.LightGauntlets, SKYL.SublistEnchArmorDragonscaleGauntlets04, SKYL.SublistEnchArmorDragonscaleGauntlets05, SKYL.SublistEnchArmorDragonscaleGauntlets06);
-            DRAGON_LIGHT_ENCH.AddItemEnch(ItemType.LightBoots, SKYL.SublistEnchArmorDragonscaleBoots04, SKYL.SublistEnchArmorDragonscaleBoots05, SKYL.SublistEnchArmorDragonscaleBoots06);
-            DRAGON_LIGHT_ENCH.AddItemEnch(ItemType.LightShield, SKYL.SublistEnchArmorDragonscaleShield04, SKYL.SublistEnchArmorDragonscaleShield05, SKYL.SublistEnchArmorDragonscaleShield06);
+            foreach(var cob in Program.state.LoadOrder.PriorityOrder.ConstructibleObject().WinningOverrides()) {
+                bool isValidCob = true;
+                var modName = cob.FormKey.ModKey.Name;
+                if(modName == "Skyrim" || modName == "Dawnguard" || modName == "HearthFires" || modName == "Dragonborn") {
+                    continue;
+                }
+                if(cob.CreatedObjectCount == 1) {
+                    foreach(var cond in cob.Conditions) {
+                        if(cond.Data.Function == Condition.Function.HasPerk) {
+                            var hasPerk = cond.Data as HasPerkConditionData;
+                            if(hasPerk != null) {
+                                if(!craftingPerks.Contains(hasPerk.Perk.Link.FormKey)) {
+                                    isValidCob = false;
+                                    break;
+                                }
+                            } else {
+                                isValidCob = false;
+                                break;
+                            }
+                        } else {
+                            isValidCob = false;
+                            break;
+                        }
+                    }
+                } else {
+                    isValidCob = false;
+                }
+                if(isValidCob) {
+                    if(cob.CreatedObject.TryResolve(Program.state.LinkCache, out var createdItem)) {
+                        if(createdItem is IArmorGetter armor) {
+                            ItemType? itemType = null;
+                            if(armor.BodyTemplate.ArmorType == ArmorType.HeavyArmor) {
+                                if(armor.HasKeyword(Skyrim.Keyword.ArmorHelmet)) {
+                                    itemType = ItemType.HeavyHelmet;
+                                } else if(armor.HasKeyword(Skyrim.Keyword.ArmorCuirass)) {
+                                    itemType = ItemType.HeavyCuirass;
+                                } else if(armor.HasKeyword(Skyrim.Keyword.ArmorGauntlets)) {
+                                    itemType = ItemType.HeavyGauntlets;
+                                } else if(armor.HasKeyword(Skyrim.Keyword.ArmorBoots)) {
+                                    itemType = ItemType.HeavyBoots;
+                                } else if(armor.HasKeyword(Skyrim.Keyword.ArmorShield)) {
+                                    itemType = ItemType.HeavyShield;
+                                }
+                            } else if(armor.BodyTemplate.ArmorType == ArmorType.LightArmor) {
+                                if(armor.HasKeyword(Skyrim.Keyword.ArmorHelmet)) {
+                                    itemType = ItemType.LightHelmet;
+                                } else if(armor.HasKeyword(Skyrim.Keyword.ArmorCuirass)) {
+                                    itemType = ItemType.LightCuirass;
+                                } else if(armor.HasKeyword(Skyrim.Keyword.ArmorGauntlets)) {
+                                    itemType = ItemType.LightGauntlets;
+                                } else if(armor.HasKeyword(Skyrim.Keyword.ArmorBoots)) {
+                                    itemType = ItemType.LightBoots;
+                                } else if(armor.HasKeyword(Skyrim.Keyword.ArmorShield)) {
+                                    itemType = ItemType.LightShield;
+                                }
+                            }
+                            if(itemType != null) {
+                                var list = tierList[itemType.Value];
+                                for(int i = 0; i < list.Count; i++) {
+                                    if(armor.Value <= list[i].Item1) {
+                                        list[i].Item2.AddItem(itemType, armor.AsLink());
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
             // Best = 4
             // Special/Reward = 3
             // Blacksmith/Town/Normal = 2
 
             // Light
-            
+
             LeveledList.LinkList(SKYL.LItemArmorHelmetLightSpecial, LeveledList.FACTOR_RARE, ItemType.LightHelmet, LootRQ.NoEnch, LootRQ.Rare);
             LeveledList.LinkList(SKYL.LItemArmorCuirassLightSpecial, LeveledList.FACTOR_RARE, ItemType.LightCuirass, LootRQ.NoEnch, LootRQ.Rare);
             LeveledList.LinkList(SKYL.LItemArmorGauntletsLightSpecial, LeveledList.FACTOR_RARE, ItemType.LightGauntlets, LootRQ.NoEnch, LootRQ.Rare);
@@ -386,7 +500,7 @@ namespace LeveledLoot {
             LeveledList.LinkList(SKYL.LItemEnchArmorHeavyShield, LeveledList.FACTOR_COMMON, ItemType.HeavyShield, LootRQ.Ench);
 
             LeveledList.LinkList(SKYL.LItemEnchArmorHeavyHelmetNoDragon, LeveledList.FACTOR_COMMON, ItemType.HeavyHelmet, LootRQ.Ench);
-            LeveledList.LinkList(SKYL.LItemEnchArmorHeavyCuirassNoDragon,   LeveledList.FACTOR_COMMON, ItemType.HeavyCuirass, LootRQ.Ench);
+            LeveledList.LinkList(SKYL.LItemEnchArmorHeavyCuirassNoDragon, LeveledList.FACTOR_COMMON, ItemType.HeavyCuirass, LootRQ.Ench);
             LeveledList.LinkList(SKYL.LItemEnchArmorHeavyGauntletsNoDragon, LeveledList.FACTOR_COMMON, ItemType.HeavyGauntlets, LootRQ.Ench);
             LeveledList.LinkList(SKYL.LItemEnchArmorHeavyBootsNoDragon, LeveledList.FACTOR_COMMON, ItemType.HeavyBoots, LootRQ.Ench);
             LeveledList.LinkList(SKYL.LItemEnchArmorHeavyShieldNoDragon, LeveledList.FACTOR_COMMON, ItemType.HeavyShield, LootRQ.Ench);
@@ -472,7 +586,7 @@ namespace LeveledLoot {
             LeveledList.LinkList(SKYL.LItemThalmorArmorWithHelmetBest, LeveledList.FACTOR_RARE, ItemType.SetWithHelmet, thalmorArmor, LootRQ.NoEnch, LootRQ.Special);
 
             LeveledList.LinkList(SKYL.LItemThalmorShield, LeveledList.FACTOR_RARE, ItemType.LightShield, thalmorArmor, LootRQ.NoEnch, LootRQ.Special);
-            
+
 
             // Draugr / Nordic
 
@@ -488,17 +602,6 @@ namespace LeveledLoot {
             draugrArmor.AddLast(DRAGON_HEAVY);
             draugrArmor.AddLast(DRAGON_LIGHT);
 
-            LinkedList<ItemMaterial> draugrArmorEnch = new();
-            draugrArmorEnch.AddLast(HIDE_ENCH);
-            draugrArmorEnch.AddLast(LEATHER_ENCH);
-            draugrArmorEnch.AddLast(IRON_ENCH);
-            draugrArmorEnch.AddLast(STEEL_ENCH);
-            draugrArmorEnch.AddLast(STEELPLATE_ENCH);
-            draugrArmorEnch.AddLast(SCALED_ENCH);
-            draugrArmorEnch.AddLast(EBONY_ENCH);
-            draugrArmorEnch.AddLast(DRAGON_HEAVY_ENCH);
-            draugrArmorEnch.AddLast(DRAGON_LIGHT_ENCH);
-
 
             var factorDraugr = LeveledList.FACTOR_COMMON;
             var draugrHelmet = LeveledList.CreateList(ItemType.Helmet, "JLL_DraugrHelmet", factorDraugr, draugrArmor, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
@@ -507,11 +610,11 @@ namespace LeveledLoot {
             var draugrBoots = LeveledList.CreateList(ItemType.Boots, "JLL_DraugrBoots", factorDraugr, draugrArmor, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
             var draugrShield = LeveledList.CreateList(ItemType.Shield, "JLL_DraugrShield", factorDraugr, draugrArmor, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
 
-            var draugrHelmetEnch = LeveledList.CreateList(ItemType.Helmet, "JLL_DraugrHelmetEnch", 2, draugrArmorEnch, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrCuirassEnch = LeveledList.CreateList(ItemType.Cuirass, "JLL_DraugrCuirassEnch", 2, draugrArmorEnch, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrGauntletsEnch = LeveledList.CreateList(ItemType.Gauntlets, "JLL_DraugrGauntlestEnch", 2, draugrArmorEnch, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrBootsEnch = LeveledList.CreateList(ItemType.Boots, "JLL_DraugrBootsEnch", 2, draugrArmorEnch, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrShieldEnch = LeveledList.CreateList(ItemType.Shield, "JLL_DraugrShieldEnch", 2, draugrArmorEnch, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrHelmetEnch = LeveledList.CreateList(ItemType.Helmet, "JLL_DraugrHelmetEnch", 2, draugrArmor, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrCuirassEnch = LeveledList.CreateList(ItemType.Cuirass, "JLL_DraugrCuirassEnch", 2, draugrArmor, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrGauntletsEnch = LeveledList.CreateList(ItemType.Gauntlets, "JLL_DraugrGauntlestEnch", 2, draugrArmor, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrBootsEnch = LeveledList.CreateList(ItemType.Boots, "JLL_DraugrBootsEnch", 2, draugrArmor, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrShieldEnch = LeveledList.CreateList(ItemType.Shield, "JLL_DraugrShieldEnch", 2, draugrArmor, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
 
             LeveledList.LinkList(SKYL.LootDraugrArmor10, draugrHelmet.ToLink(), draugrCuirass.ToLink(), draugrGauntlets.ToLink(), draugrBoots.ToLink(), draugrShield.ToLink());
             LeveledList.LinkList(SKYL.LootDraugrArmor100, draugrHelmet.ToLink(), draugrCuirass.ToLink(), draugrGauntlets.ToLink(), draugrBoots.ToLink(), draugrShield.ToLink());

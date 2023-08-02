@@ -16,12 +16,12 @@ namespace LeveledLoot {
     class LeveledList {
 
         static string prefix = "JLL_";
-        public static int NUM_CHILDREN = 10;
+        public static int NUM_CHILDREN = 16;
         public static int FACTOR_JUNK = 1;
         public static int FACTOR_COMMON = 2;
         public static int FACTOR_RARE = 3;
         public static int FACTOR_BEST = 4;
-        static int MAX_DEPTH = 3;
+        static int MAX_DEPTH = 2;
         static int MAX_LEAVES = (int)Math.Pow(NUM_CHILDREN, MAX_DEPTH);
         static int[] LEVEL_LIST = new int[] { 1, 4, 7, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 70, 80, 90, 100 };
         static List<FormLink<ILeveledItemGetter>> lockedLists = new();
@@ -80,12 +80,22 @@ namespace LeveledLoot {
             List<double> itemChancesDouble = new();
             List<int> itemChancesInt = new();
             List<Form> newItemList = new();
+            var modifiedRequirements = requirements.ToHashSet();
+            bool enchant = false;
+            if(modifiedRequirements.Contains(LootRQ.NoEnch)) {
+                modifiedRequirements.Remove(LootRQ.NoEnch);
+            } else if(modifiedRequirements.Contains(LootRQ.Ench)) {
+                enchant = true;
+                modifiedRequirements.Remove(LootRQ.Ench);
+            }
+            requirements = modifiedRequirements.ToArray();
+
             foreach(ItemMaterial itemMaterial in materials) {
                 HashSet<LootRQ> commonRequirements = itemMaterial.requirements.Intersect(requirements).ToHashSet();
                 if(!commonRequirements.SetEquals(itemMaterial.requirements)) {
                     continue;
                 }
-                Form? f = itemMaterial.GetItem(itemType);
+                Form? f = itemMaterial.GetItem(itemType, enchant, level);
                 if(f == null) {
                     continue;
                 }
@@ -96,16 +106,7 @@ namespace LeveledLoot {
                 // 1 -> end chance
                 double x = Math.Min(1.0, Math.Max(0.0, (1.0 * level - itemMaterial.firstLevel) / (itemMaterial.lastLevel - itemMaterial.firstLevel)));
 
-                // polynomial weight y:
-                // |                 ..|
-                // |                .  |
-                // |              ..   |
-                // |        ......     |
-                // |........           |
-
-                // This is low for the longest time, meaning that high chances are only achieved once the player level is close to last level
-                double y = (4.0 / 3.0 * Math.Pow(x, 2) - 1.0 / 3.0 * Math.Pow(x, 8));
-                double chance = y * (itemMaterial.endChance - itemMaterial.startChance) + itemMaterial.startChance;
+                double chance = x * (itemMaterial.endChance - itemMaterial.startChance) + itemMaterial.startChance;
                 totalChance += chance;
                 itemChancesDouble.Add(chance);
             }
@@ -146,20 +147,6 @@ namespace LeveledLoot {
             return CreateListCount(itemType, name, 1, levelFactor, materials, requirements);
         }
 
-        public static void LinkList(FormLink<ILeveledItemGetter> vanillaList, int levelFactor, Enum itemType, IEnumerable<ItemMaterial> materials, params LootRQ[] requirements) {
-            LeveledItem leveledList = Program.state!.PatchMod.LeveledItems.GetOrAddAsOverride(vanillaList, Program.state.LinkCache);
-            leveledList.Entries = new Noggog.ExtendedList<LeveledItemEntry>();
-            LeveledItemEntry entry = new();
-            if(entry.Data == null) {
-                entry.Data = new LeveledItemEntryData();
-            }
-            entry.Data.Count = 1;
-            entry.Data.Level = 1;
-            leveledList.Flags |= LeveledItem.Flag.CalculateForEachItemInCount;
-            string name = leveledList.EditorID + "_LevelList";
-            entry.Data.Reference.SetTo(CreateList(itemType, name, levelFactor, materials, requirements).FormKey);
-            leveledList.Entries!.Add(entry);
-        }
 
         public static void LinkListCount(FormLink<ILeveledItemGetter> vanillaList, short count, int levelFactor, Enum itemType, IEnumerable<ItemMaterial> materials, params LootRQ[] requirements) {
             LeveledItem leveledList = Program.state!.PatchMod.LeveledItems.GetOrAddAsOverride(vanillaList, Program.state.LinkCache);
@@ -171,13 +158,17 @@ namespace LeveledLoot {
             entry.Data.Count = count;
             entry.Data.Level = 1;
             leveledList.Flags |= LeveledItem.Flag.CalculateForEachItemInCount;
-            string name = leveledList.EditorID + "_LevelList";
+            string name = prefix + leveledList.EditorID + "_LevelList";
             entry.Data.Reference.SetTo(CreateList(itemType, name, levelFactor, materials, requirements).FormKey);
             leveledList.Entries!.Add(entry);
         }
 
+        public static void LinkList(FormLink<ILeveledItemGetter> vanillaList, int levelFactor, Enum itemType, IEnumerable<ItemMaterial> materials, params LootRQ[] requirements) {
+            LinkListCount(vanillaList, 1, levelFactor, itemType, materials, requirements);
+        }
+
         public static void LinkList(FormLink<ILeveledItemGetter> vanillaList, int levelFactor, ItemType itemType, params LootRQ[] requirements) {
-            LinkList(vanillaList, levelFactor, itemType, ItemMaterial.ALL, requirements);
+            LinkListCount(vanillaList, 1, levelFactor, itemType, ItemMaterial.ALL, requirements);
         }
 
         public static void LinkListCount(FormLink<ILeveledItemGetter> vanillaList, short count, int levelFactor, ItemType itemType, params LootRQ[] requirements) {
