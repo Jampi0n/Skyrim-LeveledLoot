@@ -220,7 +220,7 @@ namespace LeveledLoot {
             return itemMap[itemType].First!.Value.item;
         }
 
-        public Form? GetItem(Enum itemType, bool enchant, int level) {
+        public Form? GetItem(Enum itemType, bool enchant, int level, string name) {
             if(!itemMap.ContainsKey(itemType)) {
                 return null;
             }
@@ -239,7 +239,7 @@ namespace LeveledLoot {
                     }
                     if(variants) {
                         leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
-                        leveledList.EditorID = LeveledList.prefix + "EnchVariantSelection_Lvl" + level + "_" + name;
+                        leveledList.EditorID = LeveledList.prefix + name + "_EnchVariantSelection_Lvl" + level;
                         for(int i = 0; i < itemMap[itemType].Count; ++i) {
                             var itemVariant = itemMap[itemType].ElementAt(i);
                             for(int j = 0; j < itemVariant.weight; ++j) {
@@ -248,14 +248,14 @@ namespace LeveledLoot {
                                 leveledList.ChanceNone = Math.Max(itemVariant.chanceNone, leveledList.ChanceNone);
                                 entry.Data.Count = itemVariant.count;
                                 entry.Data.Level = 1;
-                                entry.Data.Reference.SetTo( Enchanter.Enchant(itemVariant.item, level).FormKey);
+                                entry.Data.Reference.SetTo( Enchanter.Enchant(itemVariant.item, level, name).FormKey);
                                 leveledList.Entries ??= new Noggog.ExtendedList<LeveledItemEntry>();
                                 leveledList.Entries!.Add(entry);
                             }
                         }
                         listLink = leveledList.ToLink();
                     } else {
-                        listLink = Enchanter.Enchant(itemMap[itemType].First!.Value.item, level);
+                        listLink = Enchanter.Enchant(itemMap[itemType].First!.Value.item, level, name);
                     }
                     enchListMap.Add(key, listLink);
                 }
@@ -269,7 +269,7 @@ namespace LeveledLoot {
                 }
                 if(!listMap.ContainsKey(itemType)) {
                     LeveledItem leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
-                    leveledList.EditorID = name + "_" + itemType.ToString() + "_Variants";
+                    leveledList.EditorID = LeveledList.prefix + name + "_" + itemType.ToString() + "_Variants";
                     for(int i = 0; i < itemMap[itemType].Count; ++i) {
                         var itemVariant = itemMap[itemType].ElementAt(i);
                         for(int j = 0; j < itemVariant.weight; ++j) {

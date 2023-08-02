@@ -42,7 +42,7 @@ namespace LeveledLoot {
 
         public static void Config() {
             var baseArrowDragon75 = Program.State.PatchMod.LeveledItems.AddNew();
-            baseArrowDragon75.EditorID = "JLL_BaseArrowDragon75";
+            baseArrowDragon75.EditorID = LeveledList.prefix + "BaseArrowDragon75";
             baseArrowDragon75.ChanceNone = 25;
             baseArrowDragon75.Flags = LeveledItem.Flag.CalculateForEachItemInCount;
             baseArrowDragon75.Entries = new Noggog.ExtendedList<LeveledItemEntry>() {
@@ -281,24 +281,24 @@ namespace LeveledLoot {
 
 
             var factorDraugr = LeveledList.FACTOR_COMMON;
-            var draugrSword = LeveledList.CreateList(ItemType.Sword, "JLL_DraugrSword", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
-            var draugrWaraxe = LeveledList.CreateList(ItemType.Waraxe, "JLL_DraugrWaraxe", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
-            var draugrMace = LeveledList.CreateList(ItemType.Mace, "JLL_DraugrMace", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
-            var draugrDagger = LeveledList.CreateList(ItemType.Dagger, "JLL_DraugrDagger", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
-            var draugrBow = LeveledList.CreateList(ItemType.Bow, "JLL_DraugrBow", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
-            var draugrGreatsword = LeveledList.CreateList(ItemType.Greatsword, "JLL_DraugrGreatsword", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
-            var draugrBattleaxe = LeveledList.CreateList(ItemType.Battleaxe, "JLL_DraugrBattleaxe", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
-            var draugrWarhammer = LeveledList.CreateList(ItemType.Warhammer, "JLL_DraugrWarhammer", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
-            var draugrArrows = LeveledList.CreateList(ItemType.Arrow12, "JLL_DraugrArrows", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
+            var draugrSword = LeveledList.CreateList(ItemType.Sword, "DraugrSword", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
+            var draugrWaraxe = LeveledList.CreateList(ItemType.Waraxe, "DraugrWaraxe", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
+            var draugrMace = LeveledList.CreateList(ItemType.Mace, "DraugrMace", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
+            var draugrDagger = LeveledList.CreateList(ItemType.Dagger, "DraugrDagger", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
+            var draugrBow = LeveledList.CreateList(ItemType.Bow, "DraugrBow", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
+            var draugrGreatsword = LeveledList.CreateList(ItemType.Greatsword, "DraugrGreatsword", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
+            var draugrBattleaxe = LeveledList.CreateList(ItemType.Battleaxe, "DraugrBattleaxe", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
+            var draugrWarhammer = LeveledList.CreateList(ItemType.Warhammer, "DraugrWarhammer", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
+            var draugrArrows = LeveledList.CreateList(ItemType.Arrow12, "DraugrArrows", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
 
-            var draugrSwordEnch = LeveledList.CreateList(ItemType.Sword, "JLL_DraugrSwordEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrWaraxeEnch = LeveledList.CreateList(ItemType.Waraxe, "JLL_DraugrWaraxeEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrMaceEnch = LeveledList.CreateList(ItemType.Mace, "JLL_DraugrMaceEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrDaggerEnch = LeveledList.CreateList(ItemType.Dagger, "JLL_DraugrDaggerEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrBowEnch = LeveledList.CreateList(ItemType.Bow, "JLL_DraugrBowEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrGreatswordEnch = LeveledList.CreateList(ItemType.Greatsword, "JLL_DraugrGreatswordEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrBattleaxeEnch = LeveledList.CreateList(ItemType.Battleaxe, "JLL_DraugrBattleaxeEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrWarhammerEnch = LeveledList.CreateList(ItemType.Warhammer, "JLL_DraugrWarhammerEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrSwordEnch = LeveledList.CreateList(ItemType.Sword, "DraugrSwordEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrWaraxeEnch = LeveledList.CreateList(ItemType.Waraxe, "DraugrWaraxeEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrMaceEnch = LeveledList.CreateList(ItemType.Mace, "DraugrMaceEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrDaggerEnch = LeveledList.CreateList(ItemType.Dagger, "DraugrDaggerEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrBowEnch = LeveledList.CreateList(ItemType.Bow, "DraugrBowEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrGreatswordEnch = LeveledList.CreateList(ItemType.Greatsword, "DraugrGreatswordEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrBattleaxeEnch = LeveledList.CreateList(ItemType.Battleaxe, "DraugrBattleaxeEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrWarhammerEnch = LeveledList.CreateList(ItemType.Warhammer, "DraugrWarhammerEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
 
             LeveledList.LinkList(SKYL.LootDraugrWeapon100, draugrSword.ToLink(), draugrWaraxe.ToLink(), draugrMace.ToLink(), draugrDagger.ToLink(), draugrBow.ToLink(), draugrGreatsword.ToLink(), draugrBattleaxe.ToLink(), draugrWarhammer.ToLink(), draugrArrows.ToLink());
             LeveledList.LinkList(SKYL.LootDraugrWeapon15, draugrSword.ToLink(), draugrWaraxe.ToLink(), draugrMace.ToLink(), draugrDagger.ToLink(), draugrBow.ToLink(), draugrGreatsword.ToLink(), draugrBattleaxe.ToLink(), draugrWarhammer.ToLink(), draugrArrows.ToLink());
@@ -320,9 +320,9 @@ namespace LeveledLoot {
             thalmorWeapons.AddLast(ELVEN);
             thalmorWeapons.AddLast(GLASS);
 
-            var thalmorSword = LeveledList.CreateList(ItemType.Sword, "JLL_ThalmorSword", 3, thalmorWeapons, LootRQ.NoEnch).ToLink();
-            var thalmorWarAxe = LeveledList.CreateList(ItemType.Waraxe, "JLL_ThalmorWarAxe", 3, thalmorWeapons, LootRQ.NoEnch).ToLink();
-            var thalmorMace = LeveledList.CreateList(ItemType.Mace, "JLL_ThalmorMace", 3, thalmorWeapons, LootRQ.NoEnch).ToLink();
+            var thalmorSword = LeveledList.CreateList(ItemType.Sword, "ThalmorSword", 3, thalmorWeapons, LootRQ.NoEnch).ToLink();
+            var thalmorWarAxe = LeveledList.CreateList(ItemType.Waraxe, "ThalmorWarAxe", 3, thalmorWeapons, LootRQ.NoEnch).ToLink();
+            var thalmorMace = LeveledList.CreateList(ItemType.Mace, "ThalmorMace", 3, thalmorWeapons, LootRQ.NoEnch).ToLink();
 
             LeveledList.LinkList(SKYL.LItemThalmorWeapon1H, thalmorSword, thalmorWarAxe, thalmorMace);
             LeveledList.LinkList(SKYL.LItemThalmorWeaponBow, LeveledList.FACTOR_RARE, ItemType.Bow, thalmorWeapons, LootRQ.NoEnch);
@@ -362,12 +362,12 @@ namespace LeveledLoot {
             Enchanter.RegisterWeaponEnchantments(ItemType.Warhammer, SKY.IronWarhammer, SKYL.LItemEnchIronWarhammerBoss, 1);
             Enchanter.RegisterWeaponEnchantments(ItemType.Warhammer, SKY.DaedricWarhammer, SKYL.LItemEnchDaedricWarhammerBoss, 4);
 
-            var bossBattleAxe = LeveledList.CreateList(ItemType.Battleaxe, "JLL_BossBattleAxe", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
-            var bossGreatsword = LeveledList.CreateList(ItemType.Greatsword, "JLL_BossGreatsword", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
-            var bossMace = LeveledList.CreateList(ItemType.Mace, "JLL_BossMace", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
-            var bossSword = LeveledList.CreateList(ItemType.Sword, "JLL_BossSword", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
-            var bossWaraxe = LeveledList.CreateList(ItemType.Waraxe, "JLL_BossWaraxe", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
-            var bossWarhammer = LeveledList.CreateList(ItemType.Warhammer, "JLL_BossWarhammer", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+            var bossBattleAxe = LeveledList.CreateList(ItemType.Battleaxe, "BossBattleAxe", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+            var bossGreatsword = LeveledList.CreateList(ItemType.Greatsword, "BossGreatsword", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+            var bossMace = LeveledList.CreateList(ItemType.Mace, "BossMace", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+            var bossSword = LeveledList.CreateList(ItemType.Sword, "BossSword", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+            var bossWaraxe = LeveledList.CreateList(ItemType.Waraxe, "BossWaraxe", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+            var bossWarhammer = LeveledList.CreateList(ItemType.Warhammer, "BossWarhammer", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
 
 
             LeveledList.LinkList(SKYL.LItemBanditBossBattleaxe, bossBattleAxe, SKYL.LItemWeaponBattleAxeSpecial);
@@ -394,8 +394,6 @@ namespace LeveledLoot {
 
             // Dremora
             Enchanter.Reset();
-            Enchanter.RegisterWeaponEnchantments(ItemType.Battleaxe, SKY.IronBattleaxe, SKYL.LItemEnchIronBattleaxeBoss, 1);
-            Enchanter.RegisterWeaponEnchantments(ItemType.Battleaxe, SKY.DaedricBattleaxe, SKYL.LItemEnchDaedricBattleaxeBoss, 4);
 
             var weaponItemTypes = new ItemType[] {
                 ItemType.Sword,
@@ -413,12 +411,12 @@ namespace LeveledLoot {
             Enchanter.RegisterWeaponEnchantmentManual(SKY.DaedricSword, SKY.EnchDaedricSwordFire05, 5, weaponItemTypes);
             Enchanter.RegisterWeaponEnchantmentManual(SKY.DaedricSword, SKY.EnchDaedricSwordFire06, 6, weaponItemTypes);
 
-            var dremoraBattleAxe = LeveledList.CreateList(ItemType.Battleaxe, "JLL_DremoraBattleAxe", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
-            var dremoraGreatsword = LeveledList.CreateList(ItemType.Greatsword, "JLL_DremoraGreatsword", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
-            var dremoraMace = LeveledList.CreateList(ItemType.Mace, "JLL_DremoraMace", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
-            var dremoraSword = LeveledList.CreateList(ItemType.Sword, "JLL_DremoraSword", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
-            var dremoraWaraxe = LeveledList.CreateList(ItemType.Waraxe, "JLL_DremoraWaraxe", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
-            var dremoraWarhammer = LeveledList.CreateList(ItemType.Warhammer, "JLL_DremoraWarhammer", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+            var dremoraBattleAxe = LeveledList.CreateList(ItemType.Battleaxe, "DremoraBattleAxe", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+            var dremoraGreatsword = LeveledList.CreateList(ItemType.Greatsword, "DremoraGreatsword", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+            var dremoraMace = LeveledList.CreateList(ItemType.Mace, "DremoraMace", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+            var dremoraSword = LeveledList.CreateList(ItemType.Sword, "DremoraSword", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+            var dremoraWaraxe = LeveledList.CreateList(ItemType.Waraxe, "DremoraWaraxe", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+            var dremoraWarhammer = LeveledList.CreateList(ItemType.Warhammer, "DremoraWarhammer", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
 
             LeveledList.LinkList(SKYL.LItemEnchWeapon1HDremoraFire, dremoraBattleAxe, dremoraGreatsword, dremoraMace, dremoraSword, dremoraWaraxe, dremoraWarhammer);
 

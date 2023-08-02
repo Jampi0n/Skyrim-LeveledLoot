@@ -493,17 +493,17 @@ namespace LeveledLoot {
 
 
             var factorDraugr = LeveledList.FACTOR_COMMON;
-            var draugrHelmet = LeveledList.CreateList(ItemType.Helmet, "JLL_DraugrHelmet", factorDraugr, draugrArmor, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
-            var draugrCuirass = LeveledList.CreateList(ItemType.Cuirass, "JLL_DraugrCuirass", factorDraugr, draugrArmor, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
-            var draugrGauntlets = LeveledList.CreateList(ItemType.Gauntlets, "JLL_DraugrGauntlest", factorDraugr, draugrArmor, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
-            var draugrBoots = LeveledList.CreateList(ItemType.Boots, "JLL_DraugrBoots", factorDraugr, draugrArmor, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
-            var draugrShield = LeveledList.CreateList(ItemType.Shield, "JLL_DraugrShield", factorDraugr, draugrArmor, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
+            var draugrHelmet = LeveledList.CreateList(ItemType.Helmet, "DraugrHelmet", factorDraugr, draugrArmor, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
+            var draugrCuirass = LeveledList.CreateList(ItemType.Cuirass, "DraugrCuirass", factorDraugr, draugrArmor, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
+            var draugrGauntlets = LeveledList.CreateList(ItemType.Gauntlets, "DraugrGauntlest", factorDraugr, draugrArmor, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
+            var draugrBoots = LeveledList.CreateList(ItemType.Boots, "DraugrBoots", factorDraugr, draugrArmor, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
+            var draugrShield = LeveledList.CreateList(ItemType.Shield, "DraugrShield", factorDraugr, draugrArmor, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
 
-            var draugrHelmetEnch = LeveledList.CreateList(ItemType.Helmet, "JLL_DraugrHelmetEnch", 2, draugrArmor, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrCuirassEnch = LeveledList.CreateList(ItemType.Cuirass, "JLL_DraugrCuirassEnch", 2, draugrArmor, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrGauntletsEnch = LeveledList.CreateList(ItemType.Gauntlets, "JLL_DraugrGauntlestEnch", 2, draugrArmor, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrBootsEnch = LeveledList.CreateList(ItemType.Boots, "JLL_DraugrBootsEnch", 2, draugrArmor, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrShieldEnch = LeveledList.CreateList(ItemType.Shield, "JLL_DraugrShieldEnch", 2, draugrArmor, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrHelmetEnch = LeveledList.CreateList(ItemType.Helmet, "DraugrHelmetEnch", 2, draugrArmor, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrCuirassEnch = LeveledList.CreateList(ItemType.Cuirass, "DraugrCuirassEnch", 2, draugrArmor, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrGauntletsEnch = LeveledList.CreateList(ItemType.Gauntlets, "DraugrGauntlestEnch", 2, draugrArmor, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrBootsEnch = LeveledList.CreateList(ItemType.Boots, "DraugrBootsEnch", 2, draugrArmor, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrShieldEnch = LeveledList.CreateList(ItemType.Shield, "DraugrShieldEnch", 2, draugrArmor, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
 
             LeveledList.LinkList(SKYL.LootDraugrArmor10, draugrHelmet.ToLink(), draugrCuirass.ToLink(), draugrGauntlets.ToLink(), draugrBoots.ToLink(), draugrShield.ToLink());
             LeveledList.LinkList(SKYL.LootDraugrArmor100, draugrHelmet.ToLink(), draugrCuirass.ToLink(), draugrGauntlets.ToLink(), draugrBoots.ToLink(), draugrShield.ToLink());

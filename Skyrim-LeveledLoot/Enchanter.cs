@@ -15,7 +15,7 @@ namespace LeveledLoot {
     class Enchanter {
 
         static readonly string prefix = "JLL_";
-        static readonly int NUM_CHILDREN = 10;
+        static readonly int NUM_CHILDREN = 6;
         static readonly int MAX_DEPTH = 2;
         static readonly int MAX_LEAVES = (int)Math.Pow(NUM_CHILDREN, MAX_DEPTH);
 
@@ -43,13 +43,16 @@ namespace LeveledLoot {
         public static void Reset() {
             enchantmentDict.Clear();
             enchantedItems.Clear();
+            foreach(var material in ItemMaterial.ALL) {
+                material.enchListMap.Clear();
+            }
         }
 
-        static Form EnchantArmor(IArmorGetter armorGetter, ItemType itemType, int enchantTier) {
+        static Form EnchantArmor(IArmorGetter armorGetter, ItemType itemType, int enchantTier, string name) {
             var key = new Tuple<FormKey, int>(armorGetter.FormKey, -enchantTier);
             if(!enchantedItems.ContainsKey(key)) {
                 var leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
-                leveledList.EditorID = prefix + "LItemArmor_EnchTier" + enchantTier + "_" + armorGetter.EditorID;
+                leveledList.EditorID = prefix + name + "_LItemArmor_EnchTier" + enchantTier + "_" + armorGetter.EditorID;
 
                 if(!enchantmentDict.ContainsKey(itemType)) {
                     throw new Exception("No enchantments for item type.");
@@ -81,11 +84,11 @@ namespace LeveledLoot {
             return enchantedItems[key];
         }
 
-        static Form EnchantWeapon(IWeaponGetter weaponGetter, ItemType itemType, int enchantTier) {
+        static Form EnchantWeapon(IWeaponGetter weaponGetter, ItemType itemType, int enchantTier, string name) {
             var key = new Tuple<FormKey, int>(weaponGetter.FormKey, -enchantTier);
             if(!enchantedItems.ContainsKey(key)) {
                 var leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
-                leveledList.EditorID = prefix + "LItemWeapon_EnchTier" + enchantTier + "_" + weaponGetter.EditorID;
+                leveledList.EditorID = prefix + name + "_LItemWeapon_EnchTier" + enchantTier + "_" + weaponGetter.EditorID;
 
                 if(!enchantmentDict.ContainsKey(itemType)) {
                     throw new Exception("No enchantments for item type.");
@@ -115,7 +118,7 @@ namespace LeveledLoot {
             return enchantedItems[key];
         }
 
-        public static Form Enchant(Form itemLink, int lootLevel) {
+        public static Form Enchant(Form itemLink, int lootLevel, string name) {
             var key = new Tuple<FormKey, int>(itemLink.FormKey, lootLevel);
             if(!enchantedItems.ContainsKey(key)) {
 
@@ -185,18 +188,18 @@ namespace LeveledLoot {
                     List<double> itemChancesDouble = new();
                     List<int> itemChancesInt = new();
                     List<Form> newItemList = new();
-                    string name = prefix + "EnchTierSelection_Lvl" + lootLevel + "_";
+                    string listName = prefix + name + "_EnchTierSelection_Lvl" + lootLevel + "_";
                     if(armorGetter != null) {
-                        name += armorGetter.EditorID;
+                        listName += armorGetter.EditorID;
                     } else {
-                        name += weaponGetter!.EditorID;
+                        listName += weaponGetter!.EditorID;
                     }
 
                     for(int t = 0; t < EnchTiers.Count; t++) {
                         if(armorGetter != null) {
-                            newItemList.Add(EnchantArmor(armorGetter, itemType.Value, t + 1));
+                            newItemList.Add(EnchantArmor(armorGetter, itemType.Value, t + 1, name));
                         } else {
-                            newItemList.Add(EnchantWeapon(weaponGetter!, itemType.Value, t + 1));
+                            newItemList.Add(EnchantWeapon(weaponGetter!, itemType.Value, t + 1, name));
                         }
                         var itemMaterial = EnchTiers[t];
                         // linear weight x between 0 and 1 depending on player level and first and last level of the item
@@ -216,7 +219,7 @@ namespace LeveledLoot {
                     }
 
                     var chanceList = ChanceList.GetChanceList(newItemList.ToArray(), itemChancesIntBetter.ToArray())!;
-                    var tree = RandomTree.GetRandomTree(chanceList, name);
+                    var tree = RandomTree.GetRandomTree(chanceList, listName);
 
                     enchantedItems[key] = tree.linkedItem;
                 }

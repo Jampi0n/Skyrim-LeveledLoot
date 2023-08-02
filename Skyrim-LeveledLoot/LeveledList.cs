@@ -16,7 +16,7 @@ namespace LeveledLoot {
     class LeveledList {
 
         public static readonly string prefix = "JLL_";
-        public static readonly int NUM_CHILDREN = 16;
+        public static readonly int NUM_CHILDREN = 6;
         public static readonly int FACTOR_JUNK = 1;
         public static readonly int FACTOR_COMMON = 2;
         public static readonly int FACTOR_RARE = 3;
@@ -95,7 +95,7 @@ namespace LeveledLoot {
                 if(!commonRequirements.SetEquals(itemMaterial.requirements)) {
                     continue;
                 }
-                Form? f = itemMaterial.GetItem(itemType, enchant, level);
+                Form? f = itemMaterial.GetItem(itemType, enchant, level, name);
                 if(f == null) {
                     continue;
                 }
@@ -118,13 +118,13 @@ namespace LeveledLoot {
             }
 
             var chanceList = ChanceList.GetChanceList(newItemList.ToArray(), itemChancesIntBetter.ToArray())!;
-            var tree = RandomTree.GetRandomTree(chanceList, name + "_Lvl" + level);
+            var tree = RandomTree.GetRandomTree(chanceList, prefix + name + "_Lvl" + level);
             return tree.linkedItem;
         }
 
         public static LeveledItem CreateListCount(Enum itemType, string name, short count, int levelFactor, IEnumerable<ItemMaterial> materials, params LootRQ[] requirements) {
             LeveledItem leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
-            leveledList.EditorID = name;
+            leveledList.EditorID = prefix + name;
             leveledList.Flags = LeveledItem.Flag.CalculateForEachItemInCount | LeveledItem.Flag.SpecialLoot;
             foreach(int level in LEVEL_LIST) {
                 Form f = CreateSubList(itemType, level * levelFactor, name, materials, requirements);
@@ -152,7 +152,7 @@ namespace LeveledLoot {
             entry.Data.Count = count;
             entry.Data.Level = 1;
             leveledList.Flags |= LeveledItem.Flag.CalculateForEachItemInCount;
-            string name = prefix + leveledList.EditorID + "_LevelList";
+            string name = leveledList.EditorID + "_LevelList";
             entry.Data.Reference.SetTo(CreateList(itemType, name, levelFactor, materials, requirements).FormKey);
             leveledList.Entries!.Add(entry);
         }
