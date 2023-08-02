@@ -94,6 +94,7 @@ namespace LeveledLoot {
             DAEDRIC.Arrow75(SKYL.BaseArrowDaedric75);
 
             // Find enchantments
+            Enchanter.Reset();
             Enchanter.RegisterWeaponEnchantments(ItemType.Battleaxe, SKY.IronBattleaxe, SKYL.LItemEnchIronBattleaxe, 1);
             Enchanter.RegisterWeaponEnchantments(ItemType.Battleaxe, SKY.DaedricBattleaxe, SKYL.LItemEnchDaedricBattleaxe, 4);
 
@@ -261,26 +262,6 @@ namespace LeveledLoot {
             LeveledList.LinkList(DBL.DLC2LootArrowsAll100, LeveledList.FACTOR_BEST, ItemType.Arrow12, LootRQ.NoEnch, LootRQ.DLC2, LootRQ.Rare);
             LeveledList.LinkList(DBL.DLC2LootArrowsAll15, LeveledList.FACTOR_COMMON, ItemType.Arrow12, LootRQ.NoEnch, LootRQ.DLC2);
 
-            // Bandit
-
-            LeveledList.LinkList(SKYL.LItemBanditBattleaxe, LeveledList.FACTOR_JUNK, ItemType.Battleaxe, LootRQ.NoEnch);
-            LeveledList.LinkList(SKYL.LItemBanditGreatsword, LeveledList.FACTOR_JUNK, ItemType.Greatsword, LootRQ.NoEnch);
-            LeveledList.LinkList(SKYL.LItemBanditWarhammer, LeveledList.FACTOR_JUNK, ItemType.Warhammer, LootRQ.NoEnch);
-            LeveledList.LinkList(SKYL.LItemBanditWarAxe, LeveledList.FACTOR_JUNK, ItemType.Waraxe, LootRQ.NoEnch);
-            LeveledList.LinkList(SKYL.LItemBanditSword, LeveledList.FACTOR_JUNK, ItemType.Sword, LootRQ.NoEnch);
-            LeveledList.LinkList(SKYL.LItemBanditMace, LeveledList.FACTOR_JUNK, ItemType.Mace, LootRQ.NoEnch);
-            LeveledList.LinkList(SKYL.LItemBanditWeaponBow, LeveledList.FACTOR_JUNK, ItemType.Bow, LootRQ.NoEnch);
-
-            LeveledList.LinkList(SKYL.LItemBanditBossBattleaxe, SKYL.LItemWeaponBattleAxe, SKYL.LItemWeaponBattleAxe, SKYL.LItemEnchWeaponBattleAxe);
-            LeveledList.LinkList(SKYL.LItemBanditBossGreatsword, SKYL.LItemWeaponGreatSword, SKYL.LItemWeaponGreatSword, SKYL.LItemEnchWeaponGreatsword);
-            LeveledList.LinkList(SKYL.LItemBanditBossWarhammer, SKYL.LItemWeaponWarhammer, SKYL.LItemWeaponWarhammer, SKYL.LItemEnchWeaponWarhammer);
-            LeveledList.LinkList(SKYL.LItemBanditBossSword, SKYL.LItemWeaponSword, SKYL.LItemWeaponSword, SKYL.LItemEnchWeaponSword);
-            LeveledList.LinkList(SKYL.LItemBanditBossWarAxe, SKYL.LItemWeaponWarAxe, SKYL.LItemWeaponWarAxe, SKYL.LItemEnchWeaponWarAxe);
-            LeveledList.LinkList(SKYL.LItemBanditBossMace, SKYL.LItemWeaponMace, SKYL.LItemWeaponMace, SKYL.LItemEnchWeaponMace);
-
-            LeveledList.LockLists(SKYL.LItemBanditBattleaxe, SKYL.LItemBanditGreatsword, SKYL.LItemBanditWarhammer, SKYL.LItemBanditSword, SKYL.LItemBanditWarAxe, SKYL.LItemBanditMace, SKYL.LItemBanditWeaponBow);
-            LeveledList.LockLists(SKYL.LItemBanditBossBattleaxe, SKYL.LItemBanditBossGreatsword, SKYL.LItemBanditBossWarhammer, SKYL.LItemBanditBossSword, SKYL.LItemBanditBossWarAxe, SKYL.LItemBanditBossMace);
-
             // Draugr
             LeveledList.LinkList(SKYL.LItemDraugr05Weapon1H, SKY.NordHeroSword, SKY.NordHeroWarAxe);
             LeveledList.LinkList(SKYL.LItemDraugr05EWeapon1H, SKY.NordHeroSword, SKY.NordHeroWarAxe);
@@ -358,6 +339,89 @@ namespace LeveledLoot {
             LeveledList.LinkList(SKYL.LItemVampireWarAxe, SKYL.LItemWeaponWarAxe);
 
             LeveledList.LinkList(SKYL.LItemVampireWeaponBow, SKYL.LItemWeaponBow);
+
+            // Bandit
+
+            // Bandit boss weapons uses limited enchantment set
+            Enchanter.Reset();
+            Enchanter.RegisterWeaponEnchantments(ItemType.Battleaxe, SKY.IronBattleaxe, SKYL.LItemEnchIronBattleaxeBoss, 1);
+            Enchanter.RegisterWeaponEnchantments(ItemType.Battleaxe, SKY.DaedricBattleaxe, SKYL.LItemEnchDaedricBattleaxeBoss, 4);
+
+            Enchanter.RegisterWeaponEnchantments(ItemType.Greatsword, SKY.IronGreatsword, SKYL.LItemEnchIronGreatswordBoss, 1);
+            Enchanter.RegisterWeaponEnchantments(ItemType.Greatsword, SKY.DaedricGreatsword, SKYL.LItemEnchDaedricGreatswordBoss, 4);
+
+            Enchanter.RegisterWeaponEnchantments(ItemType.Mace, SKY.IronMace, SKYL.LItemEnchIronMaceBoss, 1);
+            Enchanter.RegisterWeaponEnchantments(ItemType.Mace, SKY.DaedricMace, SKYL.LItemEnchDaedricMaceBoss, 4);
+
+            Enchanter.RegisterWeaponEnchantments(ItemType.Sword, SKY.IronSword, SKYL.LItemEnchIronSwordBoss, 1);
+            Enchanter.RegisterWeaponEnchantments(ItemType.Sword, SKY.DaedricSword, SKYL.LItemEnchDaedricSwordBoss, 4);
+
+            Enchanter.RegisterWeaponEnchantments(ItemType.Waraxe, SKY.IronWarAxe, SKYL.LItemEnchIronWarAxeBoss, 1);
+            Enchanter.RegisterWeaponEnchantments(ItemType.Waraxe, SKY.DaedricWarAxe, SKYL.LItemEnchDaedricWarAxeBoss, 4);
+
+            Enchanter.RegisterWeaponEnchantments(ItemType.Warhammer, SKY.IronWarhammer, SKYL.LItemEnchIronWarhammerBoss, 1);
+            Enchanter.RegisterWeaponEnchantments(ItemType.Warhammer, SKY.DaedricWarhammer, SKYL.LItemEnchDaedricWarhammerBoss, 4);
+
+            var bossBattleAxe = LeveledList.CreateList(ItemType.Battleaxe, "JLL_BossBattleAxe", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+            var bossGreatsword = LeveledList.CreateList(ItemType.Greatsword, "JLL_BossGreatsword", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+            var bossMace = LeveledList.CreateList(ItemType.Mace, "JLL_BossMace", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+            var bossSword = LeveledList.CreateList(ItemType.Sword, "JLL_BossSword", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+            var bossWaraxe = LeveledList.CreateList(ItemType.Waraxe, "JLL_BossWaraxe", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+            var bossWarhammer = LeveledList.CreateList(ItemType.Warhammer, "JLL_BossWarhammer", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+
+
+            LeveledList.LinkList(SKYL.LItemBanditBossBattleaxe, bossBattleAxe, SKYL.LItemWeaponBattleAxeSpecial);
+            LeveledList.LinkList(SKYL.LItemBanditBossGreatsword, bossGreatsword, SKYL.LItemWeaponGreatSwordSpecial);
+            LeveledList.LinkList(SKYL.LItemBanditBossMace, bossMace, SKYL.LItemWeaponMaceSpecial);
+            LeveledList.LinkList(SKYL.LItemBanditBossSword, bossSword, SKYL.LItemWeaponSwordSpecial);
+            LeveledList.LinkList(SKYL.LItemBanditBossWarAxe, bossWaraxe, SKYL.LItemWeaponWarAxeSpecial);
+            LeveledList.LinkList(SKYL.LItemBanditBossWarhammer, bossWarhammer, SKYL.LItemWeaponWarhammerSpecial);
+
+            LeveledList.LinkList(SKYL.LItemBanditBattleaxe, LeveledList.FACTOR_JUNK, ItemType.Battleaxe, LootRQ.NoEnch);
+            LeveledList.LinkList(SKYL.LItemBanditGreatsword, LeveledList.FACTOR_JUNK, ItemType.Greatsword, LootRQ.NoEnch);
+            LeveledList.LinkList(SKYL.LItemBanditWarhammer, LeveledList.FACTOR_JUNK, ItemType.Warhammer, LootRQ.NoEnch);
+            LeveledList.LinkList(SKYL.LItemBanditWarAxe, LeveledList.FACTOR_JUNK, ItemType.Waraxe, LootRQ.NoEnch);
+            LeveledList.LinkList(SKYL.LItemBanditSword, LeveledList.FACTOR_JUNK, ItemType.Sword, LootRQ.NoEnch);
+            LeveledList.LinkList(SKYL.LItemBanditMace, LeveledList.FACTOR_JUNK, ItemType.Mace, LootRQ.NoEnch);
+            LeveledList.LinkList(SKYL.LItemBanditWeaponBow, LeveledList.FACTOR_JUNK, ItemType.Bow, LootRQ.NoEnch);
+
+            LeveledList.LinkList(SKYL.LItemBanditBossShield, LeveledList.FACTOR_RARE, ItemType.HeavyShield, LootRQ.NoEnch);
+
+            // DLC2 touches bandit lists
+            LeveledList.LockLists(SKYL.LItemBanditBattleaxe, SKYL.LItemBanditGreatsword, SKYL.LItemBanditWarhammer, SKYL.LItemBanditSword, SKYL.LItemBanditWarAxe, SKYL.LItemBanditMace, SKYL.LItemBanditWeaponBow);
+            LeveledList.LockLists(SKYL.LItemBanditBossBattleaxe, SKYL.LItemBanditBossGreatsword, SKYL.LItemBanditBossWarhammer, SKYL.LItemBanditBossSword, SKYL.LItemBanditBossWarAxe, SKYL.LItemBanditBossMace);
+
+
+            // Dremora
+            Enchanter.Reset();
+            Enchanter.RegisterWeaponEnchantments(ItemType.Battleaxe, SKY.IronBattleaxe, SKYL.LItemEnchIronBattleaxeBoss, 1);
+            Enchanter.RegisterWeaponEnchantments(ItemType.Battleaxe, SKY.DaedricBattleaxe, SKYL.LItemEnchDaedricBattleaxeBoss, 4);
+
+            var weaponItemTypes = new ItemType[] {
+                ItemType.Sword,
+                ItemType.Mace,
+                ItemType.Waraxe,
+                ItemType.Greatsword,
+                ItemType.Battleaxe,
+                ItemType.Warhammer
+            };
+
+            Enchanter.RegisterWeaponEnchantmentManual(SKY.IronSword, SKY.EnchIronSwordFire01, 1, weaponItemTypes);
+            Enchanter.RegisterWeaponEnchantmentManual(SKY.IronSword, SKY.EnchIronSwordFire02, 2, weaponItemTypes);
+            Enchanter.RegisterWeaponEnchantmentManual(SKY.IronSword, SKY.EnchIronSwordFire03, 3, weaponItemTypes);
+            Enchanter.RegisterWeaponEnchantmentManual(SKY.DaedricSword, SKY.EnchDaedricSwordFire04, 4, weaponItemTypes);
+            Enchanter.RegisterWeaponEnchantmentManual(SKY.DaedricSword, SKY.EnchDaedricSwordFire05, 5, weaponItemTypes);
+            Enchanter.RegisterWeaponEnchantmentManual(SKY.DaedricSword, SKY.EnchDaedricSwordFire06, 6, weaponItemTypes);
+
+            var dremoraBattleAxe = LeveledList.CreateList(ItemType.Battleaxe, "JLL_DremoraBattleAxe", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+            var dremoraGreatsword = LeveledList.CreateList(ItemType.Greatsword, "JLL_DremoraGreatsword", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+            var dremoraMace = LeveledList.CreateList(ItemType.Mace, "JLL_DremoraMace", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+            var dremoraSword = LeveledList.CreateList(ItemType.Sword, "JLL_DremoraSword", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+            var dremoraWaraxe = LeveledList.CreateList(ItemType.Waraxe, "JLL_DremoraWaraxe", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+            var dremoraWarhammer = LeveledList.CreateList(ItemType.Warhammer, "JLL_DremoraWarhammer", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+
+            LeveledList.LinkList(SKYL.LItemEnchWeapon1HDremoraFire, dremoraBattleAxe, dremoraGreatsword, dremoraMace, dremoraSword, dremoraWaraxe, dremoraWarhammer);
+
         }
     }
 }

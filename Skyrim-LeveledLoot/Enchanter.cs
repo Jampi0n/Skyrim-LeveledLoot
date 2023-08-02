@@ -36,9 +36,14 @@ namespace LeveledLoot {
         };
 
 
-        static readonly Dictionary<ItemType, Dictionary<int, Dictionary<IFormLink<IEffectRecordGetter>, Tuple<int, string, string>>>> enchantmentDict = new();
-        static readonly Dictionary<Tuple<FormKey, int>, Form> enchantedItems = new();
+        static Dictionary<ItemType, Dictionary<int, Dictionary<IFormLink<IEffectRecordGetter>, Tuple<int, string, string>>>> enchantmentDict = new();
+        static Dictionary<Tuple<FormKey, int>, Form> enchantedItems = new();
 
+
+        public static void Reset() {
+            enchantmentDict.Clear();
+            enchantedItems.Clear();
+        }
 
         static Form EnchantArmor(IArmorGetter armorGetter, ItemType itemType, int enchantTier) {
             var key = new Tuple<FormKey, int>(armorGetter.FormKey, -enchantTier);
@@ -315,6 +320,31 @@ namespace LeveledLoot {
                                 }
                             }
                         }
+                    }
+                }
+            }
+        }
+
+        public static void RegisterWeaponEnchantmentManual(IFormLink<IWeaponGetter> itemLink, IFormLink<IWeaponGetter> enchantedItemLink, int tier, params ItemType[] itemTypes) {
+            if(itemLink.TryResolve(Program.State.LinkCache, out var weapon)) {
+                if(enchantedItemLink.TryResolve(Program.State.LinkCache, out var enchantedWeapon)) {
+                    var itemName = weapon.Name!.String!;
+                    var enchantedItemName = enchantedWeapon.Name!.String!;
+                    var ench = enchantedWeapon.ObjectEffect.AsSetter();
+                    var enchEditorID = "";
+                    var enchAmount = enchantedWeapon.EnchantmentAmount.GetValueOrDefault(0);
+                    if(ench.TryResolve(Program.State.LinkCache, out var effectRecord)) {
+                        enchEditorID = effectRecord.EditorID!;
+                    }
+                    foreach(var itemType in itemTypes) {
+                        if(!enchantmentDict.ContainsKey(itemType)) {
+                            enchantmentDict.Add(itemType, new Dictionary<int, Dictionary<IFormLink<IEffectRecordGetter>, Tuple<int, string, string>>>());
+                        }
+                        var dict = enchantmentDict[itemType];
+                        if(!dict.ContainsKey(tier)) {
+                            dict.Add(tier, new Dictionary<IFormLink<IEffectRecordGetter>, Tuple<int, string, string>>());
+                        }
+                        dict[tier][ench] = new Tuple<int, string, string>(enchAmount, enchantedItemName.Replace(itemName, "$NAME$"), enchEditorID);
                     }
                 }
             }

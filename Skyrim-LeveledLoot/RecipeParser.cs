@@ -70,7 +70,7 @@ namespace LeveledLoot {
                     if(parseWeapons) {
                         if(item is IFormLink<IWeaponGetter> weaponLink) {
                             if(weaponLink.TryResolve(Program.State.LinkCache, out var weapon)) {
-                                tierList[itemType].Add(new Tuple<uint, ItemMaterial>(weapon.BasicStats.Value, mat));
+                                tierList[itemType].Add(new Tuple<uint, ItemMaterial>(weapon.BasicStats!.Value, mat));
                             }
                         }
                     }
