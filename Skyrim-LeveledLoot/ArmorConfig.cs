@@ -254,7 +254,7 @@ namespace LeveledLoot {
 
             // Add craftable armor to loot
             HashSet<FormKey> craftingPerks = new();
-            if(Skyrim.ActorValueInformation.AVSmithing.TryResolve(Program.state.LinkCache, out var avSmithing)) {
+            if(Skyrim.ActorValueInformation.AVSmithing.TryResolve(Program.State.LinkCache, out var avSmithing)) {
                 foreach(var perk in avSmithing.PerkTree) {
                     craftingPerks.Add(perk.Perk.FormKey);
                 }
@@ -267,17 +267,18 @@ namespace LeveledLoot {
                 }
             }
 
-            List<ItemType> itemTypes = new List<ItemType>();
-            itemTypes.Add(ItemType.HeavyHelmet);
-            itemTypes.Add(ItemType.HeavyCuirass);
-            itemTypes.Add(ItemType.HeavyGauntlets);
-            itemTypes.Add(ItemType.HeavyBoots);
-            itemTypes.Add(ItemType.HeavyShield);
-            itemTypes.Add(ItemType.LightHelmet);
-            itemTypes.Add(ItemType.LightCuirass);
-            itemTypes.Add(ItemType.LightGauntlets);
-            itemTypes.Add(ItemType.LightBoots);
-            itemTypes.Add(ItemType.LightShield);
+            var itemTypes = new List<ItemType> {
+                ItemType.HeavyHelmet,
+                ItemType.HeavyCuirass,
+                ItemType.HeavyGauntlets,
+                ItemType.HeavyBoots,
+                ItemType.HeavyShield,
+                ItemType.LightHelmet,
+                ItemType.LightCuirass,
+                ItemType.LightGauntlets,
+                ItemType.LightBoots,
+                ItemType.LightShield
+            };
 
             Dictionary<ItemType, List<Tuple<uint, ItemMaterial>>> tierList = new();
             foreach(var itemType in itemTypes) {
@@ -285,7 +286,7 @@ namespace LeveledLoot {
                 foreach(var mat in regularMaterials) {
                     var item = mat.GetFirst(itemType);
                     if(item is IFormLink<IArmorGetter> armorLink) {
-                        if(armorLink.TryResolve(Program.state.LinkCache, out var armor)) {
+                        if(armorLink.TryResolve(Program.State.LinkCache, out var armor)) {
                             tierList[itemType].Add(new Tuple<uint, ItemMaterial>(armor.Value, mat));
                         }
                     }
@@ -296,7 +297,7 @@ namespace LeveledLoot {
                 tierList[itemType].Add(new Tuple<uint, ItemMaterial>(uint.MaxValue, ULTIMATE));
             }
 
-            foreach(var cob in Program.state.LoadOrder.PriorityOrder.ConstructibleObject().WinningOverrides()) {
+            foreach(var cob in Program.State.LoadOrder.PriorityOrder.ConstructibleObject().WinningOverrides()) {
                 bool isValidCob = true;
                 var modName = cob.FormKey.ModKey.Name;
                 if(modName == "Skyrim" || modName == "Dawnguard" || modName == "HearthFires" || modName == "Dragonborn") {
@@ -305,8 +306,7 @@ namespace LeveledLoot {
                 if(cob.CreatedObjectCount == 1) {
                     foreach(var cond in cob.Conditions) {
                         if(cond.Data.Function == Condition.Function.HasPerk) {
-                            var hasPerk = cond.Data as HasPerkConditionData;
-                            if(hasPerk != null) {
+                            if(cond.Data is HasPerkConditionData hasPerk) {
                                 if(!craftingPerks.Contains(hasPerk.Perk.Link.FormKey)) {
                                     isValidCob = false;
                                     break;
@@ -324,9 +324,12 @@ namespace LeveledLoot {
                     isValidCob = false;
                 }
                 if(isValidCob) {
-                    if(cob.CreatedObject.TryResolve(Program.state.LinkCache, out var createdItem)) {
+                    if(cob.CreatedObject.TryResolve(Program.State.LinkCache, out var createdItem)) {
                         if(createdItem is IArmorGetter armor) {
                             ItemType? itemType = null;
+                            if(armor.BodyTemplate == null) {
+                                continue;
+                            }
                             if(armor.BodyTemplate.ArmorType == ArmorType.HeavyArmor) {
                                 if(armor.HasKeyword(Skyrim.Keyword.ArmorHelmet)) {
                                     itemType = ItemType.HeavyHelmet;
@@ -356,7 +359,7 @@ namespace LeveledLoot {
                                 var list = tierList[itemType.Value];
                                 for(int i = 0; i < list.Count; i++) {
                                     if(armor.Value <= list[i].Item1) {
-                                        list[i].Item2.AddItem(itemType, armor.AsLink());
+                                        list[i].Item2.AddItem(itemType, armor.ToLink());
                                         break;
                                     }
                                 }

@@ -15,43 +15,43 @@ using Form = Mutagen.Bethesda.Plugins.IFormLink<Mutagen.Bethesda.Plugins.Records
 namespace LeveledLoot {
     class LeveledList {
 
-        static string prefix = "JLL_";
-        public static int NUM_CHILDREN = 16;
-        public static int FACTOR_JUNK = 1;
-        public static int FACTOR_COMMON = 2;
-        public static int FACTOR_RARE = 3;
-        public static int FACTOR_BEST = 4;
-        static int MAX_DEPTH = 2;
-        static int MAX_LEAVES = (int)Math.Pow(NUM_CHILDREN, MAX_DEPTH);
-        static int[] LEVEL_LIST = new int[] { 1, 4, 7, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 70, 80, 90, 100 };
-        static List<FormLink<ILeveledItemGetter>> lockedLists = new();
+        static readonly string prefix = "JLL_";
+        public static readonly int NUM_CHILDREN = 16;
+        public static readonly int FACTOR_JUNK = 1;
+        public static readonly int FACTOR_COMMON = 2;
+        public static readonly int FACTOR_RARE = 3;
+        public static readonly int FACTOR_BEST = 4;
+        static readonly int MAX_DEPTH = 2;
+        static readonly int MAX_LEAVES = (int)Math.Pow(NUM_CHILDREN, MAX_DEPTH);
+        static readonly int[] LEVEL_LIST = new int[] { 1, 4, 7, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 70, 80, 90, 100 };
+        static readonly List<FormLink<ILeveledItemGetter>> lockedLists = new();
         static LeveledItem? dummyList;
 
-        static HashSet<IFormLinkGetter<ILeveledItemGetter>> adjustedWeaponEnchLists = new();
+        static readonly HashSet<IFormLinkGetter<ILeveledItemGetter>> adjustedWeaponEnchLists = new();
         public static void AdjustWeaponEnchList(IFormLinkGetter<ILeveledItemGetter> vanillaList) {
             if(adjustedWeaponEnchLists.Contains(vanillaList)) {
                 return;
             }
             adjustedWeaponEnchLists.Add(vanillaList);
-            var leveledItemGetter = vanillaList.Resolve(Program.state.LinkCache);
+            var leveledItemGetter = vanillaList.Resolve(Program.State.LinkCache);
             var entries = leveledItemGetter.Entries;
-            if(entries == null || entries.Count() == 0) {
+            if(entries == null || entries.Count == 0) {
                 return;
             }
-            var first = entries.First().Data!.Reference.Resolve(Program.state.LinkCache);
+            var first = entries[0].Data!.Reference.Resolve(Program.State.LinkCache);
             if(first is ILeveledItemGetter) {
                 foreach(var entry in entries) {
-                    var entryRef = entry.Data!.Reference.Resolve(Program.state.LinkCache);
+                    var entryRef = entry.Data!.Reference.Resolve(Program.State.LinkCache);
                     if(entryRef is ILeveledItemGetter entryLeveledItem) {
                         AdjustWeaponEnchList(entryLeveledItem.ToLink());
                     }
                 }
             } else if(first is IWeaponGetter) {
-                var editList = Program.state.PatchMod.LeveledItems.GetOrAddAsOverride(leveledItemGetter);
+                var editList = Program.State.PatchMod.LeveledItems.GetOrAddAsOverride(leveledItemGetter);
                 editList.Flags = LeveledItem.Flag.CalculateFromAllLevelsLessThanOrEqualPlayer;
                 var enchList = new List<IFormLink<IWeaponGetter>>();
                 foreach(var entry in editList.Entries!) {
-                    var entryRef = entry.Data!.Reference.Resolve(Program.state.LinkCache);
+                    var entryRef = entry.Data!.Reference.Resolve(Program.State.LinkCache);
                     if(entryRef is IWeaponGetter entryWeapon) {
                         enchList.Add(entryWeapon.ToLink());
                     } else {
@@ -91,7 +91,7 @@ namespace LeveledLoot {
             requirements = modifiedRequirements.ToArray();
 
             foreach(ItemMaterial itemMaterial in materials) {
-                HashSet<LootRQ> commonRequirements = itemMaterial.requirements.Intersect(requirements).ToHashSet();
+                var commonRequirements = itemMaterial.requirements.Intersect(requirements).ToHashSet();
                 if(!commonRequirements.SetEquals(itemMaterial.requirements)) {
                     continue;
                 }
@@ -117,27 +117,23 @@ namespace LeveledLoot {
                 itemChancesInt.Add((int)(itemChancesDouble.ElementAt(i) * MAX_LEAVES / totalChance));
             }
 
-            var chanceList = ChanceList.getChanceList(newItemList.ToArray(), itemChancesIntBetter.ToArray())!;
+            var chanceList = ChanceList.GetChanceList(newItemList.ToArray(), itemChancesIntBetter.ToArray())!;
             var tree = RandomTree.GetRandomTree(chanceList, name + "_Lvl" + level);
             return tree.linkedItem;
         }
 
         public static LeveledItem CreateListCount(Enum itemType, string name, short count, int levelFactor, IEnumerable<ItemMaterial> materials, params LootRQ[] requirements) {
-            LeveledItem leveledList = Program.state!.PatchMod.LeveledItems.AddNew();
+            LeveledItem leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
             leveledList.EditorID = name;
             leveledList.Flags = LeveledItem.Flag.CalculateForEachItemInCount | LeveledItem.Flag.SpecialLoot;
             foreach(int level in LEVEL_LIST) {
                 Form f = CreateSubList(itemType, level * levelFactor, name, materials, requirements);
                 LeveledItemEntry entry = new();
-                if(entry.Data == null) {
-                    entry.Data = new LeveledItemEntryData();
-                }
+                entry.Data ??= new LeveledItemEntryData();
                 entry.Data.Count = count;
                 entry.Data.Level = (short)level;
                 entry.Data.Reference.SetTo(f.FormKey);
-                if(leveledList.Entries == null) {
-                    leveledList.Entries = new Noggog.ExtendedList<LeveledItemEntry>();
-                }
+                leveledList.Entries ??= new Noggog.ExtendedList<LeveledItemEntry>();
                 leveledList.Entries!.Add(entry);
             }
             return leveledList;
@@ -149,12 +145,10 @@ namespace LeveledLoot {
 
 
         public static void LinkListCount(FormLink<ILeveledItemGetter> vanillaList, short count, int levelFactor, Enum itemType, IEnumerable<ItemMaterial> materials, params LootRQ[] requirements) {
-            LeveledItem leveledList = Program.state!.PatchMod.LeveledItems.GetOrAddAsOverride(vanillaList, Program.state.LinkCache);
+            LeveledItem leveledList = Program.State!.PatchMod.LeveledItems.GetOrAddAsOverride(vanillaList, Program.State.LinkCache);
             leveledList.Entries = new Noggog.ExtendedList<LeveledItemEntry>();
             LeveledItemEntry entry = new();
-            if(entry.Data == null) {
-                entry.Data = new LeveledItemEntryData();
-            }
+            entry.Data ??= new LeveledItemEntryData();
             entry.Data.Count = count;
             entry.Data.Level = 1;
             leveledList.Flags |= LeveledItem.Flag.CalculateForEachItemInCount;
@@ -176,14 +170,12 @@ namespace LeveledLoot {
         }
 
         public static void LinkList(FormLink<ILeveledItemGetter> oldList, params Form[] newList) {
-            LeveledItem leveledList = Program.state!.PatchMod.LeveledItems.GetOrAddAsOverride(oldList, Program.state.LinkCache);
+            LeveledItem leveledList = Program.State!.PatchMod.LeveledItems.GetOrAddAsOverride(oldList, Program.State.LinkCache);
             leveledList.Flags = LeveledItem.Flag.CalculateForEachItemInCount;
             leveledList.Entries = new Noggog.ExtendedList<LeveledItemEntry>();
             foreach(var list in newList) {
                 LeveledItemEntry entry = new();
-                if(entry.Data == null) {
-                    entry.Data = new LeveledItemEntryData();
-                }
+                entry.Data ??= new LeveledItemEntryData();
                 entry.Data.Count = 1;
                 entry.Data.Level = 1;
                 entry.Data.Reference.SetTo(list.FormKey);
@@ -192,14 +184,12 @@ namespace LeveledLoot {
         }
 
         public static void LinkListCount(FormLink<ILeveledItemGetter> oldList, short count, params Form[] newList) {
-            LeveledItem leveledList = Program.state!.PatchMod.LeveledItems.GetOrAddAsOverride(oldList, Program.state.LinkCache);
+            LeveledItem leveledList = Program.State!.PatchMod.LeveledItems.GetOrAddAsOverride(oldList, Program.State.LinkCache);
             leveledList.Flags = LeveledItem.Flag.CalculateForEachItemInCount;
             leveledList.Entries = new Noggog.ExtendedList<LeveledItemEntry>();
             foreach(var list in newList) {
                 LeveledItemEntry entry = new();
-                if(entry.Data == null) {
-                    entry.Data = new LeveledItemEntryData();
-                }
+                entry.Data ??= new LeveledItemEntryData();
                 entry.Data.Count = count;
                 entry.Data.Level = 1;
                 entry.Data.Reference.SetTo(list.FormKey);
@@ -214,12 +204,13 @@ namespace LeveledLoot {
         }
 
         public static void InitializePatch() {
-            dummyList = Program.state.PatchMod.LeveledItems.AddNew();
+            dummyList = Program.State.PatchMod.LeveledItems.AddNew();
             dummyList.Entries = new Noggog.ExtendedList<LeveledItemEntry>();
+            dummyList.EditorID = prefix + "THIS_LIST_ABSORBS_RUNTIME_LIST_CHANGES_FROM_DLC2";
         }
 
         public static void FinalizePatch() {
-            var dlc2Init = Program.state.PatchMod.Quests.GetOrAddAsOverride(Dragonborn.Quest.DLC2Init, Program.state.LinkCache);
+            var dlc2Init = Program.State.PatchMod.Quests.GetOrAddAsOverride(Dragonborn.Quest.DLC2Init, Program.State.LinkCache);
             var script = dlc2Init.VirtualMachineAdapter!.Scripts.Find((entry) => entry.Name == "DLC2_QF_DLC2_MQ04_02016E02")!;
             foreach(var list in lockedLists) {
                 foreach(var property in script.Properties) {

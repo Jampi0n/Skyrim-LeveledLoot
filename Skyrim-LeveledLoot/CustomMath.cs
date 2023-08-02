@@ -69,8 +69,9 @@ namespace LeveledLoot {
             int currentSum = 0;
             for(int i = 0; i < sourceList.Count; ++i) {
                 var exact = sourceList.ElementAt(i) / total * sum;
-                var node = new Node(i, exact);
-                node.currentApproximation = (int)exact;
+                var node = new Node(i, exact) {
+                    currentApproximation = (int)exact
+                };
                 node.Update();
                 currentSum += (int)exact;
                 approxList.Add(node);

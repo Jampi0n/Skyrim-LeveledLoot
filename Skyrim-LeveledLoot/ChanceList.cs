@@ -18,12 +18,12 @@ namespace LeveledLoot {
         public int totalChance;
         public string name;
 
-        public static ChanceList create(Form item, int chance, ChanceList? before) {
-            ChanceList list = new ChanceList(item, chance, before);
+        public static ChanceList Create(Form item, int chance, ChanceList? before) {
+            var list = new ChanceList(item, chance, before);
             return list.Update(chance);
         }
 
-        public static ChanceList? getChanceList(Form[] itemList, int[] chanceList) {
+        public static ChanceList? GetChanceList(Form[] itemList, int[] chanceList) {
             int div = CustomMath.GcdList(chanceList.ToList());
             for(int i = 0; i < chanceList.Length; ++i) {
                 chanceList[i] /= div;
@@ -31,7 +31,7 @@ namespace LeveledLoot {
             ChanceList? newChanceList = null;
             for(int i = 0; i < itemList.Length; ++i) {
                 if(chanceList[i] > 0) {
-                    newChanceList = create(itemList[i], chanceList[i], newChanceList);
+                    newChanceList = Create(itemList[i], chanceList[i], newChanceList);
                 }
             }
             if(newChanceList == null) {
@@ -140,7 +140,7 @@ namespace LeveledLoot {
         public override string ToString() {
             string str = "";
             foreach(ChanceList chanceElement in this.ToArray()) {
-                var item = chanceElement.item.TryResolve(Program.state.LinkCache);
+                var item = chanceElement.item.TryResolve(Program.State.LinkCache);
                 str += "" + chanceElement.chance + ":" + item!.EditorID + ", ";
             }
             return str;

@@ -41,7 +41,7 @@ namespace LeveledLoot {
         public static ItemMaterial ULTIMATE = new("Ultimate", 0, 2, 100, 240, LootRQ.Rare);
 
         public static void Config() {
-            var baseArrowDragon75 = Program.state.PatchMod.LeveledItems.AddNew();
+            var baseArrowDragon75 = Program.State.PatchMod.LeveledItems.AddNew();
             baseArrowDragon75.EditorID = "JLL_BaseArrowDragon75";
             baseArrowDragon75.ChanceNone = 25;
             baseArrowDragon75.Flags = LeveledItem.Flag.CalculateForEachItemInCount;

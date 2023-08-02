@@ -13,7 +13,7 @@ using Synthesis.Bethesda.Commands;
 namespace LeveledLoot {
     public class Program {
         private static IPatcherState<ISkyrimMod, ISkyrimModGetter>? _state = null;
-        public static IPatcherState<ISkyrimMod, ISkyrimModGetter> state {
+        public static IPatcherState<ISkyrimMod, ISkyrimModGetter> State {
             get {
                 if(_state == null) {
                     throw new NullReferenceException();
@@ -40,6 +40,11 @@ namespace LeveledLoot {
                     }
                 })
                 .Run(args);
+        }
+
+        public static bool TestTest() {
+            var formKey = new FormKey(State.PatchMod.ModKey, 0x800);
+            return State.PatchMod.LeveledItems.ContainsKey(formKey);
         }
 
         public static void RunPatch(IPatcherState<ISkyrimMod, ISkyrimModGetter> state) {
