@@ -239,7 +239,7 @@ namespace LeveledLoot {
                     }
                     if(variants) {
                         leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
-                        leveledList.EditorID = name + "_" + itemType.ToString() + "_Ench_Variants";
+                        leveledList.EditorID = LeveledList.prefix + "EnchVariantSelection_Lvl" + level + "_" + name;
                         for(int i = 0; i < itemMap[itemType].Count; ++i) {
                             var itemVariant = itemMap[itemType].ElementAt(i);
                             for(int j = 0; j < itemVariant.weight; ++j) {

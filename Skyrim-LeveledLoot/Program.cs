@@ -60,7 +60,7 @@ namespace LeveledLoot {
 
 
             ArmorConfig.Config();
-            //WeaponConfig.Config();
+            WeaponConfig.Config();
             //MiscConfig.Config();
             //SoulGemConfig.Config();
 

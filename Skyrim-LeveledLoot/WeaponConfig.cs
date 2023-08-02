@@ -93,6 +93,33 @@ namespace LeveledLoot {
             DAEDRIC.DefaultWeapon(SKY.DaedricSword, SKY.DaedricWarAxe, SKY.DaedricMace, SKY.DaedricDagger, SKY.DaedricGreatsword, SKY.DaedricBattleaxe, SKY.DaedricWarhammer, SKY.DaedricBow);
             DAEDRIC.Arrow75(SKYL.BaseArrowDaedric75);
 
+            // Find enchantments
+            Enchanter.RegisterWeaponEnchantments(ItemType.Battleaxe, SKY.IronBattleaxe, SKYL.LItemEnchIronBattleaxe, 1);
+            Enchanter.RegisterWeaponEnchantments(ItemType.Battleaxe, SKY.DaedricBattleaxe, SKYL.LItemEnchDaedricBattleaxe, 4);
+
+            Enchanter.RegisterWeaponEnchantments(ItemType.Bow, SKY.HuntingBow, SKYL.LItemEnchHuntingBow, 1);
+            Enchanter.RegisterWeaponEnchantments(ItemType.Bow, SKY.DaedricBow, SKYL.LItemEnchDaedricBow, 4);
+
+            Enchanter.RegisterWeaponEnchantments(ItemType.Greatsword, SKY.IronGreatsword, SKYL.LItemEnchIronGreatsword, 1);
+            Enchanter.RegisterWeaponEnchantments(ItemType.Greatsword, SKY.DaedricGreatsword, SKYL.LItemEnchDaedricGreatsword, 4);
+
+            Enchanter.RegisterWeaponEnchantments(ItemType.Mace, SKY.IronMace, SKYL.LItemEnchIronMace, 1);
+            Enchanter.RegisterWeaponEnchantments(ItemType.Mace, SKY.DaedricMace, SKYL.LItemEnchDaedricMace, 4);
+
+            Enchanter.RegisterWeaponEnchantments(ItemType.Dagger, SKY.IronDagger, SKYL.LItemEnchIronDagger, 1);
+            Enchanter.RegisterWeaponEnchantments(ItemType.Dagger, SKY.DaedricDagger, SKYL.LItemEnchDaedricDagger, 4);
+
+            Enchanter.RegisterWeaponEnchantments(ItemType.Sword, SKY.IronSword, SKYL.LItemEnchIronSword, 1);
+            Enchanter.RegisterWeaponEnchantments(ItemType.Sword, SKY.DaedricSword, SKYL.LItemEnchDaedricSword, 4);
+
+            Enchanter.RegisterWeaponEnchantments(ItemType.Waraxe, SKY.IronWarAxe, SKYL.LItemEnchIronWarAxe, 1);
+            Enchanter.RegisterWeaponEnchantments(ItemType.Waraxe, SKY.DaedricWarAxe, SKYL.LItemEnchDaedricWarAxe, 4);
+
+            Enchanter.RegisterWeaponEnchantments(ItemType.Warhammer, SKY.IronWarhammer, SKYL.LItemEnchIronWarhammer, 1);
+            Enchanter.RegisterWeaponEnchantments(ItemType.Warhammer, SKY.DaedricWarhammer, SKYL.LItemEnchDaedricWarhammer, 4);
+
+
+            RecipeParser.Parse(ULTIMATE, false, true);
 
             LeveledList.LinkList(SKYL.LItemWeaponSword, LeveledList.FACTOR_COMMON, ItemType.Sword, LootRQ.NoEnch, LootRQ.Rare);
             LeveledList.LinkList(SKYL.LItemWeaponSwordBest, LeveledList.FACTOR_BEST, ItemType.Sword, LootRQ.NoEnch, LootRQ.Rare);

@@ -80,7 +80,7 @@ namespace LeveledLoot {
             var key = new Tuple<FormKey, int>(weaponGetter.FormKey, -enchantTier);
             if(!enchantedItems.ContainsKey(key)) {
                 var leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
-                leveledList.EditorID = prefix + "LItemWeapon_EnchTier" + (1 + enchantTier) + "_" + weaponGetter.EditorID;
+                leveledList.EditorID = prefix + "LItemWeapon_EnchTier" + enchantTier + "_" + weaponGetter.EditorID;
 
                 if(!enchantmentDict.ContainsKey(itemType)) {
                     throw new Exception("No enchantments for item type.");
@@ -102,9 +102,7 @@ namespace LeveledLoot {
                     weapon.EditorID += "_" + enchTuple.Value.Item3;
                     entry.Data.Reference.SetTo(weapon.ToLink());
 
-                    if(leveledList.Entries == null) {
-                        leveledList.Entries = new Noggog.ExtendedList<LeveledItemEntry>();
-                    }
+                    leveledList.Entries ??= new Noggog.ExtendedList<LeveledItemEntry>();
                     leveledList.Entries!.Add(entry);
                 }
                 enchantedItems[key] = leveledList.ToLink();
@@ -153,8 +151,25 @@ namespace LeveledLoot {
                     } else if(item is IWeaponGetter w) {
                         weaponGetter = w;
 
+                        if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeBattleaxe)) {
+                            itemType = ItemType.Battleaxe;
+                        } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeBow)) {
+                            itemType = ItemType.Bow;
+                        } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeDagger)) {
+                            itemType = ItemType.Dagger;
+                        } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeGreatsword)) {
+                            itemType = ItemType.Greatsword;
+                        } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeMace)) {
+                            itemType = ItemType.Mace;
+                        } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeSword)) {
+                            itemType = ItemType.Sword;
+                        } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeWarAxe)) {
+                            itemType = ItemType.Waraxe;
+                        } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeWarhammer)) {
+                            itemType = ItemType.Warhammer;
+                        }
                     }
-                    if(armorGetter == null && weaponGetter == null) { 
+                    if(armorGetter == null && weaponGetter == null) {
                         throw new Exception("Item must be armor or weapon.");
                     }
                     if(itemType == null) {
@@ -205,14 +220,12 @@ namespace LeveledLoot {
             return enchantedItems[key];
         }
 
-        public static void RegisterEnchantments(ItemType itemType, IFormLink<ISkyrimMajorRecordGetter> itemLink, IFormLink<ILeveledItemGetter> enchantmentLists, int tier) {
+        public static void RegisterArmorEnchantments(ItemType itemType, IFormLink<ISkyrimMajorRecordGetter> itemLink, IFormLink<ILeveledItemGetter> enchantmentLists, int tier) {
             var item = itemLink.TryResolve(Program.State.LinkCache);
             string itemName = "";
             if(item != null) {
                 if(item is IArmorGetter armor) {
                     itemName = armor.Name!.String!;
-                } else if(item is IWeaponGetter weapon) {
-                    itemName = weapon.Name!.String!;
                 }
             }
             if(itemName == "") {
@@ -235,12 +248,8 @@ namespace LeveledLoot {
                             enchantedItemName = armor.Name!.String!;
                             ench = armor.ObjectEffect.AsSetter();
                             enchAmount = armor.EnchantmentAmount.GetValueOrDefault(0);
-                        } else if(enchantedItem is IWeaponGetter weapon) {
-                            enchantedItemName = weapon.Name!.String!;
-                            ench = weapon.ObjectEffect.AsSetter();
-                            enchAmount = weapon.EnchantmentAmount.GetValueOrDefault(0);
                         } else {
-                            throw new Exception("Enchanted item has unexpected form type.");
+                            throw new Exception("Must be armor.");
                         }
                         if(!enchantedItemName.Contains(itemName)) {
                             throw new Exception("Enchanted item name must contain base item name as substring.");
@@ -250,6 +259,61 @@ namespace LeveledLoot {
                         }
                         if(ench.TryResolve(Program.State.LinkCache, out var effectRecord)) {
                             dict[tier][ench] = new Tuple<int, string, string>(enchAmount, enchantedItemName.Replace(itemName, "$NAME$"), effectRecord.EditorID!);
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void RegisterWeaponEnchantments(ItemType itemType, IFormLink<ISkyrimMajorRecordGetter> itemLink, IFormLink<ILeveledItemGetter> enchantmentLists, int startingTier) {
+            var item = itemLink.TryResolve(Program.State.LinkCache);
+            string itemName = "";
+            if(item != null) {
+                if(item is IWeaponGetter weapon) {
+                    itemName = weapon.Name!.String!;
+                }
+            }
+            if(itemName == "") {
+                throw new Exception("Item has no name.");
+            }
+            if(!enchantmentDict.ContainsKey(itemType)) {
+                enchantmentDict.Add(itemType, new Dictionary<int, Dictionary<IFormLink<IEffectRecordGetter>, Tuple<int, string, string>>>());
+            }
+            var dict = enchantmentDict[itemType];
+            if(enchantmentLists.TryResolve(Program.State.LinkCache, out var enchList)) {
+                foreach(var entry in enchList.Entries!) {
+                    if(entry.Data!.Reference.TryResolve(Program.State.LinkCache, out var subListForm)) {
+                        if(subListForm is ILeveledItemGetter subList) {
+                            int i = startingTier;
+                            if(subList.Entries != null) {
+                                foreach(var subEntry in subList.Entries) {
+                                    if(!dict.ContainsKey(i)) {
+                                        dict.Add(i, new Dictionary<IFormLink<IEffectRecordGetter>, Tuple<int, string, string>>());
+                                    }
+                                    if(subEntry.Data!.Reference.TryResolve(Program.State.LinkCache, out var enchantedItem)) {
+                                        string enchantedItemName = "";
+                                        IFormLink<IEffectRecordGetter> ench;
+                                        int enchAmount = 0;
+                                        if(enchantedItem is IWeaponGetter weapon) {
+                                            enchantedItemName = weapon.Name!.String!;
+                                            ench = weapon.ObjectEffect.AsSetter();
+                                            enchAmount = weapon.EnchantmentAmount.GetValueOrDefault(0);
+                                        } else {
+                                            throw new Exception("Must be weapon.");
+                                        }
+                                        if(!enchantedItemName.Contains(itemName)) {
+                                            throw new Exception("Enchanted item name must contain base item name as substring.");
+                                        }
+                                        if(ench.IsNull) {
+                                            throw new Exception("Enchanted item has no enchantment.");
+                                        }
+                                        if(ench.TryResolve(Program.State.LinkCache, out var effectRecord)) {
+                                            dict[i][ench] = new Tuple<int, string, string>(enchAmount, enchantedItemName.Replace(itemName, "$NAME$"), effectRecord.EditorID!);
+                                        }
+                                    }
+                                    i++;
+                                }
+                            }
                         }
                     }
                 }

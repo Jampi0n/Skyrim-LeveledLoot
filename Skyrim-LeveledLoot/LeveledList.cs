@@ -15,7 +15,7 @@ using Form = Mutagen.Bethesda.Plugins.IFormLink<Mutagen.Bethesda.Plugins.Records
 namespace LeveledLoot {
     class LeveledList {
 
-        static readonly string prefix = "JLL_";
+        public static readonly string prefix = "JLL_";
         public static readonly int NUM_CHILDREN = 16;
         public static readonly int FACTOR_JUNK = 1;
         public static readonly int FACTOR_COMMON = 2;
