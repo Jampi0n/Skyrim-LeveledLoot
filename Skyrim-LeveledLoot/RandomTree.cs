@@ -21,16 +21,16 @@ namespace LeveledLoot {
 
         static readonly Dictionary<string, RandomTree> treeMap = new();
 
-        public static RandomTree GetRandomTree(ChanceList chanceList, string newName) {
+        public static RandomTree GetRandomTree(ChanceList chanceList, string newName, ref int counter) {
             string key = chanceList.Hash();
             if(treeMap.ContainsKey(key)) {
                 return treeMap[key];
             } else {
-                return new RandomTree(chanceList, newName);
+                return new RandomTree(chanceList, newName, ref counter);
             }
         }
 
-        private RandomTree(ChanceList chanceList, string name) {
+        private RandomTree(ChanceList chanceList, string name, ref int counter) {
             string key = chanceList.Hash();
             treeMap.Add(key, this);
             this.name = name;
@@ -56,10 +56,10 @@ namespace LeveledLoot {
 
                     string newName = name + "_" + children.Count;
                     ChanceList newChanceList2 = ChanceList.GetChanceList(newItemList.ToArray(), newChanceList.ToArray())!;
-                    RandomTree child = newChanceList2.Hash() == key ? new RandomTree(newChanceList2, newName) : RandomTree.GetRandomTree(newChanceList2, newName);
+                    RandomTree child = newChanceList2.Hash() == key ? new RandomTree(newChanceList2, newName, ref counter) : RandomTree.GetRandomTree(newChanceList2, newName, ref counter);
                     children.AddLast(child);
                 }
-
+                counter++;
                 LeveledItem leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
                 leveledList.EditorID = name;
                 for(int i = 0; i < children.Count; ++i) {
@@ -70,10 +70,6 @@ namespace LeveledLoot {
                     entry.Data.Reference = (Mutagen.Bethesda.Plugins.IFormLink<IItemGetter>)children.ElementAt(i).linkedItem;
                     leveledList.Entries ??= new Noggog.ExtendedList<LeveledItemEntry>();
                     leveledList.Entries!.Add(entry);
-                }
-                if(children.Count >= 21) {
-                    Console.WriteLine("????");
-                    Console.WriteLine(key);
                 }
                 linkedItem = leveledList.ToLink();
             } else {

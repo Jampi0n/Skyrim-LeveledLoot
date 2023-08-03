@@ -238,6 +238,7 @@ namespace LeveledLoot {
                         }
                     }
                     if(variants) {
+                        Statistics.instance.variantSelectionLists++;
                         leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
                         leveledList.EditorID = LeveledList.prefix + name + "_EnchVariantSelection_Lvl" + level;
                         for(int i = 0; i < itemMap[itemType].Count; ++i) {
@@ -268,6 +269,7 @@ namespace LeveledLoot {
                     }
                 }
                 if(!listMap.ContainsKey(itemType)) {
+                    Statistics.instance.variantSelectionLists++;
                     LeveledItem leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
                     leveledList.EditorID = LeveledList.prefix + name + "_" + itemType.ToString() + "_Variants";
                     for(int i = 0; i < itemMap[itemType].Count; ++i) {

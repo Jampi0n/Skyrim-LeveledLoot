@@ -16,14 +16,14 @@ namespace LeveledLoot {
     class LeveledList {
 
         public static readonly string prefix = "JLL_";
-        public static readonly int NUM_CHILDREN = 6;
+        public static readonly int NUM_CHILDREN = 200;
         public static readonly int FACTOR_JUNK = 1;
         public static readonly int FACTOR_COMMON = 2;
         public static readonly int FACTOR_RARE = 3;
         public static readonly int FACTOR_BEST = 4;
-        static readonly int MAX_DEPTH = 2;
+        static readonly int MAX_DEPTH = 1;
         static readonly int MAX_LEAVES = (int)Math.Pow(NUM_CHILDREN, MAX_DEPTH);
-        static readonly int[] LEVEL_LIST = new int[] { 1, 4, 7, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 70, 80, 90, 100 };
+        static readonly int[] LEVEL_LIST = new int[] { 1, 5, 10, 15, 21, 27, 34, 42, 50, 60, 70, 80, 90, 100 };
         static readonly List<FormLink<ILeveledItemGetter>> lockedLists = new();
         static LeveledItem? dummyList;
 
@@ -95,7 +95,7 @@ namespace LeveledLoot {
                 if(!commonRequirements.SetEquals(itemMaterial.requirements)) {
                     continue;
                 }
-                Form? f = itemMaterial.GetItem(itemType, enchant, level, name);
+                Form? f = itemMaterial.GetItem(itemType, enchant, level, name + "_" + itemMaterial.name);
                 if(f == null) {
                     continue;
                 }
@@ -117,12 +117,14 @@ namespace LeveledLoot {
                 itemChancesInt.Add((int)(itemChancesDouble.ElementAt(i) * MAX_LEAVES / totalChance));
             }
 
+            Statistics.instance.materialSelectionLists++;
             var chanceList = ChanceList.GetChanceList(newItemList.ToArray(), itemChancesIntBetter.ToArray())!;
-            var tree = RandomTree.GetRandomTree(chanceList, prefix + name + "_Lvl" + level);
+            var tree = RandomTree.GetRandomTree(chanceList, prefix + name + "_Lvl" + level, ref Statistics.instance.materialSelectionLists);
             return tree.linkedItem;
         }
 
         public static LeveledItem CreateListCount(Enum itemType, string name, short count, int levelFactor, IEnumerable<ItemMaterial> materials, params LootRQ[] requirements) {
+            Statistics.instance.levelSelectionLists++;
             LeveledItem leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
             leveledList.EditorID = prefix + name;
             leveledList.Flags = LeveledItem.Flag.CalculateForEachItemInCount | LeveledItem.Flag.SpecialLoot;

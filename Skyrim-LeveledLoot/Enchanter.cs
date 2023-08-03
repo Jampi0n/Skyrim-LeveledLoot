@@ -9,14 +9,15 @@ using Noggog;
 using System.Linq;
 
 using Form = Mutagen.Bethesda.Plugins.IFormLink<Mutagen.Bethesda.Plugins.Records.IMajorRecordGetter>;
+using static Mutagen.Bethesda.Skyrim.Furniture;
 
 
 namespace LeveledLoot {
     class Enchanter {
 
         static readonly string prefix = "JLL_";
-        static readonly int NUM_CHILDREN = 6;
-        static readonly int MAX_DEPTH = 2;
+        static readonly int NUM_CHILDREN = 100;
+        static readonly int MAX_DEPTH = 1;
         static readonly int MAX_LEAVES = (int)Math.Pow(NUM_CHILDREN, MAX_DEPTH);
 
         static readonly ItemMaterial ENCH_1 = new("1", 80, 20, 0, 40, LootRQ.Special);
@@ -48,72 +49,110 @@ namespace LeveledLoot {
             }
         }
 
-        static Form EnchantArmor(IArmorGetter armorGetter, ItemType itemType, int enchantTier, string name) {
-            var key = new Tuple<FormKey, int>(armorGetter.FormKey, -enchantTier);
+        static Form EnchantArmor(IArmorGetter itemGetter, ItemType itemType, int enchantTier, string name) {
+            var key = new Tuple<FormKey, int>(itemGetter.FormKey, -enchantTier);
             if(!enchantedItems.ContainsKey(key)) {
-                var leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
-                leveledList.EditorID = prefix + name + "_LItemArmor_EnchTier" + enchantTier + "_" + armorGetter.EditorID;
-
                 if(!enchantmentDict.ContainsKey(itemType)) {
                     throw new Exception("No enchantments for item type.");
                 }
                 var dict = enchantmentDict[itemType];
-                foreach(var enchTuple in dict[enchantTier]) {
-                    LeveledItemEntry entry = new();
-                    entry.Data ??= new LeveledItemEntryData();
-                    leveledList.ChanceNone = 0;
-                    entry.Data.Count = 1;
-                    entry.Data.Level = 1;
+                var numEnchantments = dict[enchantTier].Count();
+                LeveledItem? leveledList = null;
+                if(numEnchantments > 1) {
+                    leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
+                    leveledList.EditorID = prefix + name + "_LItemArmor_EnchTier" + enchantTier + "_" + itemGetter.EditorID;
 
-                    var armor = Program.State!.PatchMod.Armors.AddNew();
-                    var armorName = armorGetter.Name == null ? "" : armorGetter.Name.String;
-                    armor.DeepCopyIn(armorGetter);
-                    armor.ObjectEffect.SetTo(enchTuple.Key);
-                    armor.EnchantmentAmount = (ushort)enchTuple.Value.Item1;
-                    armor.Name = enchTuple.Value.Item2.Replace("$NAME$", armorName);
-                    armor.EditorID += "_" + enchTuple.Value.Item3;
-                    entry.Data.Reference.SetTo(armor.ToLink());
+                    foreach(var enchTuple in dict[enchantTier]) {
+                        LeveledItemEntry entry = new();
+                        entry.Data ??= new LeveledItemEntryData();
+                        leveledList.ChanceNone = 0;
+                        entry.Data.Count = 1;
+                        entry.Data.Level = 1;
+                        Statistics.instance.enchantedArmor++;
+                        var itemCopy = Program.State!.PatchMod.Armors.AddNew();
+                        var itemName = itemGetter.Name == null ? "" : itemGetter.Name.String;
+                        itemCopy.DeepCopyIn(itemGetter);
+                        itemCopy.ObjectEffect.SetTo(enchTuple.Key);
+                        itemCopy.EnchantmentAmount = (ushort)enchTuple.Value.Item1;
+                        itemCopy.Name = enchTuple.Value.Item2.Replace("$NAME$", itemName);
+                        itemCopy.EditorID += "_" + enchTuple.Value.Item3;
+                        entry.Data.Reference.SetTo(itemCopy.ToLink());
 
-                    if(leveledList.Entries == null) {
-                        leveledList.Entries = new Noggog.ExtendedList<LeveledItemEntry>();
+                        if(leveledList.Entries == null) {
+                            leveledList.Entries = new Noggog.ExtendedList<LeveledItemEntry>();
+                        }
+                        leveledList.Entries!.Add(entry);
                     }
-                    leveledList.Entries!.Add(entry);
+                    enchantedItems[key] = leveledList.ToLink();
+                } else if (numEnchantments == 1) {
+                    var enchTuple = dict[enchantTier].First();
+                    Statistics.instance.enchantedArmor++;
+                    var itemCopy = Program.State!.PatchMod.Armors.AddNew();
+                    var itemName = itemGetter.Name == null ? "" : itemGetter.Name.String;
+                    itemCopy.DeepCopyIn(itemGetter);
+                    itemCopy.ObjectEffect.SetTo(enchTuple.Key);
+                    itemCopy.EnchantmentAmount = (ushort)enchTuple.Value.Item1;
+                    itemCopy.Name = enchTuple.Value.Item2.Replace("$NAME$", itemName);
+                    itemCopy.EditorID += "_" + enchTuple.Value.Item3;
+                    enchantedItems[key] = itemCopy.ToLink();
+                } else {
+                    throw new Exception("No enchantment available.");
                 }
-                enchantedItems[key] = leveledList.ToLink();
+
             }
             return enchantedItems[key];
         }
 
-        static Form EnchantWeapon(IWeaponGetter weaponGetter, ItemType itemType, int enchantTier, string name) {
-            var key = new Tuple<FormKey, int>(weaponGetter.FormKey, -enchantTier);
+        static Form EnchantWeapon(IWeaponGetter itemGetter, ItemType itemType, int enchantTier, string name) {
+            var key = new Tuple<FormKey, int>(itemGetter.FormKey, -enchantTier);
             if(!enchantedItems.ContainsKey(key)) {
-                var leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
-                leveledList.EditorID = prefix + name + "_LItemWeapon_EnchTier" + enchantTier + "_" + weaponGetter.EditorID;
-
                 if(!enchantmentDict.ContainsKey(itemType)) {
                     throw new Exception("No enchantments for item type.");
                 }
                 var dict = enchantmentDict[itemType];
-                foreach(var enchTuple in dict[enchantTier]) {
-                    LeveledItemEntry entry = new();
-                    entry.Data ??= new LeveledItemEntryData();
-                    leveledList.ChanceNone = 0;
-                    entry.Data.Count = 1;
-                    entry.Data.Level = 1;
+                var numEnchantments = dict[enchantTier].Count();
+                LeveledItem? leveledList = null;
+                if(numEnchantments > 1) {
+                    leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
+                    leveledList.EditorID = prefix + name + "_LItemWeapon_EnchTier" + enchantTier + "_" + itemGetter.EditorID;
 
-                    var weapon = Program.State!.PatchMod.Weapons.AddNew();
-                    var weaponName = weaponGetter.Name == null ? "" : weaponGetter.Name.String;
-                    weapon.DeepCopyIn(weaponGetter);
-                    weapon.ObjectEffect.SetTo(enchTuple.Key);
-                    weapon.EnchantmentAmount = (ushort)enchTuple.Value.Item1;
-                    weapon.Name = enchTuple.Value.Item2.Replace("$NAME$", weaponName);
-                    weapon.EditorID += "_" + enchTuple.Value.Item3;
-                    entry.Data.Reference.SetTo(weapon.ToLink());
+                    foreach(var enchTuple in dict[enchantTier]) {
+                        LeveledItemEntry entry = new();
+                        entry.Data ??= new LeveledItemEntryData();
+                        leveledList.ChanceNone = 0;
+                        entry.Data.Count = 1;
+                        entry.Data.Level = 1;
+                        Statistics.instance.enchantedWeapons++;
+                        var itemCopy = Program.State!.PatchMod.Weapons.AddNew();
+                        var itemName = itemGetter.Name == null ? "" : itemGetter.Name.String;
+                        itemCopy.DeepCopyIn(itemGetter);
+                        itemCopy.ObjectEffect.SetTo(enchTuple.Key);
+                        itemCopy.EnchantmentAmount = (ushort)enchTuple.Value.Item1;
+                        itemCopy.Name = enchTuple.Value.Item2.Replace("$NAME$", itemName);
+                        itemCopy.EditorID += "_" + enchTuple.Value.Item3;
+                        entry.Data.Reference.SetTo(itemCopy.ToLink());
 
-                    leveledList.Entries ??= new Noggog.ExtendedList<LeveledItemEntry>();
-                    leveledList.Entries!.Add(entry);
+                        if(leveledList.Entries == null) {
+                            leveledList.Entries = new Noggog.ExtendedList<LeveledItemEntry>();
+                        }
+                        leveledList.Entries!.Add(entry);
+                    }
+                    enchantedItems[key] = leveledList.ToLink();
+                } else if(numEnchantments == 1) {
+                    var enchTuple = dict[enchantTier].First();
+                    Statistics.instance.enchantedWeapons++;
+                    var itemCopy = Program.State!.PatchMod.Weapons.AddNew();
+                    var itemName = itemGetter.Name == null ? "" : itemGetter.Name.String;
+                    itemCopy.DeepCopyIn(itemGetter);
+                    itemCopy.ObjectEffect.SetTo(enchTuple.Key);
+                    itemCopy.EnchantmentAmount = (ushort)enchTuple.Value.Item1;
+                    itemCopy.Name = enchTuple.Value.Item2.Replace("$NAME$", itemName);
+                    itemCopy.EditorID += "_" + enchTuple.Value.Item3;
+                    enchantedItems[key] = itemCopy.ToLink();
+                } else {
+                    throw new Exception("No enchantment available.");
                 }
-                enchantedItems[key] = leveledList.ToLink();
+
             }
             return enchantedItems[key];
         }
@@ -219,7 +258,7 @@ namespace LeveledLoot {
                     }
 
                     var chanceList = ChanceList.GetChanceList(newItemList.ToArray(), itemChancesIntBetter.ToArray())!;
-                    var tree = RandomTree.GetRandomTree(chanceList, listName);
+                    var tree = RandomTree.GetRandomTree(chanceList, listName, ref Statistics.instance.enchTierSelectionLists);
 
                     enchantedItems[key] = tree.linkedItem;
                 }
