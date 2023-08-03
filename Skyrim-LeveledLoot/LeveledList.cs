@@ -75,20 +75,11 @@ namespace LeveledLoot {
             }
         }
 
-        public static Form CreateSubList(Enum itemType, int level, string name, IEnumerable<ItemMaterial> materials, params LootRQ[] requirements) {
+        public static Form CreateSubList(Enum itemType, int level, string name, IEnumerable<ItemMaterial> materials, bool enchant, params LootRQ[] requirements) {
             double totalChance = 0;
             List<double> itemChancesDouble = new();
             List<int> itemChancesInt = new();
             List<Form> newItemList = new();
-            var modifiedRequirements = requirements.ToHashSet();
-            bool enchant = false;
-            if(modifiedRequirements.Contains(LootRQ.NoEnch)) {
-                modifiedRequirements.Remove(LootRQ.NoEnch);
-            } else if(modifiedRequirements.Contains(LootRQ.Ench)) {
-                enchant = true;
-                modifiedRequirements.Remove(LootRQ.Ench);
-            }
-            requirements = modifiedRequirements.ToArray();
 
             foreach(ItemMaterial itemMaterial in materials) {
                 var commonRequirements = itemMaterial.requirements.Intersect(requirements).ToHashSet();
@@ -123,13 +114,13 @@ namespace LeveledLoot {
             return tree.linkedItem;
         }
 
-        public static LeveledItem CreateListCount(Enum itemType, string name, short count, int levelFactor, IEnumerable<ItemMaterial> materials, params LootRQ[] requirements) {
+        public static LeveledItem CreateListCount(Enum itemType, string name, short count, int levelFactor, IEnumerable<ItemMaterial> materials, bool enchant, params LootRQ[] requirements) {
             Statistics.instance.levelSelectionLists++;
             LeveledItem leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
             leveledList.EditorID = prefix + name;
             leveledList.Flags = LeveledItem.Flag.CalculateForEachItemInCount | LeveledItem.Flag.SpecialLoot;
             foreach(int level in LEVEL_LIST) {
-                Form f = CreateSubList(itemType, level * levelFactor, name, materials, requirements);
+                Form f = CreateSubList(itemType, level * levelFactor, name, materials, enchant, requirements);
                 LeveledItemEntry entry = new();
                 entry.Data ??= new LeveledItemEntryData();
                 entry.Data.Count = count;
@@ -141,12 +132,16 @@ namespace LeveledLoot {
             return leveledList;
         }
 
+        public static LeveledItem CreateListEnchanted(Enum itemType, string name, int levelFactor, IEnumerable<ItemMaterial> materials, params LootRQ[] requirements) {
+            return CreateListCount(itemType, name, 1, levelFactor, materials, true, requirements);
+        }
+
         public static LeveledItem CreateList(Enum itemType, string name, int levelFactor, IEnumerable<ItemMaterial> materials, params LootRQ[] requirements) {
-            return CreateListCount(itemType, name, 1, levelFactor, materials, requirements);
+            return CreateListCount(itemType, name, 1, levelFactor, materials, false, requirements);
         }
 
 
-        public static void LinkListCount(FormLink<ILeveledItemGetter> vanillaList, short count, int levelFactor, Enum itemType, IEnumerable<ItemMaterial> materials, params LootRQ[] requirements) {
+        public static void LinkListCount(FormLink<ILeveledItemGetter> vanillaList, short count, int levelFactor, Enum itemType, IEnumerable<ItemMaterial> materials, bool enchant, params LootRQ[] requirements) {
             LeveledItem leveledList = Program.State!.PatchMod.LeveledItems.GetOrAddAsOverride(vanillaList, Program.State.LinkCache);
             leveledList.Entries = new Noggog.ExtendedList<LeveledItemEntry>();
             LeveledItemEntry entry = new();
@@ -155,20 +150,17 @@ namespace LeveledLoot {
             entry.Data.Level = 1;
             leveledList.Flags |= LeveledItem.Flag.CalculateForEachItemInCount;
             string name = leveledList.EditorID + "_LevelList";
-            entry.Data.Reference.SetTo(CreateList(itemType, name, levelFactor, materials, requirements).FormKey);
+            var list = enchant ? CreateListEnchanted(itemType, name, levelFactor, materials, requirements) : CreateList(itemType, name, levelFactor, materials, requirements);
+            entry.Data.Reference.SetTo(list.FormKey);
             leveledList.Entries!.Add(entry);
         }
 
+        public static void LinkListEnchanted(FormLink<ILeveledItemGetter> vanillaList, int levelFactor, Enum itemType, IEnumerable<ItemMaterial> materials, params LootRQ[] requirements) {
+            LinkListCount(vanillaList, 1, levelFactor, itemType, materials, true, requirements);
+        }
+
         public static void LinkList(FormLink<ILeveledItemGetter> vanillaList, int levelFactor, Enum itemType, IEnumerable<ItemMaterial> materials, params LootRQ[] requirements) {
-            LinkListCount(vanillaList, 1, levelFactor, itemType, materials, requirements);
-        }
-
-        public static void LinkList(FormLink<ILeveledItemGetter> vanillaList, int levelFactor, ItemType itemType, params LootRQ[] requirements) {
-            LinkListCount(vanillaList, 1, levelFactor, itemType, ItemMaterial.ALL, requirements);
-        }
-
-        public static void LinkListCount(FormLink<ILeveledItemGetter> vanillaList, short count, int levelFactor, ItemType itemType, params LootRQ[] requirements) {
-            LinkListCount(vanillaList, count, levelFactor, itemType, ItemMaterial.ALL, requirements);
+            LinkListCount(vanillaList, 1, levelFactor, itemType, materials, false, requirements);
         }
 
         public static void LinkList(FormLink<ILeveledItemGetter> oldList, params Form[] newList) {

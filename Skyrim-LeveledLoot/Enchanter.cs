@@ -20,12 +20,12 @@ namespace LeveledLoot {
         static readonly int MAX_DEPTH = 1;
         static readonly int MAX_LEAVES = (int)Math.Pow(NUM_CHILDREN, MAX_DEPTH);
 
-        static readonly ItemMaterial ENCH_1 = new("1", 80, 20, 0, 40, LootRQ.Special);
-        static readonly ItemMaterial ENCH_2 = new("2", 20, 20, 0, 80, LootRQ.Special);
-        static readonly ItemMaterial ENCH_3 = new("3", 0, 20, 11, 120, LootRQ.Special);
-        static readonly ItemMaterial ENCH_4 = new("4", 0, 20, 24, 160, LootRQ.Special);
-        static readonly ItemMaterial ENCH_5 = new("5", 0, 13, 37, 200, LootRQ.Special);
-        static readonly ItemMaterial ENCH_6 = new("6", 0, 7, 50, 240, LootRQ.Special);
+        static readonly ItemMaterial ENCH_1 = new("1", 80, 20, 0, 40);
+        static readonly ItemMaterial ENCH_2 = new("2", 20, 20, 0, 80);
+        static readonly ItemMaterial ENCH_3 = new("3", 0, 20, 11, 120);
+        static readonly ItemMaterial ENCH_4 = new("4", 0, 20, 24, 160);
+        static readonly ItemMaterial ENCH_5 = new("5", 0, 13, 37, 200);
+        static readonly ItemMaterial ENCH_6 = new("6", 0, 7, 50, 240);
 
         static readonly List<ItemMaterial> EnchTiers = new() {
             ENCH_1,

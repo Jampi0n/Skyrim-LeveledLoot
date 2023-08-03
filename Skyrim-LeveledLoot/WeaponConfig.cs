@@ -23,22 +23,36 @@ namespace LeveledLoot {
 
 
     class WeaponConfig {
-        public static ItemMaterial DRAUGR = new("Draugr", 75, 22, 0, 20, LootRQ.NoEnch, LootRQ.Special);
-        public static ItemMaterial DRAUGR_HONED = new("Draugr Honed", 0, 300, 8, 150, LootRQ.Special);
-        public static ItemMaterial DRAUGR_HERO = new("Draugr Hero", 0, 200, 17, 275, LootRQ.Special);
-        public static ItemMaterial IRON = new("Iron", 75, 22, 0, 20);
-        public static ItemMaterial STEEL = new("Steel", 20, 18, 0, 30);
-        public static ItemMaterial DWARVEN = new("Dwarven", 5, 15, 0, 45);
-        public static ItemMaterial ELVEN = new("Elven", 0, 13, 10, 55);
-        public static ItemMaterial ORCISH = new("Orcish", 0, 10, 16, 75);
+        public static ItemMaterial DRAUGR = new("Draugr Weapons", 75, 22, 0, 20);
+        public static ItemMaterial DRAUGR_HONED = new("Draugr Honed Weapons", 0, 300, 8, 150);
+        public static ItemMaterial DRAUGR_HERO = new("Draugr Hero Weapons", 0, 200, 17, 275);
+        public static ItemMaterial IRON = new("Iron Weapons", 75, 22, 0, 20);
+        public static ItemMaterial STEEL = new("Steel Weapons", 20, 18, 0, 30);
+        public static ItemMaterial DWARVEN = new("Dwarven Weapons", 5, 15, 0, 45);
+        public static ItemMaterial ELVEN = new("Elven Weapons", 0, 13, 10, 55);
+        public static ItemMaterial ORCISH = new("Orcish Weapons", 0, 10, 16, 75);
+        public static ItemMaterial NORDIC = new("Nordic Weapons", 0, 8, 32, 125, LootRQ.DLC2);
+        public static ItemMaterial GLASS = new("Glass Weapons", 0, 7, 40, 140);
+        public static ItemMaterial EBONY = new("Ebony Weapons", 0, 6, 48, 160);
+        public static ItemMaterial STALHRIM = new("Stalhrim Weapons", 0, 5, 56, 180, LootRQ.Rare, LootRQ.DLC2);
+        public static ItemMaterial DRAGON = new("Dragon Weapons", 0, 4, 64, 200, LootRQ.Rare);
+        public static ItemMaterial DAEDRIC = new("Daedric Weapons", 0, 3, 80, 220, LootRQ.Rare);
+        public static ItemMaterial ULTIMATE = new("Ultimate Weapons", 0, 2, 100, 240, LootRQ.Rare);
 
-        public static ItemMaterial NORDIC = new("Nordic", 0, 8, 32, 125, LootRQ.DLC2);
-        public static ItemMaterial GLASS = new("Glass", 0, 7, 40, 140);
-        public static ItemMaterial EBONY = new("Ebony", 0, 6, 48, 160);
-        public static ItemMaterial STALHRIM = new("Stalhrim", 0, 5, 56, 180, LootRQ.Rare, LootRQ.DLC2);
-        public static ItemMaterial DRAGON = new("Dragon", 0, 4, 64, 200, LootRQ.Rare);
-        public static ItemMaterial DAEDRIC = new("Daedric", 0, 3, 80, 220, LootRQ.Rare);
-        public static ItemMaterial ULTIMATE = new("Ultimate", 0, 2, 100, 240, LootRQ.Rare);
+        public static List<ItemMaterial> REGULAR_MATERIALS = new() {
+            IRON,
+            STEEL,
+            DWARVEN,
+            ELVEN,
+            ORCISH,
+            NORDIC,
+            GLASS,
+            EBONY,
+            STALHRIM,
+            DRAGON,
+            DAEDRIC,
+            ULTIMATE
+        };
 
         public static void Config() {
             var baseArrowDragon75 = Program.State.PatchMod.LeveledItems.AddNew();
@@ -122,145 +136,145 @@ namespace LeveledLoot {
 
             RecipeParser.Parse(ULTIMATE, false, true);
 
-            LeveledList.LinkList(SKYL.LItemWeaponSword, LeveledList.FACTOR_COMMON, ItemType.Sword, LootRQ.NoEnch, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemWeaponSwordBest, LeveledList.FACTOR_BEST, ItemType.Sword, LootRQ.NoEnch, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemWeaponSwordBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Sword, LootRQ.NoEnch);
-            LeveledList.LinkList(SKYL.LItemWeaponSwordSpecial, LeveledList.FACTOR_RARE, ItemType.Sword, LootRQ.NoEnch, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemWeaponSwordTown, LeveledList.FACTOR_JUNK, ItemType.Sword, LootRQ.NoEnch);
+            LeveledList.LinkList(SKYL.LItemWeaponSword, LeveledList.FACTOR_COMMON, ItemType.Sword, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemWeaponSwordBest, LeveledList.FACTOR_BEST, ItemType.Sword, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemWeaponSwordBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Sword, REGULAR_MATERIALS);
+            LeveledList.LinkList(SKYL.LItemWeaponSwordSpecial, LeveledList.FACTOR_RARE, ItemType.Sword, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemWeaponSwordTown, LeveledList.FACTOR_JUNK, ItemType.Sword, REGULAR_MATERIALS);
 
-            LeveledList.LinkList(SKYL.LItemEnchWeaponSword, LeveledList.FACTOR_COMMON, ItemType.Sword, LootRQ.Ench);
-            LeveledList.LinkList(SKYL.LItemEnchWeaponSwordSpecial, LeveledList.FACTOR_RARE, ItemType.Sword, LootRQ.Ench, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemEnchWeaponSwordBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Sword, LootRQ.Ench);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponSword, LeveledList.FACTOR_COMMON, ItemType.Sword, REGULAR_MATERIALS);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponSwordSpecial, LeveledList.FACTOR_RARE, ItemType.Sword, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponSwordBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Sword, REGULAR_MATERIALS);
 
-            LeveledList.LinkList(SKYL.LItemWeaponWarAxe, LeveledList.FACTOR_COMMON, ItemType.Waraxe, LootRQ.NoEnch, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemWeaponWarAxeBest, LeveledList.FACTOR_BEST, ItemType.Waraxe, LootRQ.NoEnch, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemWeaponWarAxeBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Waraxe, LootRQ.NoEnch);
-            LeveledList.LinkList(SKYL.LItemWeaponWarAxeSpecial, LeveledList.FACTOR_RARE, ItemType.Waraxe, LootRQ.NoEnch, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemWeaponWarAxeTown, LeveledList.FACTOR_JUNK, ItemType.Waraxe, LootRQ.NoEnch);
+            LeveledList.LinkList(SKYL.LItemWeaponWarAxe, LeveledList.FACTOR_COMMON, ItemType.Waraxe, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemWeaponWarAxeBest, LeveledList.FACTOR_BEST, ItemType.Waraxe, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemWeaponWarAxeBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Waraxe, REGULAR_MATERIALS);
+            LeveledList.LinkList(SKYL.LItemWeaponWarAxeSpecial, LeveledList.FACTOR_RARE, ItemType.Waraxe, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemWeaponWarAxeTown, LeveledList.FACTOR_JUNK, ItemType.Waraxe, REGULAR_MATERIALS);
 
-            LeveledList.LinkList(SKYL.LItemEnchWeaponWarAxe, LeveledList.FACTOR_COMMON, ItemType.Waraxe, LootRQ.Ench);
-            LeveledList.LinkList(SKYL.LItemEnchWeaponWarAxeBest, LeveledList.FACTOR_BEST, ItemType.Waraxe, LootRQ.Ench, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemEnchWeaponWarAxeSpecial, LeveledList.FACTOR_RARE, ItemType.Waraxe, LootRQ.Ench, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemEnchWeaponWarAxeBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Waraxe, LootRQ.Ench);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponWarAxe, LeveledList.FACTOR_COMMON, ItemType.Waraxe, REGULAR_MATERIALS);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponWarAxeBest, LeveledList.FACTOR_BEST, ItemType.Waraxe, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponWarAxeSpecial, LeveledList.FACTOR_RARE, ItemType.Waraxe, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponWarAxeBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Waraxe, REGULAR_MATERIALS);
 
-            LeveledList.LinkList(SKYL.LItemWeaponMace, LeveledList.FACTOR_COMMON, ItemType.Mace, LootRQ.NoEnch, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemWeaponMaceBest, LeveledList.FACTOR_BEST, ItemType.Mace, LootRQ.NoEnch, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemWeaponMaceBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Mace, LootRQ.NoEnch);
-            LeveledList.LinkList(SKYL.LItemWeaponMaceSpecial, LeveledList.FACTOR_RARE, ItemType.Mace, LootRQ.NoEnch, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemWeaponMaceTown, LeveledList.FACTOR_JUNK, ItemType.Mace, LootRQ.NoEnch);
+            LeveledList.LinkList(SKYL.LItemWeaponMace, LeveledList.FACTOR_COMMON, ItemType.Mace, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemWeaponMaceBest, LeveledList.FACTOR_BEST, ItemType.Mace, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemWeaponMaceBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Mace, REGULAR_MATERIALS);
+            LeveledList.LinkList(SKYL.LItemWeaponMaceSpecial, LeveledList.FACTOR_RARE, ItemType.Mace, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemWeaponMaceTown, LeveledList.FACTOR_JUNK, ItemType.Mace, REGULAR_MATERIALS);
 
-            LeveledList.LinkList(SKYL.LItemEnchWeaponMace, LeveledList.FACTOR_COMMON, ItemType.Mace, LootRQ.Ench);
-            LeveledList.LinkList(SKYL.LItemEnchWeaponMaceSpecial, LeveledList.FACTOR_RARE, ItemType.Mace, LootRQ.Ench, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemEnchWeaponMaceBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Mace, LootRQ.Ench);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponMace, LeveledList.FACTOR_COMMON, ItemType.Mace, REGULAR_MATERIALS);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponMaceSpecial, LeveledList.FACTOR_RARE, ItemType.Mace, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponMaceBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Mace, REGULAR_MATERIALS);
 
-            LeveledList.LinkList(SKYL.LItemWeaponDagger, LeveledList.FACTOR_COMMON, ItemType.Dagger, LootRQ.NoEnch, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemWeaponDaggerBest, LeveledList.FACTOR_BEST, ItemType.Dagger, LootRQ.NoEnch, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemWeaponDaggerBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Dagger, LootRQ.NoEnch);
-            LeveledList.LinkList(SKYL.LItemWeaponDaggerSpecial, LeveledList.FACTOR_RARE, ItemType.Dagger, LootRQ.NoEnch, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemWeaponDaggerTown, LeveledList.FACTOR_JUNK, ItemType.Dagger, LootRQ.NoEnch);
+            LeveledList.LinkList(SKYL.LItemWeaponDagger, LeveledList.FACTOR_COMMON, ItemType.Dagger, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemWeaponDaggerBest, LeveledList.FACTOR_BEST, ItemType.Dagger, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemWeaponDaggerBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Dagger, REGULAR_MATERIALS);
+            LeveledList.LinkList(SKYL.LItemWeaponDaggerSpecial, LeveledList.FACTOR_RARE, ItemType.Dagger, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemWeaponDaggerTown, LeveledList.FACTOR_JUNK, ItemType.Dagger, REGULAR_MATERIALS);
 
-            LeveledList.LinkList(SKYL.LItemEnchWeaponDagger, LeveledList.FACTOR_COMMON, ItemType.Dagger, LootRQ.Ench);
-            LeveledList.LinkList(SKYL.LItemEnchWeaponDaggerSpecial, LeveledList.FACTOR_RARE, ItemType.Dagger, LootRQ.Ench, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemEnchWeaponDaggerBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Dagger, LootRQ.Ench);
-
-
-            LeveledList.LinkList(SKYL.LItemWeaponBattleAxe, LeveledList.FACTOR_COMMON, ItemType.Battleaxe, LootRQ.NoEnch, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemWeaponBattleAxeBest, LeveledList.FACTOR_BEST, ItemType.Battleaxe, LootRQ.NoEnch, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemWeaponBattleAxeBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Battleaxe, LootRQ.NoEnch);
-            LeveledList.LinkList(SKYL.LItemWeaponBattleAxeSpecial, LeveledList.FACTOR_RARE, ItemType.Battleaxe, LootRQ.NoEnch, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemWeaponBattleAxeTown, LeveledList.FACTOR_JUNK, ItemType.Battleaxe, LootRQ.NoEnch);
-
-            LeveledList.LinkList(SKYL.LItemEnchWeaponBattleAxe, LeveledList.FACTOR_COMMON, ItemType.Battleaxe, LootRQ.Ench);
-            LeveledList.LinkList(SKYL.LItemEnchWeaponBattleAxeBest, LeveledList.FACTOR_BEST, ItemType.Battleaxe, LootRQ.Ench, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemEnchWeaponBattleAxeSpecial, LeveledList.FACTOR_RARE, ItemType.Battleaxe, LootRQ.Ench, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemEnchWeaponBattleaxeBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Battleaxe, LootRQ.Ench);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponDagger, LeveledList.FACTOR_COMMON, ItemType.Dagger, REGULAR_MATERIALS);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponDaggerSpecial, LeveledList.FACTOR_RARE, ItemType.Dagger, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponDaggerBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Dagger, REGULAR_MATERIALS);
 
 
-            LeveledList.LinkList(SKYL.LItemWeaponGreatSword, LeveledList.FACTOR_COMMON, ItemType.Greatsword, LootRQ.NoEnch, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemWeaponGreatSwordBest, LeveledList.FACTOR_BEST, ItemType.Greatsword, LootRQ.NoEnch, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemWeaponGreatSwordBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Greatsword, LootRQ.NoEnch);
-            LeveledList.LinkList(SKYL.LItemWeaponGreatSwordSpecial, LeveledList.FACTOR_RARE, ItemType.Greatsword, LootRQ.NoEnch, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemWeaponGreatSwordTown, LeveledList.FACTOR_JUNK, ItemType.Greatsword, LootRQ.NoEnch);
+            LeveledList.LinkList(SKYL.LItemWeaponBattleAxe, LeveledList.FACTOR_COMMON, ItemType.Battleaxe, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemWeaponBattleAxeBest, LeveledList.FACTOR_BEST, ItemType.Battleaxe, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemWeaponBattleAxeBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Battleaxe, REGULAR_MATERIALS);
+            LeveledList.LinkList(SKYL.LItemWeaponBattleAxeSpecial, LeveledList.FACTOR_RARE, ItemType.Battleaxe, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemWeaponBattleAxeTown, LeveledList.FACTOR_JUNK, ItemType.Battleaxe, REGULAR_MATERIALS);
 
-            LeveledList.LinkList(SKYL.LItemEnchWeaponGreatsword, LeveledList.FACTOR_COMMON, ItemType.Greatsword, LootRQ.Ench);
-            LeveledList.LinkList(SKYL.LItemEnchWeaponGreatswordSpecial, LeveledList.FACTOR_RARE, ItemType.Greatsword, LootRQ.Ench, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemEnchWeaponGreatswordBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Greatsword, LootRQ.Ench);
-
-            LeveledList.LinkList(SKYL.LItemWeaponWarhammer, LeveledList.FACTOR_COMMON, ItemType.Warhammer, LootRQ.NoEnch, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemWeaponWarhammerBest, LeveledList.FACTOR_BEST, ItemType.Warhammer, LootRQ.NoEnch, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemWeaponWarhammerBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Warhammer, LootRQ.NoEnch);
-            LeveledList.LinkList(SKYL.LItemWeaponWarhammerSpecial, LeveledList.FACTOR_RARE, ItemType.Warhammer, LootRQ.NoEnch, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemWeaponWarhammerTown, LeveledList.FACTOR_JUNK, ItemType.Warhammer, LootRQ.NoEnch);
-
-            LeveledList.LinkList(SKYL.LItemEnchWeaponWarhammer, LeveledList.FACTOR_COMMON, ItemType.Warhammer, LootRQ.Ench);
-            LeveledList.LinkList(SKYL.LItemEnchWeaponWarhammerSpecial, LeveledList.FACTOR_RARE, ItemType.Warhammer, LootRQ.Ench, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemEnchWeaponWarhammerBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Warhammer, LootRQ.Ench);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponBattleAxe, LeveledList.FACTOR_COMMON, ItemType.Battleaxe, REGULAR_MATERIALS);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponBattleAxeBest, LeveledList.FACTOR_BEST, ItemType.Battleaxe, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponBattleAxeSpecial, LeveledList.FACTOR_RARE, ItemType.Battleaxe, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponBattleaxeBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Battleaxe, REGULAR_MATERIALS);
 
 
-            LeveledList.LinkList(SKYL.LItemWeaponBow, LeveledList.FACTOR_COMMON, ItemType.Bow, LootRQ.NoEnch, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemWeaponBowBest, LeveledList.FACTOR_BEST, ItemType.Bow, LootRQ.NoEnch, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemWeaponBowBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Bow, LootRQ.NoEnch);
-            LeveledList.LinkList(SKYL.LItemWeaponBowSpecial, LeveledList.FACTOR_RARE, ItemType.Bow, LootRQ.NoEnch, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemWeaponBowTown, LeveledList.FACTOR_JUNK, ItemType.Bow, LootRQ.NoEnch);
+            LeveledList.LinkList(SKYL.LItemWeaponGreatSword, LeveledList.FACTOR_COMMON, ItemType.Greatsword, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemWeaponGreatSwordBest, LeveledList.FACTOR_BEST, ItemType.Greatsword, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemWeaponGreatSwordBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Greatsword, REGULAR_MATERIALS);
+            LeveledList.LinkList(SKYL.LItemWeaponGreatSwordSpecial, LeveledList.FACTOR_RARE, ItemType.Greatsword, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemWeaponGreatSwordTown, LeveledList.FACTOR_JUNK, ItemType.Greatsword, REGULAR_MATERIALS);
 
-            LeveledList.LinkList(SKYL.LItemEnchWeaponBow, LeveledList.FACTOR_COMMON, ItemType.Bow, LootRQ.Ench);
-            LeveledList.LinkList(SKYL.LItemEnchWeaponBowSpecial, LeveledList.FACTOR_RARE, ItemType.Bow, LootRQ.Ench, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemEnchWeaponBowBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Bow, LootRQ.Ench);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponGreatsword, LeveledList.FACTOR_COMMON, ItemType.Greatsword, REGULAR_MATERIALS);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponGreatswordSpecial, LeveledList.FACTOR_RARE, ItemType.Greatsword, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponGreatswordBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Greatsword, REGULAR_MATERIALS);
+
+            LeveledList.LinkList(SKYL.LItemWeaponWarhammer, LeveledList.FACTOR_COMMON, ItemType.Warhammer, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemWeaponWarhammerBest, LeveledList.FACTOR_BEST, ItemType.Warhammer, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemWeaponWarhammerBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Warhammer, REGULAR_MATERIALS);
+            LeveledList.LinkList(SKYL.LItemWeaponWarhammerSpecial, LeveledList.FACTOR_RARE, ItemType.Warhammer, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemWeaponWarhammerTown, LeveledList.FACTOR_JUNK, ItemType.Warhammer, REGULAR_MATERIALS);
+
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponWarhammer, LeveledList.FACTOR_COMMON, ItemType.Warhammer, REGULAR_MATERIALS);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponWarhammerSpecial, LeveledList.FACTOR_RARE, ItemType.Warhammer, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponWarhammerBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Warhammer, REGULAR_MATERIALS);
+
+
+            LeveledList.LinkList(SKYL.LItemWeaponBow, LeveledList.FACTOR_COMMON, ItemType.Bow, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemWeaponBowBest, LeveledList.FACTOR_BEST, ItemType.Bow, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemWeaponBowBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Bow, REGULAR_MATERIALS);
+            LeveledList.LinkList(SKYL.LItemWeaponBowSpecial, LeveledList.FACTOR_RARE, ItemType.Bow, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemWeaponBowTown, LeveledList.FACTOR_JUNK, ItemType.Bow, REGULAR_MATERIALS);
+
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponBow, LeveledList.FACTOR_COMMON, ItemType.Bow, REGULAR_MATERIALS);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponBowSpecial, LeveledList.FACTOR_RARE, ItemType.Bow, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchWeaponBowBlacksmith, LeveledList.FACTOR_COMMON, ItemType.Bow, REGULAR_MATERIALS);
 
             // DLC2
 
-            LeveledList.LinkList(DBL.DLC2LItemWeaponSword, LeveledList.FACTOR_COMMON, ItemType.Sword, LootRQ.NoEnch, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemWeaponWarAxe, LeveledList.FACTOR_COMMON, ItemType.Waraxe, LootRQ.NoEnch, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemWeaponMace, LeveledList.FACTOR_COMMON, ItemType.Mace, LootRQ.NoEnch, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemWeaponDagger, LeveledList.FACTOR_COMMON, ItemType.Dagger, LootRQ.NoEnch, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemWeaponGreatSword, LeveledList.FACTOR_COMMON, ItemType.Greatsword, LootRQ.NoEnch, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemWeaponBattleAxe, LeveledList.FACTOR_COMMON, ItemType.Battleaxe, LootRQ.NoEnch, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemWeaponWarhammer, LeveledList.FACTOR_COMMON, ItemType.Warhammer, LootRQ.NoEnch, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemWeaponBow, LeveledList.FACTOR_COMMON, ItemType.Bow, LootRQ.NoEnch, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemWeaponSword, LeveledList.FACTOR_COMMON, ItemType.Sword, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemWeaponWarAxe, LeveledList.FACTOR_COMMON, ItemType.Waraxe, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemWeaponMace, LeveledList.FACTOR_COMMON, ItemType.Mace, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemWeaponDagger, LeveledList.FACTOR_COMMON, ItemType.Dagger, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemWeaponGreatSword, LeveledList.FACTOR_COMMON, ItemType.Greatsword, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemWeaponBattleAxe, LeveledList.FACTOR_COMMON, ItemType.Battleaxe, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemWeaponWarhammer, LeveledList.FACTOR_COMMON, ItemType.Warhammer, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemWeaponBow, LeveledList.FACTOR_COMMON, ItemType.Bow, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
 
-            LeveledList.LinkList(DBL.DLC2LItemWeaponSwordTown, LeveledList.FACTOR_JUNK, ItemType.Sword, LootRQ.NoEnch, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemWeaponWarAxeTown, LeveledList.FACTOR_JUNK, ItemType.Waraxe, LootRQ.NoEnch, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemWeaponMaceTown, LeveledList.FACTOR_JUNK, ItemType.Mace, LootRQ.NoEnch, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemWeaponDaggerTown, LeveledList.FACTOR_JUNK, ItemType.Dagger, LootRQ.NoEnch, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemWeaponGreatSwordTown, LeveledList.FACTOR_JUNK, ItemType.Greatsword, LootRQ.NoEnch, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemWeaponBattleAxeTown, LeveledList.FACTOR_JUNK, ItemType.Battleaxe, LootRQ.NoEnch, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemWeaponWarhammerTown, LeveledList.FACTOR_JUNK, ItemType.Warhammer, LootRQ.NoEnch, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemWeaponBowTown, LeveledList.FACTOR_JUNK, ItemType.Bow, LootRQ.NoEnch, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemWeaponSwordTown, LeveledList.FACTOR_JUNK, ItemType.Sword, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemWeaponWarAxeTown, LeveledList.FACTOR_JUNK, ItemType.Waraxe, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemWeaponMaceTown, LeveledList.FACTOR_JUNK, ItemType.Mace, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemWeaponDaggerTown, LeveledList.FACTOR_JUNK, ItemType.Dagger, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemWeaponGreatSwordTown, LeveledList.FACTOR_JUNK, ItemType.Greatsword, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemWeaponBattleAxeTown, LeveledList.FACTOR_JUNK, ItemType.Battleaxe, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemWeaponWarhammerTown, LeveledList.FACTOR_JUNK, ItemType.Warhammer, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemWeaponBowTown, LeveledList.FACTOR_JUNK, ItemType.Bow, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
 
-            LeveledList.LinkList(DBL.DLC2LItemEnchWeaponSword, LeveledList.FACTOR_COMMON, ItemType.Sword, LootRQ.Ench, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemEnchWeaponWarAxe, LeveledList.FACTOR_COMMON, ItemType.Waraxe, LootRQ.Ench, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemEnchWeaponMace, LeveledList.FACTOR_COMMON, ItemType.Mace, LootRQ.Ench, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemEnchWeaponDagger, LeveledList.FACTOR_COMMON, ItemType.Dagger, LootRQ.Ench, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemEnchWeaponGreatsword, LeveledList.FACTOR_COMMON, ItemType.Greatsword, LootRQ.Ench, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemEnchWeaponBattleAxe, LeveledList.FACTOR_COMMON, ItemType.Battleaxe, LootRQ.Ench, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemEnchWeaponWarhammer, LeveledList.FACTOR_COMMON, ItemType.Warhammer, LootRQ.Ench, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemEnchWeaponBow, LeveledList.FACTOR_COMMON, ItemType.Bow, LootRQ.Ench, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchWeaponSword, LeveledList.FACTOR_COMMON, ItemType.Sword, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchWeaponWarAxe, LeveledList.FACTOR_COMMON, ItemType.Waraxe, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchWeaponMace, LeveledList.FACTOR_COMMON, ItemType.Mace, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchWeaponDagger, LeveledList.FACTOR_COMMON, ItemType.Dagger, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchWeaponGreatsword, LeveledList.FACTOR_COMMON, ItemType.Greatsword, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchWeaponBattleAxe, LeveledList.FACTOR_COMMON, ItemType.Battleaxe, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchWeaponWarhammer, LeveledList.FACTOR_COMMON, ItemType.Warhammer, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchWeaponBow, LeveledList.FACTOR_COMMON, ItemType.Bow, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
 
-            LeveledList.LinkList(DBL.DLC2LItemEnchWeaponSwordSpecial, LeveledList.FACTOR_RARE, ItemType.Sword, LootRQ.Ench, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemEnchWeaponWarAxeSpecial, LeveledList.FACTOR_RARE, ItemType.Waraxe, LootRQ.Ench, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemEnchWeaponMaceSpecial, LeveledList.FACTOR_RARE, ItemType.Mace, LootRQ.Ench, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemEnchWeaponDaggerSpecial, LeveledList.FACTOR_RARE, ItemType.Dagger, LootRQ.Ench, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemEnchWeaponGreatswordSpecial, LeveledList.FACTOR_RARE, ItemType.Greatsword, LootRQ.Ench, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemEnchWeaponBattleAxeSpecial, LeveledList.FACTOR_RARE, ItemType.Battleaxe, LootRQ.Ench, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemEnchWeaponWarhammerSpecial, LeveledList.FACTOR_RARE, ItemType.Warhammer, LootRQ.Ench, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemEnchWeaponBowSpecial, LeveledList.FACTOR_RARE, ItemType.Bow, LootRQ.Ench, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchWeaponSwordSpecial, LeveledList.FACTOR_RARE, ItemType.Sword, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchWeaponWarAxeSpecial, LeveledList.FACTOR_RARE, ItemType.Waraxe, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchWeaponMaceSpecial, LeveledList.FACTOR_RARE, ItemType.Mace, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchWeaponDaggerSpecial, LeveledList.FACTOR_RARE, ItemType.Dagger, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchWeaponGreatswordSpecial, LeveledList.FACTOR_RARE, ItemType.Greatsword, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchWeaponBattleAxeSpecial, LeveledList.FACTOR_RARE, ItemType.Battleaxe, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchWeaponWarhammerSpecial, LeveledList.FACTOR_RARE, ItemType.Warhammer, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchWeaponBowSpecial, LeveledList.FACTOR_RARE, ItemType.Bow, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
 
-            LeveledList.LinkList(DBL.DLC2LItemEnchWeaponSwordBest, LeveledList.FACTOR_BEST, ItemType.Sword, LootRQ.Ench, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemEnchWeaponWarAxeBest, LeveledList.FACTOR_BEST, ItemType.Waraxe, LootRQ.Ench, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemEnchWeaponMaceBest, LeveledList.FACTOR_BEST, ItemType.Mace, LootRQ.Ench, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemEnchWeaponDaggerBest, LeveledList.FACTOR_BEST, ItemType.Dagger, LootRQ.Ench, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemEnchWeaponGreatswordBest, LeveledList.FACTOR_BEST, ItemType.Greatsword, LootRQ.Ench, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemEnchWeaponBattleAxeBest, LeveledList.FACTOR_BEST, ItemType.Battleaxe, LootRQ.Ench, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemEnchWeaponWarhammerBest, LeveledList.FACTOR_BEST, ItemType.Warhammer, LootRQ.Ench, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemEnchWeaponBowBest, LeveledList.FACTOR_BEST, ItemType.Bow, LootRQ.Ench, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchWeaponSwordBest, LeveledList.FACTOR_BEST, ItemType.Sword, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchWeaponWarAxeBest, LeveledList.FACTOR_BEST, ItemType.Waraxe, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchWeaponMaceBest, LeveledList.FACTOR_BEST, ItemType.Mace, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchWeaponDaggerBest, LeveledList.FACTOR_BEST, ItemType.Dagger, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchWeaponGreatswordBest, LeveledList.FACTOR_BEST, ItemType.Greatsword, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchWeaponBattleAxeBest, LeveledList.FACTOR_BEST, ItemType.Battleaxe, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchWeaponWarhammerBest, LeveledList.FACTOR_BEST, ItemType.Warhammer, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchWeaponBowBest, LeveledList.FACTOR_BEST, ItemType.Bow, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
 
             // Arrows
-            LeveledList.LinkList(SKYL.LItemArrowsAll, LeveledList.FACTOR_COMMON, ItemType.Arrow12, LootRQ.NoEnch);
-            LeveledList.LinkList(SKYL.LItemArrowsAllBest, LeveledList.FACTOR_BEST, ItemType.Arrow12, LootRQ.NoEnch, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArrowsAllRandomLoot, LeveledList.FACTOR_COMMON, ItemType.Arrow6, LootRQ.NoEnch);
-            LeveledList.LinkList(DBL.DLC2LItemArrowsAll, LeveledList.FACTOR_COMMON, ItemType.Arrow12, LootRQ.NoEnch, LootRQ.DLC2);
-            LeveledList.LinkList(DBL.DLC2LootArrowsAll100, LeveledList.FACTOR_BEST, ItemType.Arrow12, LootRQ.NoEnch, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LootArrowsAll15, LeveledList.FACTOR_COMMON, ItemType.Arrow12, LootRQ.NoEnch, LootRQ.DLC2);
+            LeveledList.LinkList(SKYL.LItemArrowsAll, LeveledList.FACTOR_COMMON, ItemType.Arrow12, REGULAR_MATERIALS);
+            LeveledList.LinkList(SKYL.LItemArrowsAllBest, LeveledList.FACTOR_BEST, ItemType.Arrow12, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArrowsAllRandomLoot, LeveledList.FACTOR_COMMON, ItemType.Arrow6, REGULAR_MATERIALS);
+            LeveledList.LinkList(DBL.DLC2LItemArrowsAll, LeveledList.FACTOR_COMMON, ItemType.Arrow12, REGULAR_MATERIALS, LootRQ.DLC2);
+            LeveledList.LinkList(DBL.DLC2LootArrowsAll100, LeveledList.FACTOR_BEST, ItemType.Arrow12, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LootArrowsAll15, LeveledList.FACTOR_COMMON, ItemType.Arrow12, REGULAR_MATERIALS, LootRQ.DLC2);
 
             // Draugr
             LeveledList.LinkList(SKYL.LItemDraugr05Weapon1H, SKY.NordHeroSword, SKY.NordHeroWarAxe);
@@ -281,24 +295,24 @@ namespace LeveledLoot {
 
 
             var factorDraugr = LeveledList.FACTOR_COMMON;
-            var draugrSword = LeveledList.CreateList(ItemType.Sword, "DraugrSword", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
-            var draugrWaraxe = LeveledList.CreateList(ItemType.Waraxe, "DraugrWaraxe", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
-            var draugrMace = LeveledList.CreateList(ItemType.Mace, "DraugrMace", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
-            var draugrDagger = LeveledList.CreateList(ItemType.Dagger, "DraugrDagger", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
-            var draugrBow = LeveledList.CreateList(ItemType.Bow, "DraugrBow", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
-            var draugrGreatsword = LeveledList.CreateList(ItemType.Greatsword, "DraugrGreatsword", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
-            var draugrBattleaxe = LeveledList.CreateList(ItemType.Battleaxe, "DraugrBattleaxe", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
-            var draugrWarhammer = LeveledList.CreateList(ItemType.Warhammer, "DraugrWarhammer", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
-            var draugrArrows = LeveledList.CreateList(ItemType.Arrow12, "DraugrArrows", factorDraugr, draugrWeapons, LootRQ.NoEnch, LootRQ.Special, LootRQ.Rare);
+            var draugrSword = LeveledList.CreateList(ItemType.Sword, "DraugrSword", factorDraugr, draugrWeapons, LootRQ.Rare);
+            var draugrWaraxe = LeveledList.CreateList(ItemType.Waraxe, "DraugrWaraxe", factorDraugr, draugrWeapons, LootRQ.Rare);
+            var draugrMace = LeveledList.CreateList(ItemType.Mace, "DraugrMace", factorDraugr, draugrWeapons, LootRQ.Rare);
+            var draugrDagger = LeveledList.CreateList(ItemType.Dagger, "DraugrDagger", factorDraugr, draugrWeapons, LootRQ.Rare);
+            var draugrBow = LeveledList.CreateList(ItemType.Bow, "DraugrBow", factorDraugr, draugrWeapons, LootRQ.Rare);
+            var draugrGreatsword = LeveledList.CreateList(ItemType.Greatsword, "DraugrGreatsword", factorDraugr, draugrWeapons, LootRQ.Rare);
+            var draugrBattleaxe = LeveledList.CreateList(ItemType.Battleaxe, "DraugrBattleaxe", factorDraugr, draugrWeapons, LootRQ.Rare);
+            var draugrWarhammer = LeveledList.CreateList(ItemType.Warhammer, "DraugrWarhammer", factorDraugr, draugrWeapons, LootRQ.Rare);
+            var draugrArrows = LeveledList.CreateList(ItemType.Arrow12, "DraugrArrows", factorDraugr, draugrWeapons, LootRQ.Rare);
 
-            var draugrSwordEnch = LeveledList.CreateList(ItemType.Sword, "DraugrSwordEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrWaraxeEnch = LeveledList.CreateList(ItemType.Waraxe, "DraugrWaraxeEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrMaceEnch = LeveledList.CreateList(ItemType.Mace, "DraugrMaceEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrDaggerEnch = LeveledList.CreateList(ItemType.Dagger, "DraugrDaggerEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrBowEnch = LeveledList.CreateList(ItemType.Bow, "DraugrBowEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrGreatswordEnch = LeveledList.CreateList(ItemType.Greatsword, "DraugrGreatswordEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrBattleaxeEnch = LeveledList.CreateList(ItemType.Battleaxe, "DraugrBattleaxeEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
-            var draugrWarhammerEnch = LeveledList.CreateList(ItemType.Warhammer, "DraugrWarhammerEnch", factorDraugr, draugrWeapons, LootRQ.Ench, LootRQ.Special, LootRQ.Rare);
+            var draugrSwordEnch = LeveledList.CreateListEnchanted(ItemType.Sword, "DraugrSwordEnch", factorDraugr, draugrWeapons, LootRQ.Rare);
+            var draugrWaraxeEnch = LeveledList.CreateListEnchanted(ItemType.Waraxe, "DraugrWaraxeEnch", factorDraugr, draugrWeapons, LootRQ.Rare);
+            var draugrMaceEnch = LeveledList.CreateListEnchanted(ItemType.Mace, "DraugrMaceEnch", factorDraugr, draugrWeapons, LootRQ.Rare);
+            var draugrDaggerEnch = LeveledList.CreateListEnchanted(ItemType.Dagger, "DraugrDaggerEnch", factorDraugr, draugrWeapons, LootRQ.Rare);
+            var draugrBowEnch = LeveledList.CreateListEnchanted(ItemType.Bow, "DraugrBowEnch", factorDraugr, draugrWeapons, LootRQ.Rare);
+            var draugrGreatswordEnch = LeveledList.CreateListEnchanted(ItemType.Greatsword, "DraugrGreatswordEnch", factorDraugr, draugrWeapons, LootRQ.Rare);
+            var draugrBattleaxeEnch = LeveledList.CreateListEnchanted(ItemType.Battleaxe, "DraugrBattleaxeEnch", factorDraugr, draugrWeapons, LootRQ.Rare);
+            var draugrWarhammerEnch = LeveledList.CreateListEnchanted(ItemType.Warhammer, "DraugrWarhammerEnch", factorDraugr, draugrWeapons, LootRQ.Rare);
 
             LeveledList.LinkList(SKYL.LootDraugrWeapon100, draugrSword.ToLink(), draugrWaraxe.ToLink(), draugrMace.ToLink(), draugrDagger.ToLink(), draugrBow.ToLink(), draugrGreatsword.ToLink(), draugrBattleaxe.ToLink(), draugrWarhammer.ToLink(), draugrArrows.ToLink());
             LeveledList.LinkList(SKYL.LootDraugrWeapon15, draugrSword.ToLink(), draugrWaraxe.ToLink(), draugrMace.ToLink(), draugrDagger.ToLink(), draugrBow.ToLink(), draugrGreatsword.ToLink(), draugrBattleaxe.ToLink(), draugrWarhammer.ToLink(), draugrArrows.ToLink());
@@ -320,13 +334,13 @@ namespace LeveledLoot {
             thalmorWeapons.AddLast(ELVEN);
             thalmorWeapons.AddLast(GLASS);
 
-            var thalmorSword = LeveledList.CreateList(ItemType.Sword, "ThalmorSword", 3, thalmorWeapons, LootRQ.NoEnch).ToLink();
-            var thalmorWarAxe = LeveledList.CreateList(ItemType.Waraxe, "ThalmorWarAxe", 3, thalmorWeapons, LootRQ.NoEnch).ToLink();
-            var thalmorMace = LeveledList.CreateList(ItemType.Mace, "ThalmorMace", 3, thalmorWeapons, LootRQ.NoEnch).ToLink();
+            var thalmorSword = LeveledList.CreateList(ItemType.Sword, "ThalmorSword", 3, thalmorWeapons).ToLink();
+            var thalmorWarAxe = LeveledList.CreateList(ItemType.Waraxe, "ThalmorWarAxe", 3, thalmorWeapons).ToLink();
+            var thalmorMace = LeveledList.CreateList(ItemType.Mace, "ThalmorMace", 3, thalmorWeapons).ToLink();
 
             LeveledList.LinkList(SKYL.LItemThalmorWeapon1H, thalmorSword, thalmorWarAxe, thalmorMace);
-            LeveledList.LinkList(SKYL.LItemThalmorWeaponBow, LeveledList.FACTOR_RARE, ItemType.Bow, thalmorWeapons, LootRQ.NoEnch);
-            LeveledList.LinkList(SKYL.LItemThalmorDagger, LeveledList.FACTOR_RARE, ItemType.Dagger, thalmorWeapons, LootRQ.NoEnch);
+            LeveledList.LinkList(SKYL.LItemThalmorWeaponBow, LeveledList.FACTOR_RARE, ItemType.Bow, thalmorWeapons);
+            LeveledList.LinkList(SKYL.LItemThalmorDagger, LeveledList.FACTOR_RARE, ItemType.Dagger, thalmorWeapons);
 
             // Vampire
 
@@ -362,12 +376,12 @@ namespace LeveledLoot {
             Enchanter.RegisterWeaponEnchantments(ItemType.Warhammer, SKY.IronWarhammer, SKYL.LItemEnchIronWarhammerBoss, 1);
             Enchanter.RegisterWeaponEnchantments(ItemType.Warhammer, SKY.DaedricWarhammer, SKYL.LItemEnchDaedricWarhammerBoss, 4);
 
-            var bossBattleAxe = LeveledList.CreateList(ItemType.Battleaxe, "BossBattleAxe", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
-            var bossGreatsword = LeveledList.CreateList(ItemType.Greatsword, "BossGreatsword", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
-            var bossMace = LeveledList.CreateList(ItemType.Mace, "BossMace", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
-            var bossSword = LeveledList.CreateList(ItemType.Sword, "BossSword", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
-            var bossWaraxe = LeveledList.CreateList(ItemType.Waraxe, "BossWaraxe", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
-            var bossWarhammer = LeveledList.CreateList(ItemType.Warhammer, "BossWarhammer", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+            var bossBattleAxe = LeveledList.CreateListEnchanted(ItemType.Battleaxe, "BossBattleAxe", LeveledList.FACTOR_COMMON, REGULAR_MATERIALS).ToLink();
+            var bossGreatsword = LeveledList.CreateListEnchanted(ItemType.Greatsword, "BossGreatsword", LeveledList.FACTOR_COMMON, REGULAR_MATERIALS).ToLink();
+            var bossMace = LeveledList.CreateListEnchanted(ItemType.Mace, "BossMace", LeveledList.FACTOR_COMMON, REGULAR_MATERIALS).ToLink();
+            var bossSword = LeveledList.CreateListEnchanted(ItemType.Sword, "BossSword", LeveledList.FACTOR_COMMON, REGULAR_MATERIALS).ToLink();
+            var bossWaraxe = LeveledList.CreateListEnchanted(ItemType.Waraxe, "BossWaraxe", LeveledList.FACTOR_COMMON, REGULAR_MATERIALS).ToLink();
+            var bossWarhammer = LeveledList.CreateListEnchanted(ItemType.Warhammer, "BossWarhammer", LeveledList.FACTOR_COMMON, REGULAR_MATERIALS).ToLink();
 
 
             LeveledList.LinkList(SKYL.LItemBanditBossBattleaxe, bossBattleAxe, SKYL.LItemWeaponBattleAxeSpecial);
@@ -377,15 +391,15 @@ namespace LeveledLoot {
             LeveledList.LinkList(SKYL.LItemBanditBossWarAxe, bossWaraxe, SKYL.LItemWeaponWarAxeSpecial);
             LeveledList.LinkList(SKYL.LItemBanditBossWarhammer, bossWarhammer, SKYL.LItemWeaponWarhammerSpecial);
 
-            LeveledList.LinkList(SKYL.LItemBanditBattleaxe, LeveledList.FACTOR_JUNK, ItemType.Battleaxe, LootRQ.NoEnch);
-            LeveledList.LinkList(SKYL.LItemBanditGreatsword, LeveledList.FACTOR_JUNK, ItemType.Greatsword, LootRQ.NoEnch);
-            LeveledList.LinkList(SKYL.LItemBanditWarhammer, LeveledList.FACTOR_JUNK, ItemType.Warhammer, LootRQ.NoEnch);
-            LeveledList.LinkList(SKYL.LItemBanditWarAxe, LeveledList.FACTOR_JUNK, ItemType.Waraxe, LootRQ.NoEnch);
-            LeveledList.LinkList(SKYL.LItemBanditSword, LeveledList.FACTOR_JUNK, ItemType.Sword, LootRQ.NoEnch);
-            LeveledList.LinkList(SKYL.LItemBanditMace, LeveledList.FACTOR_JUNK, ItemType.Mace, LootRQ.NoEnch);
-            LeveledList.LinkList(SKYL.LItemBanditWeaponBow, LeveledList.FACTOR_JUNK, ItemType.Bow, LootRQ.NoEnch);
+            LeveledList.LinkList(SKYL.LItemBanditBattleaxe, LeveledList.FACTOR_JUNK, ItemType.Battleaxe, REGULAR_MATERIALS);
+            LeveledList.LinkList(SKYL.LItemBanditGreatsword, LeveledList.FACTOR_JUNK, ItemType.Greatsword, REGULAR_MATERIALS);
+            LeveledList.LinkList(SKYL.LItemBanditWarhammer, LeveledList.FACTOR_JUNK, ItemType.Warhammer, REGULAR_MATERIALS);
+            LeveledList.LinkList(SKYL.LItemBanditWarAxe, LeveledList.FACTOR_JUNK, ItemType.Waraxe, REGULAR_MATERIALS);
+            LeveledList.LinkList(SKYL.LItemBanditSword, LeveledList.FACTOR_JUNK, ItemType.Sword, REGULAR_MATERIALS);
+            LeveledList.LinkList(SKYL.LItemBanditMace, LeveledList.FACTOR_JUNK, ItemType.Mace, REGULAR_MATERIALS);
+            LeveledList.LinkList(SKYL.LItemBanditWeaponBow, LeveledList.FACTOR_JUNK, ItemType.Bow, REGULAR_MATERIALS);
 
-            LeveledList.LinkList(SKYL.LItemBanditBossShield, LeveledList.FACTOR_RARE, ItemType.HeavyShield, LootRQ.NoEnch);
+            LeveledList.LinkList(SKYL.LItemBanditBossShield, LeveledList.FACTOR_RARE, ItemType.HeavyShield, REGULAR_MATERIALS);
 
             // DLC2 touches bandit lists
             LeveledList.LockLists(SKYL.LItemBanditBattleaxe, SKYL.LItemBanditGreatsword, SKYL.LItemBanditWarhammer, SKYL.LItemBanditSword, SKYL.LItemBanditWarAxe, SKYL.LItemBanditMace, SKYL.LItemBanditWeaponBow);
@@ -411,12 +425,12 @@ namespace LeveledLoot {
             Enchanter.RegisterWeaponEnchantmentManual(SKY.DaedricSword, SKY.EnchDaedricSwordFire05, 5, weaponItemTypes);
             Enchanter.RegisterWeaponEnchantmentManual(SKY.DaedricSword, SKY.EnchDaedricSwordFire06, 6, weaponItemTypes);
 
-            var dremoraBattleAxe = LeveledList.CreateList(ItemType.Battleaxe, "DremoraBattleAxe", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
-            var dremoraGreatsword = LeveledList.CreateList(ItemType.Greatsword, "DremoraGreatsword", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
-            var dremoraMace = LeveledList.CreateList(ItemType.Mace, "DremoraMace", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
-            var dremoraSword = LeveledList.CreateList(ItemType.Sword, "DremoraSword", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
-            var dremoraWaraxe = LeveledList.CreateList(ItemType.Waraxe, "DremoraWaraxe", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
-            var dremoraWarhammer = LeveledList.CreateList(ItemType.Warhammer, "DremoraWarhammer", LeveledList.FACTOR_COMMON, ItemMaterial.ALL, LootRQ.Ench).ToLink();
+            var dremoraBattleAxe = LeveledList.CreateListEnchanted(ItemType.Battleaxe, "DremoraBattleAxe", LeveledList.FACTOR_COMMON, REGULAR_MATERIALS).ToLink();
+            var dremoraGreatsword = LeveledList.CreateListEnchanted(ItemType.Greatsword, "DremoraGreatsword", LeveledList.FACTOR_COMMON, REGULAR_MATERIALS).ToLink();
+            var dremoraMace = LeveledList.CreateListEnchanted(ItemType.Mace, "DremoraMace", LeveledList.FACTOR_COMMON, REGULAR_MATERIALS).ToLink();
+            var dremoraSword = LeveledList.CreateListEnchanted(ItemType.Sword, "DremoraSword", LeveledList.FACTOR_COMMON, REGULAR_MATERIALS).ToLink();
+            var dremoraWaraxe = LeveledList.CreateListEnchanted(ItemType.Waraxe, "DremoraWaraxe", LeveledList.FACTOR_COMMON, REGULAR_MATERIALS).ToLink();
+            var dremoraWarhammer = LeveledList.CreateListEnchanted(ItemType.Warhammer, "DremoraWarhammer", LeveledList.FACTOR_COMMON, REGULAR_MATERIALS).ToLink();
 
             LeveledList.LinkList(SKYL.LItemEnchWeapon1HDremoraFire, dremoraBattleAxe, dremoraGreatsword, dremoraMace, dremoraSword, dremoraWaraxe, dremoraWarhammer);
 

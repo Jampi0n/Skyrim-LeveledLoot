@@ -16,9 +16,6 @@ namespace LeveledLoot {
     enum LootRQ {
         Rare,
         DLC2,
-        NoEnch,
-        Ench,
-        Special
     }
 
     enum ItemType {
