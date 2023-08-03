@@ -7,19 +7,12 @@ using Mutagen.Bethesda.Plugins;
 
 namespace LeveledLoot {
     class RecipeParser {
-        public static void Parse(ItemMaterial ultimate, bool parseArmor, bool parseWeapons) {
+        public static void Parse(ItemMaterial ultimate, List<ItemMaterial> materialList, bool parseArmor, bool parseWeapons) {
             // Add craftable armor to loot
             HashSet<FormKey> craftingPerks = new();
             if(Skyrim.ActorValueInformation.AVSmithing.TryResolve(Program.State.LinkCache, out var avSmithing)) {
                 foreach(var perk in avSmithing.PerkTree) {
                     craftingPerks.Add(perk.Perk.FormKey);
-                }
-            }
-
-            List<ItemMaterial> regularMaterials = new();
-            foreach(var material in ItemMaterial.ALL) {
-                if(!material.requirements.Contains(LootRQ.Special) && !material.requirements.Contains(LootRQ.DLC2)) {
-                    regularMaterials.Add(material);
                 }
             }
 
@@ -57,7 +50,7 @@ namespace LeveledLoot {
             Dictionary<ItemType, List<Tuple<uint, ItemMaterial>>> tierList = new();
             foreach(var itemType in itemTypes) {
                 tierList.Add(itemType, new List<Tuple<uint, ItemMaterial>>());
-                foreach(var mat in regularMaterials) {
+                foreach(var mat in materialList) {
                     var item = mat.GetFirst(itemType);
                     if(parseArmor) {
                         if(item is IFormLink<IArmorGetter> armorLink) {

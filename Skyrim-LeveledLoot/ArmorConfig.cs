@@ -277,7 +277,7 @@ namespace LeveledLoot {
             Enchanter.RegisterArmorEnchantments(ItemType.LightShield, SKY.ArmorDragonscaleShield, SKYL.SublistEnchArmorDragonscaleShield05, 5);
             Enchanter.RegisterArmorEnchantments(ItemType.LightShield, SKY.ArmorDragonscaleShield, SKYL.SublistEnchArmorDragonscaleShield06, 6);
 
-            RecipeParser.Parse(ULTIMATE, true, false);
+            RecipeParser.Parse(ULTIMATE, REGULAR_MATERIALS, true, false);
 
             // Best = 4
             // Special/Reward = 3
@@ -475,7 +475,7 @@ namespace LeveledLoot {
             LeveledList.LinkList(SKYL.LItemBanditBossHelmet50, LeveledList.FACTOR_JUNK, ItemType.HeavyHelmet, banditArmor, LootRQ.DLC2);
             LeveledList.LinkList(SKYL.LItemBanditBossBoots, LeveledList.FACTOR_JUNK, ItemType.HeavyBoots, banditArmor, LootRQ.DLC2);
             LeveledList.LinkList(SKYL.LItemBanditBossGauntlets50, LeveledList.FACTOR_JUNK, ItemType.HeavyGauntlets, banditArmor, LootRQ.DLC2);
-            LeveledList.LinkList(SKYL.LItemBanditBossShield, LeveledList.FACTOR_JUNK, ItemType.HeavyShield, REGULAR_MATERIALS, LootRQ.DLC2);
+            LeveledList.LinkList(SKYL.LItemBanditBossShield, LeveledList.FACTOR_JUNK, ItemType.HeavyShield, REGULAR_MATERIALS, LootRQ.DLC2);            
 
             LeveledList.LockLists(SKYL.LItemBanditBossCuirass, SKYL.LItemBanditBossHelmet50, SKYL.LItemBanditBossBoots, SKYL.LItemBanditBossGauntlets50, SKYL.LItemBanditBossShield);
 

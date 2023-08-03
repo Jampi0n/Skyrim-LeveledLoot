@@ -43,11 +43,11 @@ namespace LeveledLoot {
 
     class MiscConfig {
 
-        public static ItemMaterial NOVICE = new("Novice", 0.0001, 250, 1, 50, LootRQ.Special);
-        public static ItemMaterial APPRENTICE = new("Apprentice", 0, 160, 7, 75, LootRQ.Special);
-        public static ItemMaterial ADEPT = new("Adept", 0, 90, 16, 250, LootRQ.Special);
-        public static ItemMaterial EXPERT = new("Expert", 0, 45, 22, 350, LootRQ.Special);
-        public static ItemMaterial MASTER = new("Master", 0, 20, 35, 400, LootRQ.Special);
+        public static ItemMaterial NOVICE = new("Novice", 0.0001, 250, 1, 50);
+        public static ItemMaterial APPRENTICE = new("Apprentice", 0, 160, 7, 75);
+        public static ItemMaterial ADEPT = new("Adept", 0, 90, 16, 250);
+        public static ItemMaterial EXPERT = new("Expert", 0, 45, 22, 350);
+        public static ItemMaterial MASTER = new("Master", 0, 20, 35, 400);
 
         public static ItemMaterial COAL = new("Coal", 0.000025, 150, 1, 50);
         public static ItemMaterial IRON = new("Iron", 0.0001, 250, 1, 50);
@@ -91,12 +91,12 @@ namespace LeveledLoot {
             AddRobes(Enchantment.Conjuration, SKYA.EnchClothesRobesMageConjuration01, SKYA.EnchClothesRobesMageConjuration02, SKYA.EnchClothesRobesMageConjuration03, SKYA.EnchClothesRobesMageConjuration04, SKYA.EnchClothesRobesMageConjuration05);
             AddRobes(Enchantment.Alteration, SKYA.EnchClothesRobesMageAlteration01, SKYA.EnchClothesRobesMageAlteration02, SKYA.EnchClothesRobesMageAlteration03, SKYA.EnchClothesRobesMageAlteration04, SKYA.EnchClothesRobesMageAlteration05);
 
-            LeveledList.LinkList(SKYL.LItemRobesCollegeMagickaRegen, 4, Enchantment.Regen, coolgeRobes, LootRQ.Special);
-            LeveledList.LinkList(SKYL.LItemRobesCollegeRestoration, 4, Enchantment.Restoration, coolgeRobes, LootRQ.Special);
-            LeveledList.LinkList(SKYL.LItemRobesCollegeDestruction, 4, Enchantment.Destruction, coolgeRobes, LootRQ.Special);
-            LeveledList.LinkList(SKYL.LItemRobesCollegeIllusion, 4, Enchantment.Illusion, coolgeRobes, LootRQ.Special);
-            LeveledList.LinkList(SKYL.LItemRobesCollegeConjuration, 4, Enchantment.Conjuration, coolgeRobes, LootRQ.Special);
-            LeveledList.LinkList(SKYL.LItemRobesCollegeAlteration, 4, Enchantment.Alteration, coolgeRobes, LootRQ.Special);
+            LeveledList.LinkList(SKYL.LItemRobesCollegeMagickaRegen, 4, Enchantment.Regen, coolgeRobes);
+            LeveledList.LinkList(SKYL.LItemRobesCollegeRestoration, 4, Enchantment.Restoration, coolgeRobes);
+            LeveledList.LinkList(SKYL.LItemRobesCollegeDestruction, 4, Enchantment.Destruction, coolgeRobes);
+            LeveledList.LinkList(SKYL.LItemRobesCollegeIllusion, 4, Enchantment.Illusion, coolgeRobes);
+            LeveledList.LinkList(SKYL.LItemRobesCollegeConjuration, 4, Enchantment.Conjuration, coolgeRobes);
+            LeveledList.LinkList(SKYL.LItemRobesCollegeAlteration, 4, Enchantment.Alteration, coolgeRobes);
 
             var oreIngotOnly = new List<ItemMaterial>();
             oreIngotOnly.Add(IRON);

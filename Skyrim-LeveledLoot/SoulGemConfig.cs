@@ -23,6 +23,10 @@ namespace LeveledLoot {
         public static ItemMaterial GRAND = new("Grand", 0, 40, 10, 225);
         public static ItemMaterial BLACK = new("Black", 0, 25, 10, 225, LootRQ.Rare);
 
+        static List<ItemMaterial> SOUL_GEMS = new() {
+            PETTY, LESSER, COMMON, GREATER, GRAND, BLACK
+        };
+
         public static void Config() {
             PETTY.AddItem(ItemType.SoulGemEmpty, SKY.SoulGemPetty);
             PETTY.AddItem(ItemType.SoulGemFilled, SKY.SoulGemPettyFilled);
@@ -37,17 +41,17 @@ namespace LeveledLoot {
             BLACK.AddItem(ItemType.SoulGemEmpty, SKY.SoulGemBlack);
             BLACK.AddItem(ItemType.SoulGemFilled, SKY.SoulGemBlackFilled);
 
-            LeveledList.LinkList(SKYL.LItemMiscVendorSoulGemEmpty, 2, ItemType.SoulGemEmpty);
-            LeveledList.LinkList(SKYL.LItemSoulGemEmptyNoBlack, 2, ItemType.SoulGemEmpty);
-            LeveledList.LinkList(SKYL.LItemSoulGemEmptySpecial, 3, ItemType.SoulGemEmpty, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemSoulGemEmptyTown, 2, ItemType.SoulGemEmpty);
+            LeveledList.LinkList(SKYL.LItemMiscVendorSoulGemEmpty, 2, ItemType.SoulGemEmpty, SOUL_GEMS);
+            LeveledList.LinkList(SKYL.LItemSoulGemEmptyNoBlack, 2, ItemType.SoulGemEmpty, SOUL_GEMS);
+            LeveledList.LinkList(SKYL.LItemSoulGemEmptySpecial, 3, ItemType.SoulGemEmpty, SOUL_GEMS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemSoulGemEmptyTown, 2, ItemType.SoulGemEmpty, SOUL_GEMS);
 
 
-            LeveledList.LinkList(SKYL.LItemMiscVendorSoulGemFull, 2, ItemType.SoulGemFilled);
-            LeveledList.LinkList(SKYL.LItemSoulGemFullNoBlack, 2, ItemType.SoulGemFilled);
-            LeveledList.LinkList(SKYL.LItemSoulGemFullSpecial, 3, ItemType.SoulGemFilled, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemSoulGemFullTown, 2, ItemType.SoulGemFilled);
-            LeveledList.LinkList(SKYL.LItemSoulGemFullMagicTrap, 3, ItemType.SoulGemFilled);
+            LeveledList.LinkList(SKYL.LItemMiscVendorSoulGemFull, 2, ItemType.SoulGemFilled, SOUL_GEMS);
+            LeveledList.LinkList(SKYL.LItemSoulGemFullNoBlack, 2, ItemType.SoulGemFilled, SOUL_GEMS);
+            LeveledList.LinkList(SKYL.LItemSoulGemFullSpecial, 3, ItemType.SoulGemFilled, SOUL_GEMS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemSoulGemFullTown, 2, ItemType.SoulGemFilled, SOUL_GEMS);
+            LeveledList.LinkList(SKYL.LItemSoulGemFullMagicTrap, 3, ItemType.SoulGemFilled, SOUL_GEMS);
         }
     }
 }

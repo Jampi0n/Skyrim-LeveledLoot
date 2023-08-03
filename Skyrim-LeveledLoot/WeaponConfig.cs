@@ -134,7 +134,7 @@ namespace LeveledLoot {
             Enchanter.RegisterWeaponEnchantments(ItemType.Warhammer, SKY.DaedricWarhammer, SKYL.LItemEnchDaedricWarhammer, 4);
 
 
-            RecipeParser.Parse(ULTIMATE, false, true);
+            RecipeParser.Parse(ULTIMATE, REGULAR_MATERIALS, false, true);
 
             LeveledList.LinkList(SKYL.LItemWeaponSword, LeveledList.FACTOR_COMMON, ItemType.Sword, REGULAR_MATERIALS, LootRQ.Rare);
             LeveledList.LinkList(SKYL.LItemWeaponSwordBest, LeveledList.FACTOR_BEST, ItemType.Sword, REGULAR_MATERIALS, LootRQ.Rare);
@@ -399,7 +399,6 @@ namespace LeveledLoot {
             LeveledList.LinkList(SKYL.LItemBanditMace, LeveledList.FACTOR_JUNK, ItemType.Mace, REGULAR_MATERIALS);
             LeveledList.LinkList(SKYL.LItemBanditWeaponBow, LeveledList.FACTOR_JUNK, ItemType.Bow, REGULAR_MATERIALS);
 
-            LeveledList.LinkList(SKYL.LItemBanditBossShield, LeveledList.FACTOR_RARE, ItemType.HeavyShield, REGULAR_MATERIALS);
 
             // DLC2 touches bandit lists
             LeveledList.LockLists(SKYL.LItemBanditBattleaxe, SKYL.LItemBanditGreatsword, SKYL.LItemBanditWarhammer, SKYL.LItemBanditSword, SKYL.LItemBanditWarAxe, SKYL.LItemBanditMace, SKYL.LItemBanditWeaponBow);
