@@ -26,6 +26,7 @@ namespace LeveledLoot {
         static readonly ItemMaterial ENCH_4 = new("4", 0, 20, 24, 160);
         static readonly ItemMaterial ENCH_5 = new("5", 0, 13, 37, 200);
         static readonly ItemMaterial ENCH_6 = new("6", 0, 7, 50, 240);
+        static readonly ItemMaterial ENCH_7 = new("6", 0, 3, 70, 240);
 
         static readonly List<ItemMaterial> EnchTiers = new() {
             ENCH_1,
@@ -33,7 +34,8 @@ namespace LeveledLoot {
             ENCH_3,
             ENCH_4,
             ENCH_5,
-            ENCH_6
+            ENCH_6,
+            ENCH_7
         };
 
 
@@ -56,6 +58,9 @@ namespace LeveledLoot {
                     throw new Exception("No enchantments for item type.");
                 }
                 var dict = enchantmentDict[itemType];
+                if(!dict.ContainsKey(enchantTier)) {
+                    return null;
+                }
                 var numEnchantments = dict[enchantTier].Count();
                 LeveledItem? leveledList = null;
                 if(numEnchantments > 1) {
@@ -84,7 +89,7 @@ namespace LeveledLoot {
                         leveledList.Entries!.Add(entry);
                     }
                     enchantedItems[key] = leveledList.ToLink();
-                } else if (numEnchantments == 1) {
+                } else if(numEnchantments == 1) {
                     var enchTuple = dict[enchantTier].First();
                     Statistics.instance.enchantedArmor++;
                     var itemCopy = Program.State!.PatchMod.Armors.AddNew();
@@ -110,6 +115,9 @@ namespace LeveledLoot {
                     throw new Exception("No enchantments for item type.");
                 }
                 var dict = enchantmentDict[itemType];
+                if(!dict.ContainsKey(enchantTier)) {
+                    return null;
+                }
                 var numEnchantments = dict[enchantTier].Count();
                 LeveledItem? leveledList = null;
                 if(numEnchantments > 1) {
@@ -160,65 +168,20 @@ namespace LeveledLoot {
         public static Form Enchant(Form itemLink, int lootLevel, string name) {
             var key = new Tuple<FormKey, int>(itemLink.FormKey, lootLevel);
             if(!enchantedItems.ContainsKey(key)) {
-
-
-
                 if(itemLink.TryResolve(Program.State.LinkCache, out var item)) {
-                    ItemType? itemType = null;
+
                     IArmorGetter? armorGetter = null;
                     IWeaponGetter? weaponGetter = null;
                     if(item is IArmorGetter a) {
                         armorGetter = a;
 
-                        if(armorGetter.BodyTemplate!.ArmorType == ArmorType.HeavyArmor) {
-                            if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorHelmet)) {
-                                itemType = ItemType.HeavyHelmet;
-                            } else if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorCuirass)) {
-                                itemType = ItemType.HeavyCuirass;
-                            } else if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorGauntlets)) {
-                                itemType = ItemType.HeavyGauntlets;
-                            } else if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorBoots)) {
-                                itemType = ItemType.HeavyBoots;
-                            } else if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorShield)) {
-                                itemType = ItemType.HeavyShield;
-                            }
-                        } else if(armorGetter.BodyTemplate!.ArmorType == ArmorType.LightArmor) {
-                            if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorHelmet)) {
-                                itemType = ItemType.LightHelmet;
-                            } else if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorCuirass)) {
-                                itemType = ItemType.LightCuirass;
-                            } else if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorGauntlets)) {
-                                itemType = ItemType.LightGauntlets;
-                            } else if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorBoots)) {
-                                itemType = ItemType.LightBoots;
-                            } else if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorShield)) {
-                                itemType = ItemType.LightShield;
-                            }
-                        }
                     } else if(item is IWeaponGetter w) {
                         weaponGetter = w;
-
-                        if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeBattleaxe)) {
-                            itemType = ItemType.Battleaxe;
-                        } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeBow)) {
-                            itemType = ItemType.Bow;
-                        } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeDagger)) {
-                            itemType = ItemType.Dagger;
-                        } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeGreatsword)) {
-                            itemType = ItemType.Greatsword;
-                        } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeMace)) {
-                            itemType = ItemType.Mace;
-                        } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeSword)) {
-                            itemType = ItemType.Sword;
-                        } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeWarAxe)) {
-                            itemType = ItemType.Waraxe;
-                        } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeWarhammer)) {
-                            itemType = ItemType.Warhammer;
-                        }
                     }
                     if(armorGetter == null && weaponGetter == null) {
                         throw new Exception("Item must be armor or weapon.");
                     }
+                    ItemType? itemType = ItemTypeConfig.GetItemTypeFromKeywords(item);
                     if(itemType == null) {
                         throw new Exception("ItemType is null.");
                     }
@@ -235,11 +198,17 @@ namespace LeveledLoot {
                     }
 
                     for(int t = 0; t < EnchTiers.Count; t++) {
+                        Form? enchantedItem = null;
                         if(armorGetter != null) {
-                            newItemList.Add(EnchantArmor(armorGetter, itemType.Value, t + 1, name));
+                            enchantedItem = EnchantArmor(armorGetter, itemType.Value, t + 1, name);
                         } else {
-                            newItemList.Add(EnchantWeapon(weaponGetter!, itemType.Value, t + 1, name));
+                            enchantedItem = EnchantWeapon(weaponGetter!, itemType.Value, t + 1, name);
                         }
+                        if(enchantedItem == null) {
+                            continue;
+                        }
+                        newItemList.Add(enchantedItem);
+
                         var itemMaterial = EnchTiers[t];
                         // linear weight x between 0 and 1 depending on player level and first and last level of the item
                         // 0 -> start chance
@@ -387,6 +356,74 @@ namespace LeveledLoot {
                             dict.Add(tier, new Dictionary<IFormLink<IEffectRecordGetter>, Tuple<int, string, string>>());
                         }
                         dict[tier][ench] = new Tuple<int, string, string>(enchAmount, enchantedItemName.Replace(itemName, "$NAME$"), enchEditorID);
+                    }
+                }
+            }
+        }
+
+        public static string CombineNames(string a, string b) {
+            if(a.StartsWith("$NAME$ of") && b.StartsWith("$NAME$ of")) {
+                var aSplit = a.Split(" ");
+                var bSplit = b.Split(" ");
+                // $NAME$ of ADJCETIVE ENCHANTMENT
+                // remove adjective if it is equal for both enchantments
+                // only treat as ADJCETIVE, if it starts with capital letter to avoid words like "the"
+                var minLength = Math.Min(aSplit.Length, bSplit.Length);
+                var name = a + " and";
+                for(int i = 2; i < minLength; i++) {
+                    if(aSplit[i] == bSplit[i] && aSplit[i].Substring(0, 1).ToUpper() == aSplit[i].Substring(0, 1)) {
+                        continue;
+                    }
+                    name += " " + bSplit[i];
+                }
+                for(int i = minLength; i < bSplit.Length; i++) {
+                    name += " " + bSplit[i];
+                }
+                return name;
+            }
+            if(b.StartsWith("$NAME$ of")) {
+                return b.Replace("$NAME$", a);
+            }
+            return a.Replace("$NAME$", b);
+        }
+
+        public static void GenerateDoubleEnchantments(ItemType[] itemTypes) {
+            foreach(var itemType in itemTypes) {
+                if(!enchantmentDict[itemType].ContainsKey(6)) {
+                    continue;
+                }
+                var tier6 = enchantmentDict[itemType][6];
+                if(!enchantmentDict[itemType].ContainsKey(7)) {
+                    enchantmentDict[itemType].Add(7, new Dictionary<IFormLink<IEffectRecordGetter>, Tuple<int, string, string>>());
+                }
+                var tier7 = enchantmentDict[itemType][7];
+                var keys = tier6.Keys.ToArray();
+                for(int i = 0; i < keys.Length; i++) {
+
+                    if(keys[i].TryResolve(Program.State.LinkCache, out var effectRecord1)) {
+                        if(effectRecord1 is IObjectEffectGetter ench1) {
+                            for(int j = i + 1; j < keys.Length; j++) {
+
+                                if(keys[j].TryResolve(Program.State.LinkCache, out var effectRecord2)) {
+                                    if(effectRecord2 is IObjectEffectGetter ench2) {
+                                        if(ench1.CastType != ench2.CastType || ench1.TargetType != ench2.TargetType || ench1.EnchantType != ench2.EnchantType) {
+                                            continue;
+                                        }
+                                        var enchCombined = Program.State.PatchMod.ObjectEffects.AddNew();
+                                        enchCombined.DeepCopyIn(ench1);
+                                        foreach(var effect2 in ench2.Effects) {
+                                            enchCombined.Effects.Add(effect2.DeepCopy());
+                                        }
+                                        enchCombined.EditorID = prefix + ench1.EditorID + "_" + ench2.EditorID;
+                                        enchCombined.Name += " & " + ench2.Name;
+                                        var v1 = tier6[keys[i]];
+                                        var v2 = tier6[keys[j]];
+                                        tier7.Add(enchCombined.ToLink(), new Tuple<int, string, string>(v1.Item1 + v2.Item1, CombineNames(v1.Item2, v2.Item2), enchCombined.EditorID));
+                                    }
+                                }
+
+                            }
+                        }
                     }
                 }
             }

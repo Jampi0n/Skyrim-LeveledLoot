@@ -23,57 +23,9 @@ namespace LeveledLoot {
         public static readonly int FACTOR_BEST = 4;
         static readonly int MAX_DEPTH = 1;
         static readonly int MAX_LEAVES = (int)Math.Pow(NUM_CHILDREN, MAX_DEPTH);
-        static readonly int[] LEVEL_LIST = new int[] { 1, 5, 10, 15, 21, 27, 34, 42, 50, 60, 70, 80, 90, 100 };
+        static readonly int[] LEVEL_LIST = new int[] { 1, 5, 10, 15, 21, 27, 34, 42, 50, 60, 70, 80 };
         static readonly List<FormLink<ILeveledItemGetter>> lockedLists = new();
         static LeveledItem? dummyList;
-
-        static readonly HashSet<IFormLinkGetter<ILeveledItemGetter>> adjustedWeaponEnchLists = new();
-        public static void AdjustWeaponEnchList(IFormLinkGetter<ILeveledItemGetter> vanillaList) {
-            if(adjustedWeaponEnchLists.Contains(vanillaList)) {
-                return;
-            }
-            adjustedWeaponEnchLists.Add(vanillaList);
-            var leveledItemGetter = vanillaList.Resolve(Program.State.LinkCache);
-            var entries = leveledItemGetter.Entries;
-            if(entries == null || entries.Count == 0) {
-                return;
-            }
-            var first = entries[0].Data!.Reference.Resolve(Program.State.LinkCache);
-            if(first is ILeveledItemGetter) {
-                foreach(var entry in entries) {
-                    var entryRef = entry.Data!.Reference.Resolve(Program.State.LinkCache);
-                    if(entryRef is ILeveledItemGetter entryLeveledItem) {
-                        AdjustWeaponEnchList(entryLeveledItem.ToLink());
-                    }
-                }
-            } else if(first is IWeaponGetter) {
-                var editList = Program.State.PatchMod.LeveledItems.GetOrAddAsOverride(leveledItemGetter);
-                editList.Flags = LeveledItem.Flag.CalculateFromAllLevelsLessThanOrEqualPlayer;
-                var enchList = new List<IFormLink<IWeaponGetter>>();
-                foreach(var entry in editList.Entries!) {
-                    var entryRef = entry.Data!.Reference.Resolve(Program.State.LinkCache);
-                    if(entryRef is IWeaponGetter entryWeapon) {
-                        enchList.Add(entryWeapon.ToLink());
-                    } else {
-                        throw new Exception("Must only contain weapons!");
-                    }
-                }
-                editList.Entries = new Noggog.ExtendedList<LeveledItemEntry>();
-                int weight = enchList.Count;
-                foreach(var weapon in enchList) {
-                    for(int i = 0; i < weight; ++i) {
-                        editList.Entries.Add(new LeveledItemEntry() {
-                            Data = new LeveledItemEntryData() {
-                                Count = 1,
-                                Level = 1,
-                                Reference = weapon
-                            }
-                        });
-                    }
-                    weight--;
-                }
-            }
-        }
 
         public static Form CreateSubList(Enum itemType, int level, string name, IEnumerable<ItemMaterial> materials, bool enchant, params LootRQ[] requirements) {
             double totalChance = 0;

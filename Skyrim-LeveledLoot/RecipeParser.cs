@@ -103,35 +103,7 @@ namespace LeveledLoot {
                 if(isValidCob) {
                     if(cob.CreatedObject.TryResolve(Program.State.LinkCache, out var createdItem)) {
                         if(parseArmor && createdItem is IArmorGetter armor) {
-                            ItemType? itemType = null;
-                            if(armor.BodyTemplate == null) {
-                                continue;
-                            }
-                            if(armor.BodyTemplate.ArmorType == ArmorType.HeavyArmor) {
-                                if(armor.HasKeyword(Skyrim.Keyword.ArmorHelmet)) {
-                                    itemType = ItemType.HeavyHelmet;
-                                } else if(armor.HasKeyword(Skyrim.Keyword.ArmorCuirass)) {
-                                    itemType = ItemType.HeavyCuirass;
-                                } else if(armor.HasKeyword(Skyrim.Keyword.ArmorGauntlets)) {
-                                    itemType = ItemType.HeavyGauntlets;
-                                } else if(armor.HasKeyword(Skyrim.Keyword.ArmorBoots)) {
-                                    itemType = ItemType.HeavyBoots;
-                                } else if(armor.HasKeyword(Skyrim.Keyword.ArmorShield)) {
-                                    itemType = ItemType.HeavyShield;
-                                }
-                            } else if(armor.BodyTemplate.ArmorType == ArmorType.LightArmor) {
-                                if(armor.HasKeyword(Skyrim.Keyword.ArmorHelmet)) {
-                                    itemType = ItemType.LightHelmet;
-                                } else if(armor.HasKeyword(Skyrim.Keyword.ArmorCuirass)) {
-                                    itemType = ItemType.LightCuirass;
-                                } else if(armor.HasKeyword(Skyrim.Keyword.ArmorGauntlets)) {
-                                    itemType = ItemType.LightGauntlets;
-                                } else if(armor.HasKeyword(Skyrim.Keyword.ArmorBoots)) {
-                                    itemType = ItemType.LightBoots;
-                                } else if(armor.HasKeyword(Skyrim.Keyword.ArmorShield)) {
-                                    itemType = ItemType.LightShield;
-                                }
-                            }
+                            ItemType? itemType = ItemTypeConfig.GetItemTypeFromKeywords(armor);
                             if(itemType != null) {
                                 var list = tierList[itemType.Value];
                                 for(int i = 0; i < list.Count; i++) {
@@ -143,24 +115,7 @@ namespace LeveledLoot {
                             }
                         }
                         if(parseWeapons && createdItem is IWeaponGetter weapon) {
-                            ItemType? itemType = null;
-                            if(weapon.HasKeyword(Skyrim.Keyword.WeapTypeBattleaxe)) {
-                                itemType = ItemType.Battleaxe;
-                            } else if(weapon.HasKeyword(Skyrim.Keyword.WeapTypeBow)) {
-                                itemType = ItemType.Bow;
-                            } else if(weapon.HasKeyword(Skyrim.Keyword.WeapTypeDagger)) {
-                                itemType = ItemType.Dagger;
-                            } else if(weapon.HasKeyword(Skyrim.Keyword.WeapTypeGreatsword)) {
-                                itemType = ItemType.Greatsword;
-                            } else if(weapon.HasKeyword(Skyrim.Keyword.WeapTypeMace)) {
-                                itemType = ItemType.Mace;
-                            } else if(weapon.HasKeyword(Skyrim.Keyword.WeapTypeSword)) {
-                                itemType = ItemType.Sword;
-                            } else if(weapon.HasKeyword(Skyrim.Keyword.WeapTypeWarAxe)) {
-                                itemType = ItemType.Waraxe;
-                            } else if(weapon.HasKeyword(Skyrim.Keyword.WeapTypeWarhammer)) {
-                                itemType = ItemType.Warhammer;
-                            }
+                            ItemType? itemType = ItemTypeConfig.GetItemTypeFromKeywords(weapon);
                             if(itemType != null) {
                                 var list = tierList[itemType.Value];
                                 for(int i = 0; i < list.Count; i++) {

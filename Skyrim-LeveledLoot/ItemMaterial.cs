@@ -7,9 +7,13 @@ using Mutagen.Bethesda;
 using Mutagen.Bethesda.Synthesis;
 using Mutagen.Bethesda.Skyrim;
 using Mutagen.Bethesda.Plugins;
+using System.Collections.ObjectModel;
+using Mutagen.Bethesda.FormKeys.SkyrimLE;
+using Mutagen.Bethesda.Plugins.Aspects;
+using Mutagen.Bethesda.Plugins.Records;
 
 using Form = Mutagen.Bethesda.Plugins.IFormLink<Mutagen.Bethesda.Plugins.Records.IMajorRecordGetter>;
-using System.Collections.ObjectModel;
+
 
 namespace LeveledLoot {
 
@@ -91,6 +95,56 @@ namespace LeveledLoot {
                 }
             }
             return result;
+        }
+
+        public static ItemType? GetItemTypeFromKeywords(IMajorRecordGetter item) {
+            ItemType? itemType = null;
+            if(item is IArmorGetter armorGetter) {
+                if(armorGetter.BodyTemplate!.ArmorType == ArmorType.HeavyArmor) {
+                    if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorHelmet)) {
+                        itemType = ItemType.HeavyHelmet;
+                    } else if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorCuirass)) {
+                        itemType = ItemType.HeavyCuirass;
+                    } else if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorGauntlets)) {
+                        itemType = ItemType.HeavyGauntlets;
+                    } else if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorBoots)) {
+                        itemType = ItemType.HeavyBoots;
+                    } else if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorShield)) {
+                        itemType = ItemType.HeavyShield;
+                    }
+                } else if(armorGetter.BodyTemplate!.ArmorType == ArmorType.LightArmor) {
+                    if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorHelmet)) {
+                        itemType = ItemType.LightHelmet;
+                    } else if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorCuirass)) {
+                        itemType = ItemType.LightCuirass;
+                    } else if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorGauntlets)) {
+                        itemType = ItemType.LightGauntlets;
+                    } else if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorBoots)) {
+                        itemType = ItemType.LightBoots;
+                    } else if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorShield)) {
+                        itemType = ItemType.LightShield;
+                    }
+                }
+            } else if(item is IWeaponGetter weaponGetter) {
+                if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeBattleaxe)) {
+                    itemType = ItemType.Battleaxe;
+                } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeBow)) {
+                    itemType = ItemType.Bow;
+                } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeDagger)) {
+                    itemType = ItemType.Dagger;
+                } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeGreatsword)) {
+                    itemType = ItemType.Greatsword;
+                } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeMace)) {
+                    itemType = ItemType.Mace;
+                } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeSword)) {
+                    itemType = ItemType.Sword;
+                } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeWarAxe)) {
+                    itemType = ItemType.Waraxe;
+                } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeWarhammer)) {
+                    itemType = ItemType.Warhammer;
+                }
+            }
+            return itemType;
         }
 
         public static void Config() {
@@ -246,7 +300,7 @@ namespace LeveledLoot {
                                 leveledList.ChanceNone = Math.Max(itemVariant.chanceNone, leveledList.ChanceNone);
                                 entry.Data.Count = itemVariant.count;
                                 entry.Data.Level = 1;
-                                entry.Data.Reference.SetTo( Enchanter.Enchant(itemVariant.item, level, name).FormKey);
+                                entry.Data.Reference.SetTo(Enchanter.Enchant(itemVariant.item, level, name).FormKey);
                                 leveledList.Entries ??= new Noggog.ExtendedList<LeveledItemEntry>();
                                 leveledList.Entries!.Add(entry);
                             }

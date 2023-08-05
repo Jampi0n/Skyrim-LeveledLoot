@@ -43,24 +43,24 @@ namespace LeveledLoot {
 
     class MiscConfig {
 
-        public static ItemMaterial NOVICE = new("Novice", 0.0001, 250, 1, 50);
-        public static ItemMaterial APPRENTICE = new("Apprentice", 0, 160, 7, 75);
-        public static ItemMaterial ADEPT = new("Adept", 0, 90, 16, 250);
-        public static ItemMaterial EXPERT = new("Expert", 0, 45, 22, 350);
-        public static ItemMaterial MASTER = new("Master", 0, 20, 35, 400);
+        public static ItemMaterial NOVICE = new("Novice", 80, 33, 0, 20);
+        public static ItemMaterial APPRENTICE = new("Apprentice", 20, 29, 0, 80);
+        public static ItemMaterial ADEPT = new("Adept", 0, 20, 12, 140);
+        public static ItemMaterial EXPERT = new("Expert", 0, 12, 20, 200);
+        public static ItemMaterial MASTER = new("Master", 0, 6, 28, 240);
 
-        public static ItemMaterial COAL = new("Coal", 0.000025, 150, 1, 50);
-        public static ItemMaterial IRON = new("Iron", 0.0001, 250, 1, 50);
-        public static ItemMaterial STEEL = new("Steel", 0.0001, 250, 1, 50);
-        public static ItemMaterial CORUNDUM = new("Corundum", 0, 120, 10, 175);
-        public static ItemMaterial DWARVEN = new("Dwarven", 0, 80, 5, 75);
-        public static ItemMaterial ORICHALCUM = new("Orichalcum", 0, 60, 13, 250);
-        public static ItemMaterial QUICKSILVER = new("Quicksilver", 0, 90, 11, 275);
-        public static ItemMaterial MOONSTONE = new("Moonstone", 0, 70,9, 150);
-        public static ItemMaterial MALACHITE = new("Malachite", 0, 50, 15, 300);
-        public static ItemMaterial EBONY = new("Ebony", 0, 40, 17, 350);
-        public static ItemMaterial SILVER = new("Silver", 0, 110, 1, 175);
-        public static ItemMaterial GOLD = new("Gold", 0, 70, 1, 150);
+        public static ItemMaterial COAL = new("Coal", 10, 150, 0, 50);
+        public static ItemMaterial IRON = new("Iron", 50, 250, 0, 50);
+        public static ItemMaterial STEEL = new("Steel", 40, 250, 0, 50);
+        public static ItemMaterial CORUNDUM = new("Corundum", 0, 120, 5, 80);
+        public static ItemMaterial DWARVEN = new("Dwarven", 0, 80, 5, 80);
+        public static ItemMaterial ORICHALCUM = new("Orichalcum", 0, 60, 15, 150);
+        public static ItemMaterial QUICKSILVER = new("Quicksilver", 0, 90, 10, 120);
+        public static ItemMaterial MOONSTONE = new("Moonstone", 0, 70, 5, 150);
+        public static ItemMaterial MALACHITE = new("Malachite", 0, 50, 30, 200);
+        public static ItemMaterial EBONY = new("Ebony", 0, 40, 35, 240);
+        public static ItemMaterial SILVER = new("Silver", 0, 110, 5, 80);
+        public static ItemMaterial GOLD = new("Gold", 0, 70, 15, 150);
 
         public static void AddRobes(Enum itemType, Form? novice, Form? apprentice, Form? adept, Form? expert, Form? master) {
             NOVICE.AddItem(itemType, novice);

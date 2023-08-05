@@ -76,6 +76,19 @@ namespace LeveledLoot {
 
 
         public static void Config() {
+            var armorItemTypes = new ItemType[] {
+                ItemType.HeavyHelmet,
+                ItemType.HeavyCuirass,
+                ItemType.HeavyGauntlets,
+                ItemType.HeavyBoots,
+                ItemType.HeavyShield,
+                ItemType.LightHelmet,
+                ItemType.LightCuirass,
+                ItemType.LightGauntlets,
+                ItemType.LightBoots,
+                ItemType.LightShield,
+            };
+
             IRON.DefaultHeavyArmor(SKY.ArmorIronHelmet, null, SKY.ArmorIronGauntlets, SKY.ArmorIronBoots, null);
             IRON.AddItem(ItemType.HeavyCuirass, SKY.ArmorIronCuirass, 3);
             IRON.AddItem(ItemType.HeavyCuirass, SKY.ArmorIronBandedCuirass, 1);
@@ -277,6 +290,8 @@ namespace LeveledLoot {
             Enchanter.RegisterArmorEnchantments(ItemType.LightShield, SKY.ArmorDragonscaleShield, SKYL.SublistEnchArmorDragonscaleShield05, 5);
             Enchanter.RegisterArmorEnchantments(ItemType.LightShield, SKY.ArmorDragonscaleShield, SKYL.SublistEnchArmorDragonscaleShield06, 6);
 
+            Enchanter.GenerateDoubleEnchantments(armorItemTypes);
+
             RecipeParser.Parse(ULTIMATE, REGULAR_MATERIALS, true, false);
 
             // Best = 4
@@ -471,11 +486,11 @@ namespace LeveledLoot {
             banditArmor.AddLast(STEELPLATE);
             banditArmor.AddLast(NORDIC);
 
-            LeveledList.LinkList(SKYL.LItemBanditBossCuirass, LeveledList.FACTOR_JUNK, ItemType.HeavyCuirass, banditArmor, LootRQ.DLC2);
-            LeveledList.LinkList(SKYL.LItemBanditBossHelmet50, LeveledList.FACTOR_JUNK, ItemType.HeavyHelmet, banditArmor, LootRQ.DLC2);
-            LeveledList.LinkList(SKYL.LItemBanditBossBoots, LeveledList.FACTOR_JUNK, ItemType.HeavyBoots, banditArmor, LootRQ.DLC2);
-            LeveledList.LinkList(SKYL.LItemBanditBossGauntlets50, LeveledList.FACTOR_JUNK, ItemType.HeavyGauntlets, banditArmor, LootRQ.DLC2);
-            LeveledList.LinkList(SKYL.LItemBanditBossShield, LeveledList.FACTOR_JUNK, ItemType.HeavyShield, REGULAR_MATERIALS, LootRQ.DLC2);            
+            LeveledList.LinkList(SKYL.LItemBanditBossCuirass, LeveledList.FACTOR_JUNK, ItemType.HeavyCuirass, banditArmor);
+            LeveledList.LinkList(SKYL.LItemBanditBossHelmet50, LeveledList.FACTOR_JUNK, ItemType.HeavyHelmet, banditArmor);
+            LeveledList.LinkList(SKYL.LItemBanditBossBoots, LeveledList.FACTOR_JUNK, ItemType.HeavyBoots, banditArmor);
+            LeveledList.LinkList(SKYL.LItemBanditBossGauntlets50, LeveledList.FACTOR_JUNK, ItemType.HeavyGauntlets, banditArmor);
+            LeveledList.LinkList(SKYL.LItemBanditBossShield, LeveledList.FACTOR_JUNK, ItemType.HeavyShield, REGULAR_MATERIALS);            
 
             LeveledList.LockLists(SKYL.LItemBanditBossCuirass, SKYL.LItemBanditBossHelmet50, SKYL.LItemBanditBossBoots, SKYL.LItemBanditBossGauntlets50, SKYL.LItemBanditBossShield);
 

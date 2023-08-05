@@ -16,12 +16,12 @@ using SKYL = Mutagen.Bethesda.FormKeys.SkyrimLE.Skyrim.LeveledItem;
 
 namespace LeveledLoot {
     class SoulGemConfig {
-        public static ItemMaterial PETTY = new("Petty", 0.0001, 250, 1, 50);
-        public static ItemMaterial LESSER = new("Lesser", 0.00007, 200, 1, 75);
-        public static ItemMaterial COMMON = new("Common", 0.00003, 135, 1, 125);
-        public static ItemMaterial GREATER = new("Greater", 0, 70, 5, 175);
-        public static ItemMaterial GRAND = new("Grand", 0, 40, 10, 225);
-        public static ItemMaterial BLACK = new("Black", 0, 25, 10, 225, LootRQ.Rare);
+        public static ItemMaterial PETTY = new("Petty", 75, 20, 0, 50);
+        public static ItemMaterial LESSER = new("Lesser", 20, 20, 0, 75);
+        public static ItemMaterial COMMON = new("Common", 5, 20, 0, 125);
+        public static ItemMaterial GREATER = new("Greater", 16, 20, 5, 175);
+        public static ItemMaterial GRAND = new("Grand", 0, 12, 10, 225);
+        public static ItemMaterial BLACK = new("Black", 0, 12, 10, 225, LootRQ.Rare);
 
         static List<ItemMaterial> SOUL_GEMS = new() {
             PETTY, LESSER, COMMON, GREATER, GRAND, BLACK
