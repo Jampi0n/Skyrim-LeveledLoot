@@ -291,7 +291,7 @@ namespace LeveledLoot {
             Enchanter.RegisterArmorEnchantments(ItemType.LightShield, SKY.ArmorDragonscaleShield, SKYL.SublistEnchArmorDragonscaleShield05, 5);
             Enchanter.RegisterArmorEnchantments(ItemType.LightShield, SKY.ArmorDragonscaleShield, SKYL.SublistEnchArmorDragonscaleShield06, 6);
 
-            Enchanter.GenerateDoubleEnchantments(armorItemTypes);
+            Enchanter.PostProcessEnchantments(armorItemTypes);
 
             RecipeParser.Parse(ULTIMATE, regularMaterials, true, false);
 

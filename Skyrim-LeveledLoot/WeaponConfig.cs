@@ -144,7 +144,7 @@ namespace LeveledLoot {
             Enchanter.RegisterWeaponEnchantments(ItemType.Warhammer, SKY.IronWarhammer, SKYL.LItemEnchIronWarhammer, 1);
             Enchanter.RegisterWeaponEnchantments(ItemType.Warhammer, SKY.DaedricWarhammer, SKYL.LItemEnchDaedricWarhammer, 4);
 
-            Enchanter.GenerateDoubleEnchantments(weaponItemTypes);
+            Enchanter.PostProcessEnchantments(weaponItemTypes);
 
 
             RecipeParser.Parse(ULTIMATE, regularMaterials, false, true);

@@ -50,7 +50,10 @@ namespace LeveledLoot {
         SetWithHelmet,
         Arrow,
         Arrow6,
-        Arrow12
+        Arrow12,
+        Ring,
+        Necklace,
+        Circlet
     }
 
     class ItemTypeConfig {

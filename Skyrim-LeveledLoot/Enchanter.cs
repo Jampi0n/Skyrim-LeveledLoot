@@ -408,7 +408,7 @@ namespace LeveledLoot
             return a.Replace("$NAME$", b);
         }
 
-        public static void GenerateDoubleEnchantments(ItemType[] itemTypes) {
+        public static void PostProcessEnchantments(ItemType[] itemTypes) {
             foreach(var itemType in itemTypes) {
                 for (int tier = 1; tier <= 6; tier++)
                 {
