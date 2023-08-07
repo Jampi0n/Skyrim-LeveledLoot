@@ -62,23 +62,23 @@ namespace LeveledLoot {
         private static readonly Dictionary<Enum, HashSet<Enum>> parentItemTypes = new();
 
         public static void AddChildItemType(Enum parent, Enum child) {
-            if(!childItemTypes.ContainsKey(parent)) {
+            if (!childItemTypes.ContainsKey(parent)) {
                 childItemTypes.Add(parent, new HashSet<Enum>());
             }
             childItemTypes[parent].Add(child);
-            if(!parentItemTypes.ContainsKey(child)) {
+            if (!parentItemTypes.ContainsKey(child)) {
                 parentItemTypes.Add(child, new HashSet<Enum>());
             }
             parentItemTypes[child].Add(parent);
         }
 
         public static HashSet<Enum> GetAllChildItemTypes(Enum parent) {
-            if(!childItemTypes.ContainsKey(parent)) {
+            if (!childItemTypes.ContainsKey(parent)) {
                 return new HashSet<Enum>() { parent };
             }
             var result = new HashSet<Enum>() { parent };
-            foreach(var child in childItemTypes[parent]) {
-                foreach(var i in GetAllChildItemTypes(child)) {
+            foreach (var child in childItemTypes[parent]) {
+                foreach (var i in GetAllChildItemTypes(child)) {
                     result.Add(i);
                 }
             }
@@ -86,12 +86,12 @@ namespace LeveledLoot {
         }
 
         public static HashSet<Enum> GetAllParentItemTypes(Enum child) {
-            if(!parentItemTypes.ContainsKey(child)) {
+            if (!parentItemTypes.ContainsKey(child)) {
                 return new HashSet<Enum>() { child };
             }
             var result = new HashSet<Enum>() { child };
-            foreach(var parent in parentItemTypes[child]) {
-                foreach(var i in GetAllParentItemTypes(parent)) {
+            foreach (var parent in parentItemTypes[child]) {
+                foreach (var i in GetAllParentItemTypes(parent)) {
                     result.Add(i);
                 }
             }
@@ -99,53 +99,60 @@ namespace LeveledLoot {
         }
 
         public static ItemType? GetItemTypeFromKeywords(IMajorRecordGetter item) {
-            ItemType? itemType = null;
-            if(item is IArmorGetter armorGetter) {
-                if(armorGetter.BodyTemplate!.ArmorType == ArmorType.HeavyArmor) {
-                    if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorHelmet)) {
-                        itemType = ItemType.HeavyHelmet;
-                    } else if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorCuirass)) {
-                        itemType = ItemType.HeavyCuirass;
-                    } else if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorGauntlets)) {
-                        itemType = ItemType.HeavyGauntlets;
-                    } else if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorBoots)) {
-                        itemType = ItemType.HeavyBoots;
-                    } else if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorShield)) {
-                        itemType = ItemType.HeavyShield;
+            if (item is IArmorGetter armorGetter) {
+                if (armorGetter.BodyTemplate!.ArmorType == ArmorType.HeavyArmor) {
+                    if (armorGetter.HasKeyword(Skyrim.Keyword.ArmorHelmet)) {
+                        return ItemType.HeavyHelmet;
+                    } else if (armorGetter.HasKeyword(Skyrim.Keyword.ArmorCuirass)) {
+                        return ItemType.HeavyCuirass;
+                    } else if (armorGetter.HasKeyword(Skyrim.Keyword.ArmorGauntlets)) {
+                        return ItemType.HeavyGauntlets;
+                    } else if (armorGetter.HasKeyword(Skyrim.Keyword.ArmorBoots)) {
+                        return ItemType.HeavyBoots;
+                    } else if (armorGetter.HasKeyword(Skyrim.Keyword.ArmorShield)) {
+                        return ItemType.HeavyShield;
                     }
-                } else if(armorGetter.BodyTemplate!.ArmorType == ArmorType.LightArmor) {
-                    if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorHelmet)) {
-                        itemType = ItemType.LightHelmet;
-                    } else if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorCuirass)) {
-                        itemType = ItemType.LightCuirass;
-                    } else if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorGauntlets)) {
-                        itemType = ItemType.LightGauntlets;
-                    } else if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorBoots)) {
-                        itemType = ItemType.LightBoots;
-                    } else if(armorGetter.HasKeyword(Skyrim.Keyword.ArmorShield)) {
-                        itemType = ItemType.LightShield;
+                } else if (armorGetter.BodyTemplate!.ArmorType == ArmorType.LightArmor) {
+                    if (armorGetter.HasKeyword(Skyrim.Keyword.ArmorHelmet)) {
+                        return ItemType.LightHelmet;
+                    } else if (armorGetter.HasKeyword(Skyrim.Keyword.ArmorCuirass)) {
+                        return ItemType.LightCuirass;
+                    } else if (armorGetter.HasKeyword(Skyrim.Keyword.ArmorGauntlets)) {
+                        return ItemType.LightGauntlets;
+                    } else if (armorGetter.HasKeyword(Skyrim.Keyword.ArmorBoots)) {
+                        return ItemType.LightBoots;
+                    } else if (armorGetter.HasKeyword(Skyrim.Keyword.ArmorShield)) {
+                        return ItemType.LightShield;
+                    }
+                } else {
+                    if (armorGetter.HasKeyword(Skyrim.Keyword.ClothingRing)) {
+                        return ItemType.Ring;
+                    } else if (armorGetter.HasKeyword(Skyrim.Keyword.ClothingNecklace)) {
+                        return ItemType.Necklace;
+                    } else if (armorGetter.HasKeyword(Skyrim.Keyword.ClothingCirclet)) {
+                        return ItemType.Circlet;
                     }
                 }
-            } else if(item is IWeaponGetter weaponGetter) {
-                if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeBattleaxe)) {
-                    itemType = ItemType.Battleaxe;
-                } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeBow)) {
-                    itemType = ItemType.Bow;
-                } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeDagger)) {
-                    itemType = ItemType.Dagger;
-                } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeGreatsword)) {
-                    itemType = ItemType.Greatsword;
-                } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeMace)) {
-                    itemType = ItemType.Mace;
-                } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeSword)) {
-                    itemType = ItemType.Sword;
-                } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeWarAxe)) {
-                    itemType = ItemType.Waraxe;
-                } else if(weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeWarhammer)) {
-                    itemType = ItemType.Warhammer;
+            } else if (item is IWeaponGetter weaponGetter) {
+                if (weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeBattleaxe)) {
+                    return ItemType.Battleaxe;
+                } else if (weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeBow)) {
+                    return ItemType.Bow;
+                } else if (weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeDagger)) {
+                    return ItemType.Dagger;
+                } else if (weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeGreatsword)) {
+                    return ItemType.Greatsword;
+                } else if (weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeMace)) {
+                    return ItemType.Mace;
+                } else if (weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeSword)) {
+                    return ItemType.Sword;
+                } else if (weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeWarAxe)) {
+                    return ItemType.Waraxe;
+                } else if (weaponGetter.HasKeyword(Skyrim.Keyword.WeapTypeWarhammer)) {
+                    return ItemType.Warhammer;
                 }
             }
-            return itemType;
+            return null;
         }
 
         public static void Config() {
@@ -189,8 +196,7 @@ namespace LeveledLoot {
         public Dictionary<Tuple<Enum, int>, Form> enchListMap = new();
         public HashSet<LootRQ> requirements;
 
-        public ItemMaterial(string name, LootEntry lootEntry, params LootRQ[] requirements)
-        {
+        public ItemMaterial(string name, LootEntry lootEntry, params LootRQ[] requirements) {
             this.name = name;
             startChance = lootEntry.startChance;
             endChance = lootEntry.endChance;
@@ -244,69 +250,69 @@ namespace LeveledLoot {
         }
 
         public void AddItem(Enum itemType, Form? item, int weight, short count = 1, byte chanceNone = 0) {
-            if(item == null) {
+            if (item == null) {
                 return;
             }
 
             HashSet<Enum> itemTypeSet = ItemTypeConfig.GetAllParentItemTypes(itemType);
-            foreach(var i in itemTypeSet) {
-                if(!itemMap.ContainsKey(i)) {
+            foreach (var i in itemTypeSet) {
+                if (!itemMap.ContainsKey(i)) {
                     itemMap.Add(i, new LinkedList<ItemVariant>());
                 }
                 itemMap[i].AddLast(new ItemVariant(item, weight, count, chanceNone));
             }
         }
         public void AddItem(Enum itemType, params Form?[] items) {
-            foreach(Form? item in items) {
+            foreach (Form? item in items) {
                 AddItem(itemType, item, 1);
             }
         }
 
         public void AddItemCount(Enum itemType, short count, byte chanceNone, params Form?[] items) {
-            foreach(Form? item in items) {
+            foreach (Form? item in items) {
                 AddItem(itemType, item, 1, count, chanceNone);
             }
         }
 
         public void AddItemEnch(Enum itemType, params Form?[] items) {
             int weight = items.Length;
-            foreach(Form? item in items) {
+            foreach (Form? item in items) {
                 AddItem(itemType, item, weight);
                 weight--;
             }
         }
 
         public Form? GetFirst(Enum itemType) {
-            if(!itemMap.ContainsKey(itemType)) {
+            if (!itemMap.ContainsKey(itemType)) {
                 return null;
             }
             return itemMap[itemType].First!.Value.item;
         }
 
         public Form? GetItem(Enum itemType, bool enchant, int level, string name) {
-            if(!itemMap.ContainsKey(itemType)) {
+            if (!itemMap.ContainsKey(itemType)) {
                 return null;
             }
-            if(enchant) {
+            if (enchant) {
                 var key = new Tuple<Enum, int>(itemType, level);
-                if(!enchListMap.ContainsKey(key)) {
+                if (!enchListMap.ContainsKey(key)) {
 
                     LeveledItem leveledList;
                     Form listLink;
                     bool variants = true;
-                    if(itemMap[itemType].Count == 1) {
+                    if (itemMap[itemType].Count == 1) {
                         var itemVariant = itemMap[itemType].First!.Value;
-                        if(itemVariant.count == 1 && itemVariant.chanceNone == 0) {
+                        if (itemVariant.count == 1 && itemVariant.chanceNone == 0) {
                             variants = false;
                         }
                     }
-                    if(variants) {
+                    if (variants) {
                         Statistics.instance.variantSelectionLists++;
                         leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
                         leveledList.EditorID = LeveledList.prefix + name + "_EnchVariantSelection_Lvl" + level;
-                        for(int i = 0; i < itemMap[itemType].Count; ++i) {
+                        for (int i = 0; i < itemMap[itemType].Count; ++i) {
                             var itemVariant = itemMap[itemType].ElementAt(i);
-                            for(int j = 0; j < itemVariant.weight; ++j) {
+                            for (int j = 0; j < itemVariant.weight; ++j) {
                                 LeveledItemEntry entry = new();
                                 entry.Data ??= new LeveledItemEntryData();
                                 leveledList.ChanceNone = Math.Max(itemVariant.chanceNone, leveledList.ChanceNone);
@@ -325,19 +331,19 @@ namespace LeveledLoot {
                 }
                 return enchListMap[key];
             } else {
-                if(itemMap[itemType].Count == 1) {
+                if (itemMap[itemType].Count == 1) {
                     var itemVariant = itemMap[itemType].First!.Value;
-                    if(itemVariant.count == 1 && itemVariant.chanceNone == 0) {
+                    if (itemVariant.count == 1 && itemVariant.chanceNone == 0) {
                         return itemMap[itemType].First!.Value.item;
                     }
                 }
-                if(!listMap.ContainsKey(itemType)) {
+                if (!listMap.ContainsKey(itemType)) {
                     Statistics.instance.variantSelectionLists++;
                     LeveledItem leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
                     leveledList.EditorID = LeveledList.prefix + name + "_" + itemType.ToString() + "_Variants";
-                    for(int i = 0; i < itemMap[itemType].Count; ++i) {
+                    for (int i = 0; i < itemMap[itemType].Count; ++i) {
                         var itemVariant = itemMap[itemType].ElementAt(i);
-                        for(int j = 0; j < itemVariant.weight; ++j) {
+                        for (int j = 0; j < itemVariant.weight; ++j) {
                             LeveledItemEntry entry = new();
                             entry.Data ??= new LeveledItemEntryData();
                             leveledList.ChanceNone = Math.Max(itemVariant.chanceNone, leveledList.ChanceNone);

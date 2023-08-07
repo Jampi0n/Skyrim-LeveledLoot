@@ -22,7 +22,7 @@ using DGL = Mutagen.Bethesda.FormKeys.SkyrimLE.Dawnguard.LeveledItem;
 namespace LeveledLoot {
 
 
-    class WeaponConfig : LootConfig<WeaponConfig>{
+    class WeaponConfig : LootConfig<WeaponConfig> {
         public ItemMaterial DRAUGR = new("Draugr Weapons", Program.Settings.weaponLootTable.DRAUGR);
         public ItemMaterial DRAUGR_HONED = new("Draugr Honed Weapons", Program.Settings.weaponLootTable.DRAUGR_HONED);
         public ItemMaterial DRAUGR_HERO = new("Draugr Hero Weapons", Program.Settings.weaponLootTable.DRAUGR_HERO);
@@ -55,15 +55,19 @@ namespace LeveledLoot {
                 ULTIMATE
             };
 
-            var weaponItemTypes = new ItemType[] {
+            var weaponItemTypesOneHanded = new ItemType[] {
                 ItemType.Sword,
                 ItemType.Mace,
                 ItemType.Waraxe,
+                ItemType.Dagger
+            };
+            var weaponItemTypesTwoHanded = new ItemType[] {
                 ItemType.Greatsword,
                 ItemType.Battleaxe,
-                ItemType.Warhammer,
+                ItemType.Warhammer
+            };
+            var weaponItemTypesRanged = new ItemType[] {
                 ItemType.Bow,
-                ItemType.Dagger
             };
 
             var baseArrowDragon75 = Program.State.PatchMod.LeveledItems.AddNew();
@@ -144,10 +148,17 @@ namespace LeveledLoot {
             Enchanter.RegisterWeaponEnchantments(ItemType.Warhammer, SKY.IronWarhammer, SKYL.LItemEnchIronWarhammer, 1);
             Enchanter.RegisterWeaponEnchantments(ItemType.Warhammer, SKY.DaedricWarhammer, SKYL.LItemEnchDaedricWarhammer, 4);
 
-            Enchanter.PostProcessEnchantments(weaponItemTypes);
+            var itemTypeHierarchy = new List<List<ItemType>>() {
+                weaponItemTypesOneHanded.ToList(),
+                weaponItemTypesTwoHanded.ToList(),
+                weaponItemTypesRanged.ToList()
+            };
+            var itemTypesCombined = weaponItemTypesOneHanded.Concat(weaponItemTypesTwoHanded).Concat(weaponItemTypesRanged).ToArray();
+
+            Enchanter.PostProcessEnchantments(itemTypeHierarchy);
 
 
-            RecipeParser.Parse(ULTIMATE, regularMaterials, false, true);
+            RecipeParser.Parse(itemTypesCombined, regularMaterials, ULTIMATE, false, true);
 
             LeveledList.LinkList(SKYL.LItemWeaponSword, LeveledList.FACTOR_COMMON, ItemType.Sword, regularMaterials, LootRQ.Rare);
             LeveledList.LinkList(SKYL.LItemWeaponSwordBest, LeveledList.FACTOR_BEST, ItemType.Sword, regularMaterials, LootRQ.Rare);
@@ -402,7 +413,7 @@ namespace LeveledLoot {
             LeveledList.LinkList(SKYL.LItemBanditBossSword, bossSword, SKYL.LItemWeaponSwordSpecial);
             LeveledList.LinkList(SKYL.LItemBanditBossWarAxe, bossWaraxe, SKYL.LItemWeaponWarAxeSpecial);
             LeveledList.LinkList(SKYL.LItemBanditBossWarhammer, bossWarhammer, SKYL.LItemWeaponWarhammerSpecial);
-            
+
 
             LeveledList.LinkList(SKYL.LItemBanditBattleaxe, LeveledList.FACTOR_JUNK, ItemType.Battleaxe, regularMaterials);
             LeveledList.LinkList(SKYL.LItemBanditGreatsword, LeveledList.FACTOR_JUNK, ItemType.Greatsword, regularMaterials);
@@ -421,12 +432,12 @@ namespace LeveledLoot {
 
             // Dremora
             Enchanter.Reset(0);
-            Enchanter.RegisterWeaponEnchantmentManual(SKY.IronSword, SKY.EnchIronSwordFire01, 1, weaponItemTypes);
-            Enchanter.RegisterWeaponEnchantmentManual(SKY.IronSword, SKY.EnchIronSwordFire02, 2, weaponItemTypes);
-            Enchanter.RegisterWeaponEnchantmentManual(SKY.IronSword, SKY.EnchIronSwordFire03, 3, weaponItemTypes);
-            Enchanter.RegisterWeaponEnchantmentManual(SKY.DaedricSword, SKY.EnchDaedricSwordFire04, 4, weaponItemTypes);
-            Enchanter.RegisterWeaponEnchantmentManual(SKY.DaedricSword, SKY.EnchDaedricSwordFire05, 5, weaponItemTypes);
-            Enchanter.RegisterWeaponEnchantmentManual(SKY.DaedricSword, SKY.EnchDaedricSwordFire06, 6, weaponItemTypes);
+            Enchanter.RegisterWeaponEnchantmentManual(SKY.IronSword, SKY.EnchIronSwordFire01, 1, itemTypesCombined);
+            Enchanter.RegisterWeaponEnchantmentManual(SKY.IronSword, SKY.EnchIronSwordFire02, 2, itemTypesCombined);
+            Enchanter.RegisterWeaponEnchantmentManual(SKY.IronSword, SKY.EnchIronSwordFire03, 3, itemTypesCombined);
+            Enchanter.RegisterWeaponEnchantmentManual(SKY.DaedricSword, SKY.EnchDaedricSwordFire04, 4, itemTypesCombined);
+            Enchanter.RegisterWeaponEnchantmentManual(SKY.DaedricSword, SKY.EnchDaedricSwordFire05, 5, itemTypesCombined);
+            Enchanter.RegisterWeaponEnchantmentManual(SKY.DaedricSword, SKY.EnchDaedricSwordFire06, 6, itemTypesCombined);
 
             var dremoraBattleAxe = LeveledList.CreateListEnchanted(ItemType.Battleaxe, "DremoraBattleAxe", LeveledList.FACTOR_COMMON, regularMaterials).ToLink();
             var dremoraGreatsword = LeveledList.CreateListEnchanted(ItemType.Greatsword, "DremoraGreatsword", LeveledList.FACTOR_COMMON, regularMaterials).ToLink();

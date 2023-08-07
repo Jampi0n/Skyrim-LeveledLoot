@@ -80,9 +80,9 @@ namespace LeveledLoot
             ItemTypeConfig.Config();
 
             ArmorConfig.Run();
-            WeaponConfig.Run();
-            MiscConfig.Run();
-            SoulGemConfig.Run();
+            //WeaponConfig.Run();
+            //MiscConfig.Run();
+            //SoulGemConfig.Run();
 
             // Dragon Loot
             LeveledList.LinkList(Dawnguard.LeveledItem.DLC1LootDragonDaedric25, Skyrim.LeveledItem.LItemArmorAllSpeciall, Skyrim.LeveledItem.LItemArmorAllSpeciall, Skyrim.LeveledItem.LItemEnchArmorAllSpecial, Skyrim.LeveledItem.LItemWeaponAllSpecial, Skyrim.LeveledItem.LItemWeaponAllSpecial, Skyrim.LeveledItem.LItemEnchWeaponAnySpecial);

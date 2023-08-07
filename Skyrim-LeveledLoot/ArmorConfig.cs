@@ -21,8 +21,7 @@ using DGL = Mutagen.Bethesda.FormKeys.SkyrimLE.Dawnguard.LeveledItem;
 namespace LeveledLoot {
 
 
-    class ArmorConfig : LootConfig<ArmorConfig>
-    {
+    class ArmorConfig : LootConfig<ArmorConfig> {
         public ItemMaterial IRON = new("Iron", Program.Settings.armorLootTable.heavyArmorLootTable.IRON);
         public ItemMaterial DRAUGR = new("Draugr", Program.Settings.armorLootTable.heavyArmorLootTable.DRAUGR);
         public ItemMaterial STEEL = new("Steel", Program.Settings.armorLootTable.heavyArmorLootTable.STEEL);
@@ -36,24 +35,25 @@ namespace LeveledLoot {
         public ItemMaterial STALHRIM_HEAVY = new("StalhrimHeavy", Program.Settings.armorLootTable.heavyArmorLootTable.STALHRIM_HEAVY, LootRQ.Rare, LootRQ.DLC2);
         public ItemMaterial DRAGON_HEAVY = new("DragonHeavy", Program.Settings.armorLootTable.heavyArmorLootTable.DRAGON_HEAVY, LootRQ.Rare);
         public ItemMaterial DAEDRIC = new("Daedric", Program.Settings.armorLootTable.heavyArmorLootTable.DAEDRIC, LootRQ.Rare);
-        public ItemMaterial ULTIMATE = new("Ultimate", Program.Settings.armorLootTable.heavyArmorLootTable.ULTIMATE, LootRQ.Rare);
+        public ItemMaterial ULTIMATE_HEAVY = new("Ultimate", Program.Settings.armorLootTable.heavyArmorLootTable.ULTIMATE, LootRQ.Rare);
 
 
         public ItemMaterial HIDE = new("Hide", Program.Settings.armorLootTable.LightArmorLootTable.HIDE);
         public ItemMaterial LEATHER = new("Leather", Program.Settings.armorLootTable.LightArmorLootTable.LEATHER);
         public ItemMaterial ELVEN = new("Elven", Program.Settings.armorLootTable.LightArmorLootTable.ELVEN);
         public ItemMaterial ELVEN_LIGHT = new("ElvenLight", Program.Settings.armorLootTable.LightArmorLootTable.ELVEN_LIGHT);
-
         public ItemMaterial CHITIN_LIGHT = new("ChitinLight", Program.Settings.armorLootTable.LightArmorLootTable.CHITIN_LIGHT, LootRQ.DLC2);
         public ItemMaterial SCALED = new("Scaled", Program.Settings.armorLootTable.LightArmorLootTable.SCALED);
         public ItemMaterial GLASS = new("Glass", Program.Settings.armorLootTable.LightArmorLootTable.GLASS);
         public ItemMaterial STALHRIM_LIGHT = new("StalhrimLight", Program.Settings.armorLootTable.LightArmorLootTable.STALHRIM_LIGHT, LootRQ.Rare, LootRQ.DLC2);
         public ItemMaterial DRAGON_LIGHT = new("DragonLight", Program.Settings.armorLootTable.LightArmorLootTable.DRAGON_LIGHT, LootRQ.Rare);
+        public ItemMaterial ULTIMATE_LIGHT = new("Ultimate", Program.Settings.armorLootTable.heavyArmorLootTable.ULTIMATE, LootRQ.Rare);
 
 
-        public ArmorConfig()
-        {
-            var regularMaterials  = new List<ItemMaterial>() {
+        public ItemMaterial JEWELRY = new("Jewlry", 100, 100, 0, 1);
+
+        public ArmorConfig() {
+            var regularMaterials = new List<ItemMaterial>() {
                 IRON,
                 STEEL,
                 DWARVEN,
@@ -74,20 +74,27 @@ namespace LeveledLoot {
                 GLASS,
                 STALHRIM_LIGHT,
                 DRAGON_LIGHT,
-                ULTIMATE
+                ULTIMATE_HEAVY
             };
 
-            var armorItemTypes = new ItemType[] {
+            var jewelryMaterials = new List<ItemMaterial>()
+            {
+                JEWELRY
+            };
+
+            var armorItemTypesHeavy = new ItemType[] {
                 ItemType.HeavyHelmet,
                 ItemType.HeavyCuirass,
                 ItemType.HeavyGauntlets,
                 ItemType.HeavyBoots,
-                ItemType.HeavyShield,
+                ItemType.HeavyShield };
+            var armorItemTypesLight = new ItemType[] {
                 ItemType.LightHelmet,
                 ItemType.LightCuirass,
                 ItemType.LightGauntlets,
                 ItemType.LightBoots,
-                ItemType.LightShield,
+                ItemType.LightShield };
+            var armorItemTypesJewelry = new ItemType[] {
                 ItemType.Ring,
                 ItemType.Necklace,
                 ItemType.Circlet
@@ -149,11 +156,22 @@ namespace LeveledLoot {
             STALHRIM_LIGHT.DefaultLightArmor(DB.DLC2ArmorStalhrimLightHelmet, DB.DLC2ArmorStalhrimLightCuirass, DB.DLC2ArmorStalhrimLightGauntlets, DB.DLC2ArmorStalhrimLightBoots, DB.DLC2ArmorStalhrimShield);
             DRAGON_LIGHT.DefaultLightArmor(SKY.ArmorDragonscaleHelmet, SKY.ArmorDragonscaleCuirass, SKY.ArmorDragonscaleGauntlets, SKY.ArmorDragonscaleBoots, SKY.ArmorDragonscaleShield);
 
+
+            JEWELRY.AddItem(ItemType.Ring, SKY.JewelryRingSilver, SKY.JewelryRingSilverAmethyst, SKY.JewelryRingSilverGarnet, SKY.JewelryRingSilverRuby);
+            JEWELRY.AddItem(ItemType.Ring, SKY.JewelryRingGold, SKY.JewelryRingGoldDiamond, SKY.JewelryRingGoldEmerald, SKY.JewelryRingGoldSapphire);
+
+            JEWELRY.AddItem(ItemType.Necklace, SKY.JewelryNecklaceSilver, SKY.JewelryNecklaceSilverEmerald, SKY.JewelryNecklaceSilverGems, SKY.JewelryNecklaceSilverSapphire);
+            JEWELRY.AddItem(ItemType.Necklace, SKY.JewelryNecklaceGold, SKY.JewelryNecklaceGoldDiamond, SKY.JewelryNecklaceGoldGems, SKY.JewelryNecklaceGoldRuby);
+
+            JEWELRY.AddItem(ItemType.Circlet, SKY.ClothesCirclet01, SKY.ClothesCirclet02, SKY.ClothesCirclet03, SKY.ClothesCirclet04, SKY.ClothesCirclet05);
+            JEWELRY.AddItem(ItemType.Circlet, SKY.ClothesCirclet06, SKY.ClothesCirclet07, SKY.ClothesCirclet08, SKY.ClothesCirclet09, SKY.ClothesCirclet10);
+
+
             // Find enchantments
             Enchanter.Reset(Program.Settings.apparel.doubleEnchantmentChance);
             Enchanter.RegisterArmorEnchantments(ItemType.HeavyHelmet, SKY.ArmorIronHelmet, SKYL.SublistEnchArmorIronHelmet01, 1);
             Enchanter.RegisterArmorEnchantments(ItemType.HeavyHelmet, SKY.ArmorIronHelmet, SKYL.SublistEnchArmorIronHelmet02, 2);
-            Enchanter.RegisterArmorEnchantments(ItemType.HeavyHelmet, SKY.ArmorDwarvenHelmet, SKYL.SublistEnchArmorDwarvenHelmet02, 2);            
+            Enchanter.RegisterArmorEnchantments(ItemType.HeavyHelmet, SKY.ArmorDwarvenHelmet, SKYL.SublistEnchArmorDwarvenHelmet02, 2);
             Enchanter.RegisterArmorEnchantments(ItemType.HeavyHelmet, SKY.ArmorIronHelmet, SKYL.SublistEnchArmorIronHelmet03, 3);
             Enchanter.RegisterArmorEnchantments(ItemType.HeavyHelmet, SKY.ArmorDwarvenHelmet, SKYL.SublistEnchArmorDwarvenHelmet03, 3);
             Enchanter.RegisterArmorEnchantments(ItemType.HeavyHelmet, SKY.ArmorOrcishHelmet, SKYL.SublistEnchArmorOrcishHelmet03, 3);
@@ -294,13 +312,34 @@ namespace LeveledLoot {
             Enchanter.RegisterArmorEnchantments(ItemType.LightShield, SKY.ArmorDragonscaleShield, SKYL.SublistEnchArmorDragonscaleShield05, 5);
             Enchanter.RegisterArmorEnchantments(ItemType.LightShield, SKY.ArmorDragonscaleShield, SKYL.SublistEnchArmorDragonscaleShield06, 6);
 
-            Enchanter.RegisterNecklaceEnchantments(ItemType.Necklace, Skyrim.LeveledItem.LItemEnchNecklaceAll, "Necklace", "Amulet");
-            Enchanter.RegisterNecklaceEnchantments(ItemType.Ring, Skyrim.LeveledItem.LItemEnchRingAll, "Ring");
-            Enchanter.RegisterNecklaceEnchantments(ItemType.Circlet, Skyrim.LeveledItem.LItemEnchCircletAll, "Circlet");
+            Enchanter.RegisterJewelryEnchantments(ItemType.Necklace, Skyrim.LeveledItem.LItemEnchNecklaceAll, "Necklace", "Amulet");
+            Enchanter.RegisterJewelryEnchantments(ItemType.Ring, Skyrim.LeveledItem.LItemEnchRingAll, "Ring");
+            Enchanter.RegisterJewelryEnchantments(ItemType.Circlet, Skyrim.LeveledItem.LItemEnchCircletAll, "Circlet");
 
-            Enchanter.PostProcessEnchantments(armorItemTypes);
+            var itemTypeHierarchy = new List<List<ItemType>>() {
+                armorItemTypesHeavy.ToList(),
+                armorItemTypesLight.ToList(),
+                armorItemTypesJewelry.ToList()
+            };
 
-            RecipeParser.Parse(ULTIMATE, regularMaterials, true, false);
+            Enchanter.PostProcessEnchantments(itemTypeHierarchy);
+
+            RecipeParser.Parse(armorItemTypesHeavy, regularMaterials, ULTIMATE_HEAVY, true, false);
+            RecipeParser.Parse(armorItemTypesLight, regularMaterials, ULTIMATE_LIGHT, true, false);
+            RecipeParser.Parse(armorItemTypesJewelry, jewelryMaterials, JEWELRY, true, false);
+
+            var enchRings = LeveledList.CreateListEnchanted(ItemType.Ring, "EnchRings", LeveledList.FACTOR_BEST, jewelryMaterials).ToLink();
+            var enchNecklaces = LeveledList.CreateListEnchanted(ItemType.Necklace, "EnchNecklaces", LeveledList.FACTOR_BEST, jewelryMaterials).ToLink();
+            var enchCirclets = LeveledList.CreateListEnchanted(ItemType.Circlet, "EnchCirclets", LeveledList.FACTOR_BEST, jewelryMaterials).ToLink();
+            LeveledList.LinkList(SKYL.LItemEnchRingAll25, enchRings);
+            LeveledList.LinkList(SKYL.LItemEnchRingAll75, enchRings);
+            LeveledList.LinkList(SKYL.LItemEnchRingAll, enchRings);
+            LeveledList.LinkList(SKYL.LItemEnchNecklaceAll25, enchNecklaces);
+            LeveledList.LinkList(SKYL.LItemEnchNecklaceAll, enchNecklaces);
+            LeveledList.LinkList(SKYL.LItemEnchCircletAll25, enchCirclets);
+            LeveledList.LinkList(SKYL.LItemEnchCircletAll75, enchCirclets);
+            LeveledList.LinkList(SKYL.LItemEnchCircletAll, enchCirclets);
+            return;
 
             // Best = 4
             // Special/Reward = 3
@@ -498,7 +537,7 @@ namespace LeveledLoot {
             LeveledList.LinkList(SKYL.LItemBanditBossHelmet50, LeveledList.FACTOR_JUNK, ItemType.HeavyHelmet, banditArmor);
             LeveledList.LinkList(SKYL.LItemBanditBossBoots, LeveledList.FACTOR_JUNK, ItemType.HeavyBoots, banditArmor);
             LeveledList.LinkList(SKYL.LItemBanditBossGauntlets50, LeveledList.FACTOR_JUNK, ItemType.HeavyGauntlets, banditArmor);
-            LeveledList.LinkList(SKYL.LItemBanditBossShield, LeveledList.FACTOR_JUNK, ItemType.HeavyShield, regularMaterials);            
+            LeveledList.LinkList(SKYL.LItemBanditBossShield, LeveledList.FACTOR_JUNK, ItemType.HeavyShield, regularMaterials);
 
             LeveledList.LockLists(SKYL.LItemBanditBossCuirass, SKYL.LItemBanditBossHelmet50, SKYL.LItemBanditBossBoots, SKYL.LItemBanditBossGauntlets50, SKYL.LItemBanditBossShield);
 

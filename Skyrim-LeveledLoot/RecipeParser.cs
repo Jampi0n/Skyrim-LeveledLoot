@@ -7,7 +7,7 @@ using Mutagen.Bethesda.Plugins;
 
 namespace LeveledLoot {
     class RecipeParser {
-        public static void Parse(ItemMaterial ultimate, List<ItemMaterial> materialList, bool parseArmor, bool parseWeapons) {
+        public static void Parse(ItemType[] itemTypes, List<ItemMaterial> materialList, ItemMaterial ultimate, bool parseArmor, bool parseWeapons) {
             // Add craftable armor to loot
             HashSet<FormKey> craftingPerks = new();
             if(Skyrim.ActorValueInformation.AVSmithing.TryResolve(Program.State.LinkCache, out var avSmithing)) {
@@ -15,38 +15,6 @@ namespace LeveledLoot {
                     craftingPerks.Add(perk.Perk.FormKey);
                 }
             }
-
-            List<ItemType> itemTypes = new();
-
-            if(parseArmor) {
-                var add = new List<ItemType> {
-                    ItemType.HeavyHelmet,
-                    ItemType.HeavyCuirass,
-                    ItemType.HeavyGauntlets,
-                    ItemType.HeavyBoots,
-                    ItemType.HeavyShield,
-                    ItemType.LightHelmet,
-                    ItemType.LightCuirass,
-                    ItemType.LightGauntlets,
-                    ItemType.LightBoots,
-                    ItemType.LightShield
-                };
-                itemTypes.AddRange(add);
-            }
-            if(parseWeapons) {
-                var add = new List<ItemType> {
-                    ItemType.Battleaxe,
-                    ItemType.Bow,
-                    ItemType.Dagger,
-                    ItemType.Greatsword,
-                    ItemType.Mace,
-                    ItemType.Sword,
-                    ItemType.Waraxe,
-                    ItemType.Warhammer,
-                };
-                itemTypes.AddRange(add);
-            }
-
             Dictionary<ItemType, List<Tuple<uint, ItemMaterial>>> tierList = new();
             foreach(var itemType in itemTypes) {
                 tierList.Add(itemType, new List<Tuple<uint, ItemMaterial>>());
@@ -104,7 +72,7 @@ namespace LeveledLoot {
                     if(cob.CreatedObject.TryResolve(Program.State.LinkCache, out var createdItem)) {
                         if(parseArmor && createdItem is IArmorGetter armor) {
                             ItemType? itemType = ItemTypeConfig.GetItemTypeFromKeywords(armor);
-                            if(itemType != null) {
+                            if(itemType != null && tierList.ContainsKey(itemType.Value)) {
                                 var list = tierList[itemType.Value];
                                 for(int i = 0; i < list.Count; i++) {
                                     if(armor.Value <= list[i].Item1) {
@@ -116,7 +84,7 @@ namespace LeveledLoot {
                         }
                         if(parseWeapons && createdItem is IWeaponGetter weapon) {
                             ItemType? itemType = ItemTypeConfig.GetItemTypeFromKeywords(weapon);
-                            if(itemType != null) {
+                            if(itemType != null && tierList.ContainsKey(itemType.Value)) {
                                 var list = tierList[itemType.Value];
                                 for(int i = 0; i < list.Count; i++) {
                                     if(weapon.BasicStats!.Value <= list[i].Item1) {

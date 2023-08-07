@@ -45,10 +45,6 @@ namespace LeveledLoot {
         public double doubleEnchantmentChance = 0.25;
         [SynthesisTooltip("How available enchantments are determined.\n" + EnumInfo.enchantmentExploration)]
         public EnchantmentExploration enchantmentExploration = EnchantmentExploration.LeveledListCombineItemSlotsSeparateItemType;
-        [SynthesisTooltip("If disabled, every enchantments uses a random jewelry item per slot and tier.\n" +
-            "For example, the enchantment 'Fortify Archery' at tier 6 can only appear on a silver garnet ring and a gold diamond nechlace. " +
-            "This reduces the number of generated records significantly without affecting gameplay.")]
-        public bool generateAllJewelry = true;
         [SynthesisTooltip("Loot table changes for bandit armor (low tier armor)")]
         public bool bandit = true;
         [SynthesisTooltip("Loot table changes for draugr loot armor (hide, leather, iron, steel, draugr, scaled, ebony, dragon)")]
