@@ -88,6 +88,9 @@ namespace LeveledLoot {
                 ItemType.LightGauntlets,
                 ItemType.LightBoots,
                 ItemType.LightShield,
+                ItemType.Ring,
+                ItemType.Necklace,
+                ItemType.Circlet
             };
 
             IRON.DefaultHeavyArmor(SKY.ArmorIronHelmet, null, SKY.ArmorIronGauntlets, SKY.ArmorIronBoots, null);
@@ -290,6 +293,10 @@ namespace LeveledLoot {
             Enchanter.RegisterArmorEnchantments(ItemType.LightShield, SKY.ArmorGlassShield, SKYL.SublistEnchArmorGlassShield05, 5);
             Enchanter.RegisterArmorEnchantments(ItemType.LightShield, SKY.ArmorDragonscaleShield, SKYL.SublistEnchArmorDragonscaleShield05, 5);
             Enchanter.RegisterArmorEnchantments(ItemType.LightShield, SKY.ArmorDragonscaleShield, SKYL.SublistEnchArmorDragonscaleShield06, 6);
+
+            Enchanter.RegisterNecklaceEnchantments(ItemType.Necklace, Skyrim.LeveledItem.LItemEnchNecklaceAll, "Necklace", "Amulet");
+            Enchanter.RegisterNecklaceEnchantments(ItemType.Ring, Skyrim.LeveledItem.LItemEnchRingAll, "Ring");
+            Enchanter.RegisterNecklaceEnchantments(ItemType.Circlet, Skyrim.LeveledItem.LItemEnchCircletAll, "Circlet");
 
             Enchanter.PostProcessEnchantments(armorItemTypes);
 
