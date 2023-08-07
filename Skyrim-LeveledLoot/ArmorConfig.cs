@@ -21,61 +21,62 @@ using DGL = Mutagen.Bethesda.FormKeys.SkyrimLE.Dawnguard.LeveledItem;
 namespace LeveledLoot {
 
 
-    class ArmorConfig {
-        public static ItemMaterial IRON = new("Iron", 75, 22, 0, 20);
-        public static ItemMaterial DRAUGR = new("Draugr", 75, 22, 0, 20);
-        public static ItemMaterial STEEL = new("Steel", 20, 18, 0, 30);
-        public static ItemMaterial DWARVEN = new("Dwarven", 5, 15, 0, 50);
-        public static ItemMaterial BONEMOLD = new("Bonemold", 20, 18, 0, 30, LootRQ.DLC2);
-        public static ItemMaterial CHITIN_HEAVY = new("ChitinHeavy", 5, 15, 0, 50, LootRQ.DLC2);
-        public static ItemMaterial ORCISH = new("Orcish", 0, 10, 16, 75);
-        public static ItemMaterial STEELPLATE = new("SteelPlate", 0, 12, 8, 60);
-        public static ItemMaterial NORDIC = new("Nordic", 0, 8, 32, 125, LootRQ.DLC2);
-        public static ItemMaterial EBONY = new("Ebony", 0, 6, 48, 160);
-        public static ItemMaterial STALHRIM_HEAVY = new("StalhrimHeavy", 0, 5, 56, 180, LootRQ.Rare, LootRQ.DLC2);
-        public static ItemMaterial DRAGON_HEAVY = new("DragonHeavy", 0, 4, 64, 200, LootRQ.Rare);
-        public static ItemMaterial DAEDRIC = new("Daedric", 0, 3, 80, 220, LootRQ.Rare);
-        public static ItemMaterial ULTIMATE = new("Ultimate", 0, 2, 100, 240, LootRQ.Rare);
+    class ArmorConfig : LootConfig<ArmorConfig>
+    {
+        public ItemMaterial IRON = new("Iron", Program.Settings.armorLootTable.heavyArmorLootTable.IRON);
+        public ItemMaterial DRAUGR = new("Draugr", Program.Settings.armorLootTable.heavyArmorLootTable.DRAUGR);
+        public ItemMaterial STEEL = new("Steel", Program.Settings.armorLootTable.heavyArmorLootTable.STEEL);
+        public ItemMaterial DWARVEN = new("Dwarven", Program.Settings.armorLootTable.heavyArmorLootTable.DWARVEN);
+        public ItemMaterial BONEMOLD = new("Bonemold", Program.Settings.armorLootTable.heavyArmorLootTable.BONEMOLD, LootRQ.DLC2);
+        public ItemMaterial CHITIN_HEAVY = new("ChitinHeavy", Program.Settings.armorLootTable.heavyArmorLootTable.CHITIN_HEAVY, LootRQ.DLC2);
+        public ItemMaterial ORCISH = new("Orcish", Program.Settings.armorLootTable.heavyArmorLootTable.ORCISH);
+        public ItemMaterial STEELPLATE = new("SteelPlate", Program.Settings.armorLootTable.heavyArmorLootTable.STEELPLATE);
+        public ItemMaterial NORDIC = new("Nordic", Program.Settings.armorLootTable.heavyArmorLootTable.NORDIC, LootRQ.DLC2);
+        public ItemMaterial EBONY = new("Ebony", Program.Settings.armorLootTable.heavyArmorLootTable.EBONY);
+        public ItemMaterial STALHRIM_HEAVY = new("StalhrimHeavy", Program.Settings.armorLootTable.heavyArmorLootTable.STALHRIM_HEAVY, LootRQ.Rare, LootRQ.DLC2);
+        public ItemMaterial DRAGON_HEAVY = new("DragonHeavy", Program.Settings.armorLootTable.heavyArmorLootTable.DRAGON_HEAVY, LootRQ.Rare);
+        public ItemMaterial DAEDRIC = new("Daedric", Program.Settings.armorLootTable.heavyArmorLootTable.DAEDRIC, LootRQ.Rare);
+        public ItemMaterial ULTIMATE = new("Ultimate", Program.Settings.armorLootTable.heavyArmorLootTable.ULTIMATE, LootRQ.Rare);
 
 
-        public static ItemMaterial HIDE = new("Hide", 75, 22, 0, 20);
-        //public static ItemMaterial FUR = new("Fur");
-        public static ItemMaterial LEATHER = new("Leather", 20, 18, 0, 30);
-        public static ItemMaterial ELVEN = new("Elven", 5, 15, 0, 50);
-        public static ItemMaterial ELVEN_LIGHT = new("ElvenLight", 75, 22, 0, 20);
+        public ItemMaterial HIDE = new("Hide", Program.Settings.armorLootTable.LightArmorLootTable.HIDE);
+        public ItemMaterial LEATHER = new("Leather", Program.Settings.armorLootTable.LightArmorLootTable.LEATHER);
+        public ItemMaterial ELVEN = new("Elven", Program.Settings.armorLootTable.LightArmorLootTable.ELVEN);
+        public ItemMaterial ELVEN_LIGHT = new("ElvenLight", Program.Settings.armorLootTable.LightArmorLootTable.ELVEN_LIGHT);
 
-        public static ItemMaterial CHITIN_LIGHT = new("ChitinLight", 5, 15, 0, 50, LootRQ.DLC2);
-        public static ItemMaterial SCALED = new("Scaled", 0, 12, 8, 60);
-        public static ItemMaterial GLASS = new("Glass", 0, 6, 48, 160);
-        public static ItemMaterial STALHRIM_LIGHT = new("StalhrimLight", 0, 5, 56, 180, LootRQ.Rare, LootRQ.DLC2);
-        public static ItemMaterial DRAGON_LIGHT = new("DragonLight", 0, 3, 80, 220, LootRQ.Rare);
-
-        public static List<ItemMaterial> REGULAR_MATERIALS = new() {
-            IRON,
-            STEEL,
-            DWARVEN,
-            BONEMOLD,
-            CHITIN_HEAVY,
-            ORCISH,
-            STEELPLATE,
-            NORDIC,
-            EBONY,
-            STALHRIM_HEAVY,
-            DRAGON_HEAVY,
-            DAEDRIC,
-            HIDE,
-            LEATHER,
-            ELVEN,
-            CHITIN_LIGHT,
-            SCALED,
-            GLASS,
-            STALHRIM_LIGHT,
-            DRAGON_LIGHT,
-            ULTIMATE
-        };
+        public ItemMaterial CHITIN_LIGHT = new("ChitinLight", Program.Settings.armorLootTable.LightArmorLootTable.CHITIN_LIGHT, LootRQ.DLC2);
+        public ItemMaterial SCALED = new("Scaled", Program.Settings.armorLootTable.LightArmorLootTable.SCALED);
+        public ItemMaterial GLASS = new("Glass", Program.Settings.armorLootTable.LightArmorLootTable.GLASS);
+        public ItemMaterial STALHRIM_LIGHT = new("StalhrimLight", Program.Settings.armorLootTable.LightArmorLootTable.STALHRIM_LIGHT, LootRQ.Rare, LootRQ.DLC2);
+        public ItemMaterial DRAGON_LIGHT = new("DragonLight", Program.Settings.armorLootTable.LightArmorLootTable.DRAGON_LIGHT, LootRQ.Rare);
 
 
-        public static void Config() {
+        public ArmorConfig()
+        {
+            var regularMaterials  = new List<ItemMaterial>() {
+                IRON,
+                STEEL,
+                DWARVEN,
+                BONEMOLD,
+                CHITIN_HEAVY,
+                ORCISH,
+                STEELPLATE,
+                NORDIC,
+                EBONY,
+                STALHRIM_HEAVY,
+                DRAGON_HEAVY,
+                DAEDRIC,
+                HIDE,
+                LEATHER,
+                ELVEN,
+                CHITIN_LIGHT,
+                SCALED,
+                GLASS,
+                STALHRIM_LIGHT,
+                DRAGON_LIGHT,
+                ULTIMATE
+            };
+
             var armorItemTypes = new ItemType[] {
                 ItemType.HeavyHelmet,
                 ItemType.HeavyCuirass,
@@ -146,7 +147,7 @@ namespace LeveledLoot {
             DRAGON_LIGHT.DefaultLightArmor(SKY.ArmorDragonscaleHelmet, SKY.ArmorDragonscaleCuirass, SKY.ArmorDragonscaleGauntlets, SKY.ArmorDragonscaleBoots, SKY.ArmorDragonscaleShield);
 
             // Find enchantments
-            Enchanter.Reset();
+            Enchanter.Reset(Program.Settings.apparel.doubleEnchantmentChance);
             Enchanter.RegisterArmorEnchantments(ItemType.HeavyHelmet, SKY.ArmorIronHelmet, SKYL.SublistEnchArmorIronHelmet01, 1);
             Enchanter.RegisterArmorEnchantments(ItemType.HeavyHelmet, SKY.ArmorIronHelmet, SKYL.SublistEnchArmorIronHelmet02, 2);
             Enchanter.RegisterArmorEnchantments(ItemType.HeavyHelmet, SKY.ArmorDwarvenHelmet, SKYL.SublistEnchArmorDwarvenHelmet02, 2);            
@@ -292,7 +293,7 @@ namespace LeveledLoot {
 
             Enchanter.GenerateDoubleEnchantments(armorItemTypes);
 
-            RecipeParser.Parse(ULTIMATE, REGULAR_MATERIALS, true, false);
+            RecipeParser.Parse(ULTIMATE, regularMaterials, true, false);
 
             // Best = 4
             // Special/Reward = 3
@@ -300,182 +301,182 @@ namespace LeveledLoot {
 
             // Light
 
-            LeveledList.LinkList(SKYL.LItemArmorHelmetLightSpecial, LeveledList.FACTOR_RARE, ItemType.LightHelmet, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorCuirassLightSpecial, LeveledList.FACTOR_RARE, ItemType.LightCuirass, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorGauntletsLightSpecial, LeveledList.FACTOR_RARE, ItemType.LightGauntlets, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorBootsLightSpecial, LeveledList.FACTOR_RARE, ItemType.LightBoots, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorShieldLightSpecial, LeveledList.FACTOR_RARE, ItemType.LightShield, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorHelmetLightSpecial, LeveledList.FACTOR_RARE, ItemType.LightHelmet, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorCuirassLightSpecial, LeveledList.FACTOR_RARE, ItemType.LightCuirass, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorGauntletsLightSpecial, LeveledList.FACTOR_RARE, ItemType.LightGauntlets, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorBootsLightSpecial, LeveledList.FACTOR_RARE, ItemType.LightBoots, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorShieldLightSpecial, LeveledList.FACTOR_RARE, ItemType.LightShield, regularMaterials, LootRQ.Rare);
 
-            LeveledList.LinkList(SKYL.LItemArmorHelmetLightTown, LeveledList.FACTOR_JUNK, ItemType.LightHelmet, REGULAR_MATERIALS);
-            LeveledList.LinkList(SKYL.LItemArmorCuirassLightTown, LeveledList.FACTOR_JUNK, ItemType.LightCuirass, REGULAR_MATERIALS);
-            LeveledList.LinkList(SKYL.LItemArmorGauntletsLightTown, LeveledList.FACTOR_JUNK, ItemType.LightGauntlets, REGULAR_MATERIALS);
-            LeveledList.LinkList(SKYL.LitemArmorBootsLightTown, LeveledList.FACTOR_JUNK, ItemType.LightBoots, REGULAR_MATERIALS);
-            LeveledList.LinkList(SKYL.LItemArmorShieldLightTown, LeveledList.FACTOR_JUNK, ItemType.LightShield, REGULAR_MATERIALS);
+            LeveledList.LinkList(SKYL.LItemArmorHelmetLightTown, LeveledList.FACTOR_JUNK, ItemType.LightHelmet, regularMaterials);
+            LeveledList.LinkList(SKYL.LItemArmorCuirassLightTown, LeveledList.FACTOR_JUNK, ItemType.LightCuirass, regularMaterials);
+            LeveledList.LinkList(SKYL.LItemArmorGauntletsLightTown, LeveledList.FACTOR_JUNK, ItemType.LightGauntlets, regularMaterials);
+            LeveledList.LinkList(SKYL.LitemArmorBootsLightTown, LeveledList.FACTOR_JUNK, ItemType.LightBoots, regularMaterials);
+            LeveledList.LinkList(SKYL.LItemArmorShieldLightTown, LeveledList.FACTOR_JUNK, ItemType.LightShield, regularMaterials);
 
-            LeveledList.LinkList(SKYL.LItemArmorHelmetLightReward, LeveledList.FACTOR_RARE, ItemType.LightHelmet, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorCuirassLightReward, LeveledList.FACTOR_RARE, ItemType.LightCuirass, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorShieldLightReward, LeveledList.FACTOR_RARE, ItemType.LightShield, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorHelmetLightReward, LeveledList.FACTOR_RARE, ItemType.LightHelmet, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorCuirassLightReward, LeveledList.FACTOR_RARE, ItemType.LightCuirass, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorShieldLightReward, LeveledList.FACTOR_RARE, ItemType.LightShield, regularMaterials, LootRQ.Rare);
 
-            LeveledList.LinkList(SKYL.LItemArmorHelmetLight, LeveledList.FACTOR_COMMON, ItemType.LightHelmet, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorCuirassLight, LeveledList.FACTOR_COMMON, ItemType.LightCuirass, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorGauntletsLight, LeveledList.FACTOR_COMMON, ItemType.LightGauntlets, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorBootsLight, LeveledList.FACTOR_COMMON, ItemType.LightBoots, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorShieldLight, LeveledList.FACTOR_COMMON, ItemType.LightShield, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorHelmetLight, LeveledList.FACTOR_COMMON, ItemType.LightHelmet, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorCuirassLight, LeveledList.FACTOR_COMMON, ItemType.LightCuirass, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorGauntletsLight, LeveledList.FACTOR_COMMON, ItemType.LightGauntlets, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorBootsLight, LeveledList.FACTOR_COMMON, ItemType.LightBoots, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorShieldLight, LeveledList.FACTOR_COMMON, ItemType.LightShield, regularMaterials, LootRQ.Rare);
 
-            LeveledList.LinkList(SKYL.LItemArmorHelmetLightBlacksmith, LeveledList.FACTOR_COMMON, ItemType.LightHelmet, REGULAR_MATERIALS);
-            LeveledList.LinkList(SKYL.LItemArmorCuirassLightBlacksmith, LeveledList.FACTOR_COMMON, ItemType.LightCuirass, REGULAR_MATERIALS);
-            LeveledList.LinkList(SKYL.LItemArmorGauntletsLightBlacksmith, LeveledList.FACTOR_COMMON, ItemType.LightGauntlets, REGULAR_MATERIALS);
-            LeveledList.LinkList(SKYL.LitemArmorBootsLightBlacksmith, LeveledList.FACTOR_COMMON, ItemType.LightBoots, REGULAR_MATERIALS);
-            LeveledList.LinkList(SKYL.LItemArmorShieldLightBlacksmith, LeveledList.FACTOR_COMMON, ItemType.LightShield, REGULAR_MATERIALS);
+            LeveledList.LinkList(SKYL.LItemArmorHelmetLightBlacksmith, LeveledList.FACTOR_COMMON, ItemType.LightHelmet, regularMaterials);
+            LeveledList.LinkList(SKYL.LItemArmorCuirassLightBlacksmith, LeveledList.FACTOR_COMMON, ItemType.LightCuirass, regularMaterials);
+            LeveledList.LinkList(SKYL.LItemArmorGauntletsLightBlacksmith, LeveledList.FACTOR_COMMON, ItemType.LightGauntlets, regularMaterials);
+            LeveledList.LinkList(SKYL.LitemArmorBootsLightBlacksmith, LeveledList.FACTOR_COMMON, ItemType.LightBoots, regularMaterials);
+            LeveledList.LinkList(SKYL.LItemArmorShieldLightBlacksmith, LeveledList.FACTOR_COMMON, ItemType.LightShield, regularMaterials);
 
-            LeveledList.LinkList(SKYL.LItemArmorHelmetLightBest, LeveledList.FACTOR_BEST, ItemType.LightHelmet, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorCuirassLightBest, LeveledList.FACTOR_BEST, ItemType.LightCuirass, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorGauntletsLightBest, LeveledList.FACTOR_BEST, ItemType.LightGauntlets, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorBootsLightBest, LeveledList.FACTOR_BEST, ItemType.LightBoots, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorShieldLightBest, LeveledList.FACTOR_BEST, ItemType.LightShield, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorHelmetLightBest, LeveledList.FACTOR_BEST, ItemType.LightHelmet, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorCuirassLightBest, LeveledList.FACTOR_BEST, ItemType.LightCuirass, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorGauntletsLightBest, LeveledList.FACTOR_BEST, ItemType.LightGauntlets, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorBootsLightBest, LeveledList.FACTOR_BEST, ItemType.LightBoots, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorShieldLightBest, LeveledList.FACTOR_BEST, ItemType.LightShield, regularMaterials, LootRQ.Rare);
 
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightHelmet, LeveledList.FACTOR_COMMON, ItemType.LightHelmet, REGULAR_MATERIALS);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightCuirass, LeveledList.FACTOR_COMMON, ItemType.LightCuirass, REGULAR_MATERIALS);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightGauntlets, LeveledList.FACTOR_COMMON, ItemType.LightGauntlets, REGULAR_MATERIALS);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightBoots, LeveledList.FACTOR_COMMON, ItemType.LightBoots, REGULAR_MATERIALS);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightShield, LeveledList.FACTOR_COMMON, ItemType.LightShield, REGULAR_MATERIALS);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightHelmet, LeveledList.FACTOR_COMMON, ItemType.LightHelmet, regularMaterials);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightCuirass, LeveledList.FACTOR_COMMON, ItemType.LightCuirass, regularMaterials);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightGauntlets, LeveledList.FACTOR_COMMON, ItemType.LightGauntlets, regularMaterials);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightBoots, LeveledList.FACTOR_COMMON, ItemType.LightBoots, regularMaterials);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightShield, LeveledList.FACTOR_COMMON, ItemType.LightShield, regularMaterials);
 
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightHelmetNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightHelmet, REGULAR_MATERIALS);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightCuirassNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightCuirass, REGULAR_MATERIALS);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightGauntletsNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightGauntlets, REGULAR_MATERIALS);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightBootsNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightBoots, REGULAR_MATERIALS);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightShieldNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightShield, REGULAR_MATERIALS);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightHelmetNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightHelmet, regularMaterials);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightCuirassNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightCuirass, regularMaterials);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightGauntletsNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightGauntlets, regularMaterials);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightBootsNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightBoots, regularMaterials);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightShieldNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightShield, regularMaterials);
 
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightHelmetSpecial, LeveledList.FACTOR_RARE, ItemType.LightHelmet, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightCuirassSpecial, LeveledList.FACTOR_RARE, ItemType.LightCuirass, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightGauntletsSpecial, LeveledList.FACTOR_RARE, ItemType.LightGauntlets, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightBootsSpecial, LeveledList.FACTOR_RARE, ItemType.LightBoots, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightShieldSpecial, LeveledList.FACTOR_RARE, ItemType.LightShield, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightHelmetSpecial, LeveledList.FACTOR_RARE, ItemType.LightHelmet, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightCuirassSpecial, LeveledList.FACTOR_RARE, ItemType.LightCuirass, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightGauntletsSpecial, LeveledList.FACTOR_RARE, ItemType.LightGauntlets, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightBootsSpecial, LeveledList.FACTOR_RARE, ItemType.LightBoots, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightShieldSpecial, LeveledList.FACTOR_RARE, ItemType.LightShield, regularMaterials, LootRQ.Rare);
 
             // DLC2 Light
 
-            LeveledList.LinkList(DBL.DLC2LItemArmorHelmetLight, LeveledList.FACTOR_COMMON, ItemType.LightHelmet, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemArmorCuirassLight, LeveledList.FACTOR_COMMON, ItemType.LightCuirass, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemArmorGauntletsLight, LeveledList.FACTOR_COMMON, ItemType.LightGauntlets, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemArmorBootsLight, LeveledList.FACTOR_COMMON, ItemType.LightBoots, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemArmorShieldLight, LeveledList.FACTOR_COMMON, ItemType.LightShield, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemArmorHelmetLight, LeveledList.FACTOR_COMMON, ItemType.LightHelmet, regularMaterials, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemArmorCuirassLight, LeveledList.FACTOR_COMMON, ItemType.LightCuirass, regularMaterials, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemArmorGauntletsLight, LeveledList.FACTOR_COMMON, ItemType.LightGauntlets, regularMaterials, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemArmorBootsLight, LeveledList.FACTOR_COMMON, ItemType.LightBoots, regularMaterials, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemArmorShieldLight, LeveledList.FACTOR_COMMON, ItemType.LightShield, regularMaterials, LootRQ.DLC2, LootRQ.Rare);
 
-            LeveledList.LinkList(DBL.DLC2LItemArmorHelmetLightTown, LeveledList.FACTOR_JUNK, ItemType.LightHelmet, REGULAR_MATERIALS, LootRQ.DLC2);
-            LeveledList.LinkList(DBL.DLC2LItemArmorCuirassLightTown, LeveledList.FACTOR_JUNK, ItemType.LightCuirass, REGULAR_MATERIALS, LootRQ.DLC2);
-            LeveledList.LinkList(DBL.DLC2LItemArmorGauntletsLightTown, LeveledList.FACTOR_JUNK, ItemType.LightGauntlets, REGULAR_MATERIALS, LootRQ.DLC2);
-            LeveledList.LinkList(DBL.DLC2LitemArmorBootsLightTown, LeveledList.FACTOR_JUNK, ItemType.LightBoots, REGULAR_MATERIALS, LootRQ.DLC2);
-            LeveledList.LinkList(DBL.DLC2LItemArmorShieldLightTown, LeveledList.FACTOR_JUNK, ItemType.LightShield, REGULAR_MATERIALS, LootRQ.DLC2);
+            LeveledList.LinkList(DBL.DLC2LItemArmorHelmetLightTown, LeveledList.FACTOR_JUNK, ItemType.LightHelmet, regularMaterials, LootRQ.DLC2);
+            LeveledList.LinkList(DBL.DLC2LItemArmorCuirassLightTown, LeveledList.FACTOR_JUNK, ItemType.LightCuirass, regularMaterials, LootRQ.DLC2);
+            LeveledList.LinkList(DBL.DLC2LItemArmorGauntletsLightTown, LeveledList.FACTOR_JUNK, ItemType.LightGauntlets, regularMaterials, LootRQ.DLC2);
+            LeveledList.LinkList(DBL.DLC2LitemArmorBootsLightTown, LeveledList.FACTOR_JUNK, ItemType.LightBoots, regularMaterials, LootRQ.DLC2);
+            LeveledList.LinkList(DBL.DLC2LItemArmorShieldLightTown, LeveledList.FACTOR_JUNK, ItemType.LightShield, regularMaterials, LootRQ.DLC2);
 
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightHelmet, LeveledList.FACTOR_COMMON, ItemType.LightHelmet, REGULAR_MATERIALS, LootRQ.DLC2);
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightCuirass, LeveledList.FACTOR_COMMON, ItemType.LightCuirass, REGULAR_MATERIALS, LootRQ.DLC2);
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightGauntlets, LeveledList.FACTOR_COMMON, ItemType.LightGauntlets, REGULAR_MATERIALS, LootRQ.DLC2);
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightBoots, LeveledList.FACTOR_COMMON, ItemType.LightBoots, REGULAR_MATERIALS, LootRQ.DLC2);
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightShield, LeveledList.FACTOR_COMMON, ItemType.LightShield, REGULAR_MATERIALS, LootRQ.DLC2);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightHelmet, LeveledList.FACTOR_COMMON, ItemType.LightHelmet, regularMaterials, LootRQ.DLC2);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightCuirass, LeveledList.FACTOR_COMMON, ItemType.LightCuirass, regularMaterials, LootRQ.DLC2);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightGauntlets, LeveledList.FACTOR_COMMON, ItemType.LightGauntlets, regularMaterials, LootRQ.DLC2);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightBoots, LeveledList.FACTOR_COMMON, ItemType.LightBoots, regularMaterials, LootRQ.DLC2);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightShield, LeveledList.FACTOR_COMMON, ItemType.LightShield, regularMaterials, LootRQ.DLC2);
 
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightHelmetNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightHelmet, REGULAR_MATERIALS, LootRQ.DLC2);
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightCuirassNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightCuirass, REGULAR_MATERIALS, LootRQ.DLC2);
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightGauntletsNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightGauntlets, REGULAR_MATERIALS, LootRQ.DLC2);
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightBootsNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightBoots, REGULAR_MATERIALS, LootRQ.DLC2);
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightShieldNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightShield, REGULAR_MATERIALS, LootRQ.DLC2);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightHelmetNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightHelmet, regularMaterials, LootRQ.DLC2);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightCuirassNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightCuirass, regularMaterials, LootRQ.DLC2);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightGauntletsNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightGauntlets, regularMaterials, LootRQ.DLC2);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightBootsNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightBoots, regularMaterials, LootRQ.DLC2);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightShieldNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightShield, regularMaterials, LootRQ.DLC2);
 
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightHelmetSpecial, LeveledList.FACTOR_RARE, ItemType.LightHelmet, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightCuirassSpecial, LeveledList.FACTOR_RARE, ItemType.LightCuirass, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightGauntletsSpecial, LeveledList.FACTOR_RARE, ItemType.LightGauntlets, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightBootsSpecial, LeveledList.FACTOR_RARE, ItemType.LightBoots, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightShieldSpecial, LeveledList.FACTOR_RARE, ItemType.LightShield, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightHelmetSpecial, LeveledList.FACTOR_RARE, ItemType.LightHelmet, regularMaterials, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightCuirassSpecial, LeveledList.FACTOR_RARE, ItemType.LightCuirass, regularMaterials, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightGauntletsSpecial, LeveledList.FACTOR_RARE, ItemType.LightGauntlets, regularMaterials, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightBootsSpecial, LeveledList.FACTOR_RARE, ItemType.LightBoots, regularMaterials, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorLightShieldSpecial, LeveledList.FACTOR_RARE, ItemType.LightShield, regularMaterials, LootRQ.DLC2, LootRQ.Rare);
 
 
             // Heavy
 
-            LeveledList.LinkList(SKYL.LItemArmorHelmetHeavySpecial, LeveledList.FACTOR_RARE, ItemType.HeavyHelmet, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorCuirassHeavySpecial, LeveledList.FACTOR_RARE, ItemType.HeavyCuirass, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorGauntletsHeavySpecial, LeveledList.FACTOR_RARE, ItemType.HeavyGauntlets, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorBootsHeavySpecial, LeveledList.FACTOR_RARE, ItemType.HeavyBoots, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorShieldHeavySpecial, LeveledList.FACTOR_RARE, ItemType.HeavyShield, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorHelmetHeavySpecial, LeveledList.FACTOR_RARE, ItemType.HeavyHelmet, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorCuirassHeavySpecial, LeveledList.FACTOR_RARE, ItemType.HeavyCuirass, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorGauntletsHeavySpecial, LeveledList.FACTOR_RARE, ItemType.HeavyGauntlets, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorBootsHeavySpecial, LeveledList.FACTOR_RARE, ItemType.HeavyBoots, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorShieldHeavySpecial, LeveledList.FACTOR_RARE, ItemType.HeavyShield, regularMaterials, LootRQ.Rare);
 
-            LeveledList.LinkList(SKYL.LItemArmorHelmetHeavyTown, LeveledList.FACTOR_JUNK, ItemType.HeavyHelmet, REGULAR_MATERIALS);
-            LeveledList.LinkList(SKYL.LItemArmorCuirassHeavyTown, LeveledList.FACTOR_JUNK, ItemType.HeavyCuirass, REGULAR_MATERIALS);
-            LeveledList.LinkList(SKYL.LItemArmorGauntletsHeavyTown, LeveledList.FACTOR_JUNK, ItemType.HeavyGauntlets, REGULAR_MATERIALS);
-            LeveledList.LinkList(SKYL.LItemArmorBootsHeavyTown, LeveledList.FACTOR_JUNK, ItemType.HeavyBoots, REGULAR_MATERIALS);
-            LeveledList.LinkList(SKYL.LitemArmorShieldHeavyTown, LeveledList.FACTOR_JUNK, ItemType.HeavyShield, REGULAR_MATERIALS);
+            LeveledList.LinkList(SKYL.LItemArmorHelmetHeavyTown, LeveledList.FACTOR_JUNK, ItemType.HeavyHelmet, regularMaterials);
+            LeveledList.LinkList(SKYL.LItemArmorCuirassHeavyTown, LeveledList.FACTOR_JUNK, ItemType.HeavyCuirass, regularMaterials);
+            LeveledList.LinkList(SKYL.LItemArmorGauntletsHeavyTown, LeveledList.FACTOR_JUNK, ItemType.HeavyGauntlets, regularMaterials);
+            LeveledList.LinkList(SKYL.LItemArmorBootsHeavyTown, LeveledList.FACTOR_JUNK, ItemType.HeavyBoots, regularMaterials);
+            LeveledList.LinkList(SKYL.LitemArmorShieldHeavyTown, LeveledList.FACTOR_JUNK, ItemType.HeavyShield, regularMaterials);
 
-            LeveledList.LinkList(SKYL.LItemArmorHelmetHeavyReward, LeveledList.FACTOR_RARE, ItemType.HeavyHelmet, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorCuirassHeavyReward, LeveledList.FACTOR_RARE, ItemType.HeavyCuirass, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorShieldHeavyReward, LeveledList.FACTOR_RARE, ItemType.HeavyShield, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorHelmetHeavyReward, LeveledList.FACTOR_RARE, ItemType.HeavyHelmet, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorCuirassHeavyReward, LeveledList.FACTOR_RARE, ItemType.HeavyCuirass, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorShieldHeavyReward, LeveledList.FACTOR_RARE, ItemType.HeavyShield, regularMaterials, LootRQ.Rare);
 
-            LeveledList.LinkList(SKYL.LItemArmorHelmetHeavy, LeveledList.FACTOR_COMMON, ItemType.HeavyHelmet, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorCuirassHeavy, LeveledList.FACTOR_COMMON, ItemType.HeavyCuirass, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorGauntletsHeavy, LeveledList.FACTOR_COMMON, ItemType.HeavyGauntlets, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorBootsHeavy, LeveledList.FACTOR_COMMON, ItemType.HeavyBoots, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorShieldHeavy, LeveledList.FACTOR_COMMON, ItemType.HeavyShield, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorHelmetHeavy, LeveledList.FACTOR_COMMON, ItemType.HeavyHelmet, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorCuirassHeavy, LeveledList.FACTOR_COMMON, ItemType.HeavyCuirass, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorGauntletsHeavy, LeveledList.FACTOR_COMMON, ItemType.HeavyGauntlets, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorBootsHeavy, LeveledList.FACTOR_COMMON, ItemType.HeavyBoots, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorShieldHeavy, LeveledList.FACTOR_COMMON, ItemType.HeavyShield, regularMaterials, LootRQ.Rare);
 
-            LeveledList.LinkList(SKYL.LItemArmorHelmetHeavyBlacksmith, LeveledList.FACTOR_COMMON, ItemType.HeavyHelmet, REGULAR_MATERIALS);
-            LeveledList.LinkList(SKYL.LItemArmorCuirassHeavyBlacksmith, LeveledList.FACTOR_COMMON, ItemType.HeavyCuirass, REGULAR_MATERIALS);
-            LeveledList.LinkList(SKYL.LItemArmorGauntletsHeavyBlacksmith, LeveledList.FACTOR_COMMON, ItemType.HeavyGauntlets, REGULAR_MATERIALS);
-            LeveledList.LinkList(SKYL.LItemArmorBootsHeavyBlacksmith, LeveledList.FACTOR_COMMON, ItemType.HeavyBoots, REGULAR_MATERIALS);
-            LeveledList.LinkList(SKYL.LitemArmorShieldHeavyBlacksmith, LeveledList.FACTOR_COMMON, ItemType.HeavyShield, REGULAR_MATERIALS);
+            LeveledList.LinkList(SKYL.LItemArmorHelmetHeavyBlacksmith, LeveledList.FACTOR_COMMON, ItemType.HeavyHelmet, regularMaterials);
+            LeveledList.LinkList(SKYL.LItemArmorCuirassHeavyBlacksmith, LeveledList.FACTOR_COMMON, ItemType.HeavyCuirass, regularMaterials);
+            LeveledList.LinkList(SKYL.LItemArmorGauntletsHeavyBlacksmith, LeveledList.FACTOR_COMMON, ItemType.HeavyGauntlets, regularMaterials);
+            LeveledList.LinkList(SKYL.LItemArmorBootsHeavyBlacksmith, LeveledList.FACTOR_COMMON, ItemType.HeavyBoots, regularMaterials);
+            LeveledList.LinkList(SKYL.LitemArmorShieldHeavyBlacksmith, LeveledList.FACTOR_COMMON, ItemType.HeavyShield, regularMaterials);
 
-            LeveledList.LinkList(SKYL.LItemArmorHelmetHeavyBest, LeveledList.FACTOR_BEST, ItemType.HeavyHelmet, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorCuirassHeavyBest, LeveledList.FACTOR_BEST, ItemType.HeavyCuirass, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorGauntletsHeavyBest, LeveledList.FACTOR_BEST, ItemType.HeavyGauntlets, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorBootsHeavyBest, LeveledList.FACTOR_BEST, ItemType.HeavyBoots, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemArmorShieldHeavyBest, LeveledList.FACTOR_BEST, ItemType.HeavyShield, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorHelmetHeavyBest, LeveledList.FACTOR_BEST, ItemType.HeavyHelmet, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorCuirassHeavyBest, LeveledList.FACTOR_BEST, ItemType.HeavyCuirass, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorGauntletsHeavyBest, LeveledList.FACTOR_BEST, ItemType.HeavyGauntlets, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorBootsHeavyBest, LeveledList.FACTOR_BEST, ItemType.HeavyBoots, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemArmorShieldHeavyBest, LeveledList.FACTOR_BEST, ItemType.HeavyShield, regularMaterials, LootRQ.Rare);
 
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyHelmet, LeveledList.FACTOR_COMMON, ItemType.HeavyHelmet, REGULAR_MATERIALS);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyCuirass, LeveledList.FACTOR_COMMON, ItemType.HeavyCuirass, REGULAR_MATERIALS);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyGauntlets, LeveledList.FACTOR_COMMON, ItemType.HeavyGauntlets, REGULAR_MATERIALS);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyBoots, LeveledList.FACTOR_COMMON, ItemType.HeavyBoots, REGULAR_MATERIALS);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyShield, LeveledList.FACTOR_COMMON, ItemType.HeavyShield, REGULAR_MATERIALS);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyHelmet, LeveledList.FACTOR_COMMON, ItemType.HeavyHelmet, regularMaterials);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyCuirass, LeveledList.FACTOR_COMMON, ItemType.HeavyCuirass, regularMaterials);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyGauntlets, LeveledList.FACTOR_COMMON, ItemType.HeavyGauntlets, regularMaterials);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyBoots, LeveledList.FACTOR_COMMON, ItemType.HeavyBoots, regularMaterials);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyShield, LeveledList.FACTOR_COMMON, ItemType.HeavyShield, regularMaterials);
 
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyHelmetNoDragon, LeveledList.FACTOR_COMMON, ItemType.HeavyHelmet, REGULAR_MATERIALS);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyCuirassNoDragon, LeveledList.FACTOR_COMMON, ItemType.HeavyCuirass, REGULAR_MATERIALS);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyGauntletsNoDragon, LeveledList.FACTOR_COMMON, ItemType.HeavyGauntlets, REGULAR_MATERIALS);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyBootsNoDragon, LeveledList.FACTOR_COMMON, ItemType.HeavyBoots, REGULAR_MATERIALS);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyShieldNoDragon, LeveledList.FACTOR_COMMON, ItemType.HeavyShield, REGULAR_MATERIALS);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyHelmetNoDragon, LeveledList.FACTOR_COMMON, ItemType.HeavyHelmet, regularMaterials);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyCuirassNoDragon, LeveledList.FACTOR_COMMON, ItemType.HeavyCuirass, regularMaterials);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyGauntletsNoDragon, LeveledList.FACTOR_COMMON, ItemType.HeavyGauntlets, regularMaterials);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyBootsNoDragon, LeveledList.FACTOR_COMMON, ItemType.HeavyBoots, regularMaterials);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyShieldNoDragon, LeveledList.FACTOR_COMMON, ItemType.HeavyShield, regularMaterials);
 
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyHelmetSpecial, LeveledList.FACTOR_RARE, ItemType.HeavyHelmet, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyCuirassSpecial, LeveledList.FACTOR_RARE, ItemType.HeavyCuirass, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyGauntletsSpecial, LeveledList.FACTOR_RARE, ItemType.HeavyGauntlets, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyBootsSpecial, LeveledList.FACTOR_RARE, ItemType.HeavyBoots, REGULAR_MATERIALS, LootRQ.Rare);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyShieldSpecial, LeveledList.FACTOR_RARE, ItemType.HeavyShield, REGULAR_MATERIALS, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyHelmetSpecial, LeveledList.FACTOR_RARE, ItemType.HeavyHelmet, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyCuirassSpecial, LeveledList.FACTOR_RARE, ItemType.HeavyCuirass, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyGauntletsSpecial, LeveledList.FACTOR_RARE, ItemType.HeavyGauntlets, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyBootsSpecial, LeveledList.FACTOR_RARE, ItemType.HeavyBoots, regularMaterials, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorHeavyShieldSpecial, LeveledList.FACTOR_RARE, ItemType.HeavyShield, regularMaterials, LootRQ.Rare);
 
             // DLC2 Heavy
 
-            LeveledList.LinkList(DBL.DLC2LItemArmorHelmetHeavy, LeveledList.FACTOR_COMMON, ItemType.HeavyHelmet, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemArmorCuirassHeavy, LeveledList.FACTOR_COMMON, ItemType.HeavyCuirass, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemArmorGauntletsHeavy, LeveledList.FACTOR_COMMON, ItemType.HeavyGauntlets, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemArmorBootsHeavy, LeveledList.FACTOR_COMMON, ItemType.HeavyBoots, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemArmorShieldHeavy, LeveledList.FACTOR_COMMON, ItemType.HeavyShield, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemArmorHelmetHeavy, LeveledList.FACTOR_COMMON, ItemType.HeavyHelmet, regularMaterials, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemArmorCuirassHeavy, LeveledList.FACTOR_COMMON, ItemType.HeavyCuirass, regularMaterials, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemArmorGauntletsHeavy, LeveledList.FACTOR_COMMON, ItemType.HeavyGauntlets, regularMaterials, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemArmorBootsHeavy, LeveledList.FACTOR_COMMON, ItemType.HeavyBoots, regularMaterials, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemArmorShieldHeavy, LeveledList.FACTOR_COMMON, ItemType.HeavyShield, regularMaterials, LootRQ.DLC2, LootRQ.Rare);
 
-            LeveledList.LinkList(DBL.DLC2LItemArmorHelmetHeavyTown, LeveledList.FACTOR_JUNK, ItemType.HeavyHelmet, REGULAR_MATERIALS, LootRQ.DLC2);
-            LeveledList.LinkList(DBL.DLC2LItemArmorCuirassHeavyTown, LeveledList.FACTOR_JUNK, ItemType.HeavyCuirass, REGULAR_MATERIALS, LootRQ.DLC2);
-            LeveledList.LinkList(DBL.DLC2LItemArmorGauntletsHeavyTown, LeveledList.FACTOR_JUNK, ItemType.HeavyGauntlets, REGULAR_MATERIALS, LootRQ.DLC2);
-            LeveledList.LinkList(DBL.DLC2LItemArmorBootsHeavyTown, LeveledList.FACTOR_JUNK, ItemType.HeavyBoots, REGULAR_MATERIALS, LootRQ.DLC2);
-            LeveledList.LinkList(DBL.DLC2LitemArmorShieldHeavyTown, LeveledList.FACTOR_JUNK, ItemType.HeavyShield, REGULAR_MATERIALS, LootRQ.DLC2);
+            LeveledList.LinkList(DBL.DLC2LItemArmorHelmetHeavyTown, LeveledList.FACTOR_JUNK, ItemType.HeavyHelmet, regularMaterials, LootRQ.DLC2);
+            LeveledList.LinkList(DBL.DLC2LItemArmorCuirassHeavyTown, LeveledList.FACTOR_JUNK, ItemType.HeavyCuirass, regularMaterials, LootRQ.DLC2);
+            LeveledList.LinkList(DBL.DLC2LItemArmorGauntletsHeavyTown, LeveledList.FACTOR_JUNK, ItemType.HeavyGauntlets, regularMaterials, LootRQ.DLC2);
+            LeveledList.LinkList(DBL.DLC2LItemArmorBootsHeavyTown, LeveledList.FACTOR_JUNK, ItemType.HeavyBoots, regularMaterials, LootRQ.DLC2);
+            LeveledList.LinkList(DBL.DLC2LitemArmorShieldHeavyTown, LeveledList.FACTOR_JUNK, ItemType.HeavyShield, regularMaterials, LootRQ.DLC2);
 
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyHelmet, LeveledList.FACTOR_COMMON, ItemType.HeavyHelmet, REGULAR_MATERIALS, LootRQ.DLC2);
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyCuirass, LeveledList.FACTOR_COMMON, ItemType.HeavyCuirass, REGULAR_MATERIALS, LootRQ.DLC2);
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyGauntlets, LeveledList.FACTOR_COMMON, ItemType.HeavyGauntlets, REGULAR_MATERIALS, LootRQ.DLC2);
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyBoots, LeveledList.FACTOR_COMMON, ItemType.HeavyBoots, REGULAR_MATERIALS, LootRQ.DLC2);
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyShield, LeveledList.FACTOR_COMMON, ItemType.HeavyShield, REGULAR_MATERIALS, LootRQ.DLC2);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyHelmet, LeveledList.FACTOR_COMMON, ItemType.HeavyHelmet, regularMaterials, LootRQ.DLC2);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyCuirass, LeveledList.FACTOR_COMMON, ItemType.HeavyCuirass, regularMaterials, LootRQ.DLC2);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyGauntlets, LeveledList.FACTOR_COMMON, ItemType.HeavyGauntlets, regularMaterials, LootRQ.DLC2);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyBoots, LeveledList.FACTOR_COMMON, ItemType.HeavyBoots, regularMaterials, LootRQ.DLC2);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyShield, LeveledList.FACTOR_COMMON, ItemType.HeavyShield, regularMaterials, LootRQ.DLC2);
 
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyHelmetNoDragon, LeveledList.FACTOR_COMMON, ItemType.HeavyHelmet, REGULAR_MATERIALS, LootRQ.DLC2);
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyCuirassNoDragon, LeveledList.FACTOR_COMMON, ItemType.HeavyCuirass, REGULAR_MATERIALS, LootRQ.DLC2);
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyGauntletsNoDragon, LeveledList.FACTOR_COMMON, ItemType.HeavyGauntlets, REGULAR_MATERIALS, LootRQ.DLC2);
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyBootsNoDragon, LeveledList.FACTOR_COMMON, ItemType.HeavyBoots, REGULAR_MATERIALS, LootRQ.DLC2);
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyShieldNoDragon, LeveledList.FACTOR_COMMON, ItemType.HeavyShield, REGULAR_MATERIALS, LootRQ.DLC2);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyHelmetNoDragon, LeveledList.FACTOR_COMMON, ItemType.HeavyHelmet, regularMaterials, LootRQ.DLC2);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyCuirassNoDragon, LeveledList.FACTOR_COMMON, ItemType.HeavyCuirass, regularMaterials, LootRQ.DLC2);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyGauntletsNoDragon, LeveledList.FACTOR_COMMON, ItemType.HeavyGauntlets, regularMaterials, LootRQ.DLC2);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyBootsNoDragon, LeveledList.FACTOR_COMMON, ItemType.HeavyBoots, regularMaterials, LootRQ.DLC2);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyShieldNoDragon, LeveledList.FACTOR_COMMON, ItemType.HeavyShield, regularMaterials, LootRQ.DLC2);
 
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyHelmetSpecial, LeveledList.FACTOR_RARE, ItemType.HeavyHelmet, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyCuirassSpecial, LeveledList.FACTOR_RARE, ItemType.HeavyCuirass, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyGauntletsSpecial, LeveledList.FACTOR_RARE, ItemType.HeavyGauntlets, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyBootsSpecial, LeveledList.FACTOR_RARE, ItemType.HeavyBoots, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyShieldSpecial, LeveledList.FACTOR_RARE, ItemType.HeavyShield, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyHelmetSpecial, LeveledList.FACTOR_RARE, ItemType.HeavyHelmet, regularMaterials, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyCuirassSpecial, LeveledList.FACTOR_RARE, ItemType.HeavyCuirass, regularMaterials, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyGauntletsSpecial, LeveledList.FACTOR_RARE, ItemType.HeavyGauntlets, regularMaterials, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyBootsSpecial, LeveledList.FACTOR_RARE, ItemType.HeavyBoots, regularMaterials, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkListEnchanted(DBL.DLC2LItemEnchArmorHeavyShieldSpecial, LeveledList.FACTOR_RARE, ItemType.HeavyShield, regularMaterials, LootRQ.DLC2, LootRQ.Rare);
 
-            LeveledList.LinkList(DBL.DLC2LItemArmorHelmetHeavyBest, LeveledList.FACTOR_BEST, ItemType.HeavyHelmet, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemArmorCuirassHeavyBest, LeveledList.FACTOR_BEST, ItemType.HeavyCuirass, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemArmorGauntletsHeavyBest, LeveledList.FACTOR_BEST, ItemType.HeavyGauntlets, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemArmorBootsHeavyBest, LeveledList.FACTOR_BEST, ItemType.HeavyBoots, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
-            LeveledList.LinkList(DBL.DLC2LItemArmorShieldHeavyBest, LeveledList.FACTOR_BEST, ItemType.HeavyShield, REGULAR_MATERIALS, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemArmorHelmetHeavyBest, LeveledList.FACTOR_BEST, ItemType.HeavyHelmet, regularMaterials, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemArmorCuirassHeavyBest, LeveledList.FACTOR_BEST, ItemType.HeavyCuirass, regularMaterials, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemArmorGauntletsHeavyBest, LeveledList.FACTOR_BEST, ItemType.HeavyGauntlets, regularMaterials, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemArmorBootsHeavyBest, LeveledList.FACTOR_BEST, ItemType.HeavyBoots, regularMaterials, LootRQ.DLC2, LootRQ.Rare);
+            LeveledList.LinkList(DBL.DLC2LItemArmorShieldHeavyBest, LeveledList.FACTOR_BEST, ItemType.HeavyShield, regularMaterials, LootRQ.DLC2, LootRQ.Rare);
 
 
             // Bandit
@@ -490,7 +491,7 @@ namespace LeveledLoot {
             LeveledList.LinkList(SKYL.LItemBanditBossHelmet50, LeveledList.FACTOR_JUNK, ItemType.HeavyHelmet, banditArmor);
             LeveledList.LinkList(SKYL.LItemBanditBossBoots, LeveledList.FACTOR_JUNK, ItemType.HeavyBoots, banditArmor);
             LeveledList.LinkList(SKYL.LItemBanditBossGauntlets50, LeveledList.FACTOR_JUNK, ItemType.HeavyGauntlets, banditArmor);
-            LeveledList.LinkList(SKYL.LItemBanditBossShield, LeveledList.FACTOR_JUNK, ItemType.HeavyShield, REGULAR_MATERIALS);            
+            LeveledList.LinkList(SKYL.LItemBanditBossShield, LeveledList.FACTOR_JUNK, ItemType.HeavyShield, regularMaterials);            
 
             LeveledList.LockLists(SKYL.LItemBanditBossCuirass, SKYL.LItemBanditBossHelmet50, SKYL.LItemBanditBossBoots, SKYL.LItemBanditBossGauntlets50, SKYL.LItemBanditBossShield);
 

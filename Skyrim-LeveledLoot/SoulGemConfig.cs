@@ -15,43 +15,50 @@ using SKY = Mutagen.Bethesda.FormKeys.SkyrimLE.Skyrim.SoulGem;
 using SKYL = Mutagen.Bethesda.FormKeys.SkyrimLE.Skyrim.LeveledItem;
 
 namespace LeveledLoot {
-    class SoulGemConfig {
-        public static ItemMaterial PETTY = new("Petty", 75, 20, 0, 50);
-        public static ItemMaterial LESSER = new("Lesser", 20, 20, 0, 75);
-        public static ItemMaterial COMMON = new("Common", 5, 20, 0, 125);
-        public static ItemMaterial GREATER = new("Greater", 16, 20, 5, 175);
-        public static ItemMaterial GRAND = new("Grand", 0, 12, 10, 225);
-        public static ItemMaterial BLACK = new("Black", 0, 12, 10, 225, LootRQ.Rare);
 
-        static List<ItemMaterial> SOUL_GEMS = new() {
-            PETTY, LESSER, COMMON, GREATER, GRAND, BLACK
-        };
+    enum SoulGemType
+    {
+        SoulGemFilled,
+        SoulGemEmpty
+    }
 
-        public static void Config() {
-            PETTY.AddItem(ItemType.SoulGemEmpty, SKY.SoulGemPetty);
-            PETTY.AddItem(ItemType.SoulGemFilled, SKY.SoulGemPettyFilled);
-            LESSER.AddItem(ItemType.SoulGemEmpty, SKY.SoulGemLesser);
-            LESSER.AddItem(ItemType.SoulGemFilled, SKY.SoulGemLesserFilled);
-            COMMON.AddItem(ItemType.SoulGemEmpty, SKY.SoulGemCommon);
-            COMMON.AddItem(ItemType.SoulGemFilled, SKY.SoulGemCommonFilled);
-            GREATER.AddItem(ItemType.SoulGemEmpty, SKY.SoulGemGreater);
-            GREATER.AddItem(ItemType.SoulGemFilled, SKY.SoulGemGreaterFilled);
-            GRAND.AddItem(ItemType.SoulGemEmpty, SKY.SoulGemGrand);
-            GRAND.AddItem(ItemType.SoulGemFilled, SKY.SoulGemGrandFilled);
-            BLACK.AddItem(ItemType.SoulGemEmpty, SKY.SoulGemBlack);
-            BLACK.AddItem(ItemType.SoulGemFilled, SKY.SoulGemBlackFilled);
+    class SoulGemConfig : LootConfig<SoulGemConfig> {
+        public ItemMaterial PETTY = new("Petty", Program.Settings.miscLootTable.soulGemLootTable.PETTY);
+        public ItemMaterial LESSER = new("Lesser", Program.Settings.miscLootTable.soulGemLootTable.LESSER);
+        public ItemMaterial COMMON = new("Common", Program.Settings.miscLootTable.soulGemLootTable.COMMON);
+        public ItemMaterial GREATER = new("Greater", Program.Settings.miscLootTable.soulGemLootTable.GREATER);
+        public ItemMaterial GRAND = new("Grand", Program.Settings.miscLootTable.soulGemLootTable.GRAND);
+        public ItemMaterial BLACK = new("Black", Program.Settings.miscLootTable.soulGemLootTable.BLACK, LootRQ.Rare);
 
-            LeveledList.LinkList(SKYL.LItemMiscVendorSoulGemEmpty, 2, ItemType.SoulGemEmpty, SOUL_GEMS);
-            LeveledList.LinkList(SKYL.LItemSoulGemEmptyNoBlack, 2, ItemType.SoulGemEmpty, SOUL_GEMS);
-            LeveledList.LinkList(SKYL.LItemSoulGemEmptySpecial, 3, ItemType.SoulGemEmpty, SOUL_GEMS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemSoulGemEmptyTown, 2, ItemType.SoulGemEmpty, SOUL_GEMS);
+        public SoulGemConfig() {
+            var soulGems = new List<ItemMaterial>() {
+                PETTY, LESSER, COMMON, GREATER, GRAND, BLACK
+            };
+
+            PETTY.AddItem(SoulGemType.SoulGemEmpty, SKY.SoulGemPetty);
+            PETTY.AddItem(SoulGemType.SoulGemFilled, SKY.SoulGemPettyFilled);
+            LESSER.AddItem(SoulGemType.SoulGemEmpty, SKY.SoulGemLesser);
+            LESSER.AddItem(SoulGemType.SoulGemFilled, SKY.SoulGemLesserFilled);
+            COMMON.AddItem(SoulGemType.SoulGemEmpty, SKY.SoulGemCommon);
+            COMMON.AddItem(SoulGemType.SoulGemFilled, SKY.SoulGemCommonFilled);
+            GREATER.AddItem(SoulGemType.SoulGemEmpty, SKY.SoulGemGreater);
+            GREATER.AddItem(SoulGemType.SoulGemFilled, SKY.SoulGemGreaterFilled);
+            GRAND.AddItem(SoulGemType.SoulGemEmpty, SKY.SoulGemGrand);
+            GRAND.AddItem(SoulGemType.SoulGemFilled, SKY.SoulGemGrandFilled);
+            BLACK.AddItem(SoulGemType.SoulGemEmpty, SKY.SoulGemBlack);
+            BLACK.AddItem(SoulGemType.SoulGemFilled, SKY.SoulGemBlackFilled);
+
+            LeveledList.LinkList(SKYL.LItemMiscVendorSoulGemEmpty, 2, SoulGemType.SoulGemEmpty, soulGems);
+            LeveledList.LinkList(SKYL.LItemSoulGemEmptyNoBlack, 2, SoulGemType.SoulGemEmpty, soulGems);
+            LeveledList.LinkList(SKYL.LItemSoulGemEmptySpecial, 3, SoulGemType.SoulGemEmpty, soulGems, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemSoulGemEmptyTown, 2, SoulGemType.SoulGemEmpty, soulGems);
 
 
-            LeveledList.LinkList(SKYL.LItemMiscVendorSoulGemFull, 2, ItemType.SoulGemFilled, SOUL_GEMS);
-            LeveledList.LinkList(SKYL.LItemSoulGemFullNoBlack, 2, ItemType.SoulGemFilled, SOUL_GEMS);
-            LeveledList.LinkList(SKYL.LItemSoulGemFullSpecial, 3, ItemType.SoulGemFilled, SOUL_GEMS, LootRQ.Rare);
-            LeveledList.LinkList(SKYL.LItemSoulGemFullTown, 2, ItemType.SoulGemFilled, SOUL_GEMS);
-            LeveledList.LinkList(SKYL.LItemSoulGemFullMagicTrap, 3, ItemType.SoulGemFilled, SOUL_GEMS);
+            LeveledList.LinkList(SKYL.LItemMiscVendorSoulGemFull, 2, SoulGemType.SoulGemFilled, soulGems);
+            LeveledList.LinkList(SKYL.LItemSoulGemFullNoBlack, 2, SoulGemType.SoulGemFilled, soulGems);
+            LeveledList.LinkList(SKYL.LItemSoulGemFullSpecial, 3, SoulGemType.SoulGemFilled, soulGems, LootRQ.Rare);
+            LeveledList.LinkList(SKYL.LItemSoulGemFullTown, 2, SoulGemType.SoulGemFilled, soulGems);
+            LeveledList.LinkList(SKYL.LItemSoulGemFullMagicTrap, 3, SoulGemType.SoulGemFilled, soulGems);
         }
     }
 }

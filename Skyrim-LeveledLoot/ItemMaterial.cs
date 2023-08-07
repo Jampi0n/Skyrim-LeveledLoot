@@ -50,9 +50,7 @@ namespace LeveledLoot {
         SetWithHelmet,
         Arrow,
         Arrow6,
-        Arrow12,
-        SoulGemFilled,
-        SoulGemEmpty
+        Arrow12
     }
 
     class ItemTypeConfig {
@@ -187,6 +185,17 @@ namespace LeveledLoot {
         public Dictionary<Enum, Form> listMap = new();
         public Dictionary<Tuple<Enum, int>, Form> enchListMap = new();
         public HashSet<LootRQ> requirements;
+
+        public ItemMaterial(string name, LootEntry lootEntry, params LootRQ[] requirements)
+        {
+            this.name = name;
+            startChance = lootEntry.startChance;
+            endChance = lootEntry.endChance;
+            firstLevel = lootEntry.startLevel;
+            lastLevel = lootEntry.endLevel;
+            this.requirements = requirements.ToHashSet();
+            ALL.AddLast(this);
+        }
 
         public ItemMaterial(string name, double startChance, double endChance, int firstLevel, int lastLevel, params LootRQ[] requirements) {
             this.name = name;

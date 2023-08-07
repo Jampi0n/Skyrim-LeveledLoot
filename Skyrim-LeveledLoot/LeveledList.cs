@@ -30,7 +30,6 @@ namespace LeveledLoot {
         public static Form CreateSubList(Enum itemType, int level, string name, IEnumerable<ItemMaterial> materials, bool enchant, params LootRQ[] requirements) {
             double totalChance = 0;
             List<double> itemChancesDouble = new();
-            List<int> itemChancesInt = new();
             List<Form> newItemList = new();
 
             foreach(ItemMaterial itemMaterial in materials) {
@@ -54,11 +53,8 @@ namespace LeveledLoot {
                 itemChancesDouble.Add(chance);
             }
 
-            var itemChancesIntBetter = CustomMath.ApproximateProbabilities(itemChancesDouble, MAX_LEAVES, totalChance);
+            var itemChancesIntBetter = CustomMath.ApproximateProbabilities2(itemChancesDouble);
 
-            for(int i = 0; i < itemChancesDouble.Count; ++i) {
-                itemChancesInt.Add((int)(itemChancesDouble.ElementAt(i) * MAX_LEAVES / totalChance));
-            }
 
             Statistics.instance.materialSelectionLists++;
             var chanceList = ChanceList.GetChanceList(newItemList.ToArray(), itemChancesIntBetter.ToArray())!;

@@ -12,10 +12,9 @@
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <WarningsAsErrors />
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Mutagen.Bethesda" Version="0.41.0" />
     <PackageReference Include="Mutagen.Bethesda.FormKeys.SkyrimLE" Version="3.1.0" />
+    <PackageReference Include="Mutagen.Bethesda.Kernel" Version="0.41.0" />
     <PackageReference Include="Mutagen.Bethesda.Synthesis" Version="0.25.4" />
   </ItemGroup>
 </Project>

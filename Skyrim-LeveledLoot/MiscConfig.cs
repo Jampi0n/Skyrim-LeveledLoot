@@ -41,28 +41,28 @@ namespace LeveledLoot {
         ProcessedBlacksmith
     }
 
-    class MiscConfig {
+    class MiscConfig : LootConfig<MiscConfig>{
 
-        public static ItemMaterial NOVICE = new("Novice", 80, 33, 0, 20);
-        public static ItemMaterial APPRENTICE = new("Apprentice", 20, 29, 0, 80);
-        public static ItemMaterial ADEPT = new("Adept", 0, 20, 12, 140);
-        public static ItemMaterial EXPERT = new("Expert", 0, 12, 20, 200);
-        public static ItemMaterial MASTER = new("Master", 0, 6, 28, 240);
+        public ItemMaterial NOVICE = new("Novice", Program.Settings.miscLootTable.collegeRobesLootTable.NOVICE);
+        public ItemMaterial APPRENTICE = new("Apprentice", Program.Settings.miscLootTable.collegeRobesLootTable.APPRENTICE);
+        public ItemMaterial ADEPT = new("Adept", Program.Settings.miscLootTable.collegeRobesLootTable.ADEPT);
+        public ItemMaterial EXPERT = new("Expert", Program.Settings.miscLootTable.collegeRobesLootTable.EXPERT);
+        public ItemMaterial MASTER = new("Master", Program.Settings.miscLootTable.collegeRobesLootTable.MASTER);
 
-        public static ItemMaterial COAL = new("Coal", 10, 150, 0, 50);
-        public static ItemMaterial IRON = new("Iron", 50, 250, 0, 50);
-        public static ItemMaterial STEEL = new("Steel", 40, 250, 0, 50);
-        public static ItemMaterial CORUNDUM = new("Corundum", 0, 120, 5, 80);
-        public static ItemMaterial DWARVEN = new("Dwarven", 0, 80, 5, 80);
-        public static ItemMaterial ORICHALCUM = new("Orichalcum", 0, 60, 15, 150);
-        public static ItemMaterial QUICKSILVER = new("Quicksilver", 0, 90, 10, 120);
-        public static ItemMaterial MOONSTONE = new("Moonstone", 0, 70, 5, 150);
-        public static ItemMaterial MALACHITE = new("Malachite", 0, 50, 30, 200);
-        public static ItemMaterial EBONY = new("Ebony", 0, 40, 35, 240);
-        public static ItemMaterial SILVER = new("Silver", 0, 110, 5, 80);
-        public static ItemMaterial GOLD = new("Gold", 0, 70, 15, 150);
+        public ItemMaterial COAL = new("Coal", Program.Settings.miscLootTable.smithingMaterialLootTable.COAL);
+        public ItemMaterial IRON = new("Iron", Program.Settings.miscLootTable.smithingMaterialLootTable.IRON);
+        public ItemMaterial STEEL = new("Steel", Program.Settings.miscLootTable.smithingMaterialLootTable.STEEL);
+        public ItemMaterial CORUNDUM = new("Corundum", Program.Settings.miscLootTable.smithingMaterialLootTable.CORUNDUM);
+        public ItemMaterial DWARVEN = new("Dwarven", Program.Settings.miscLootTable.smithingMaterialLootTable.DWARVEN);
+        public ItemMaterial ORICHALCUM = new("Orichalcum", Program.Settings.miscLootTable.smithingMaterialLootTable.ORICHALCUM);
+        public ItemMaterial QUICKSILVER = new("Quicksilver", Program.Settings.miscLootTable.smithingMaterialLootTable.QUICKSILVER);
+        public ItemMaterial MOONSTONE = new("Moonstone", Program.Settings.miscLootTable.smithingMaterialLootTable.MOONSTONE);
+        public ItemMaterial MALACHITE = new("Malachite", Program.Settings.miscLootTable.smithingMaterialLootTable.MALACHITE);
+        public ItemMaterial EBONY = new("Ebony", Program.Settings.miscLootTable.smithingMaterialLootTable.EBONY);
+        public ItemMaterial SILVER = new("Silver", Program.Settings.miscLootTable.smithingMaterialLootTable.SILVER);
+        public ItemMaterial GOLD = new("Gold", Program.Settings.miscLootTable.smithingMaterialLootTable.GOLD);
 
-        public static void AddRobes(Enum itemType, Form? novice, Form? apprentice, Form? adept, Form? expert, Form? master) {
+        public void AddRobes(Enum itemType, Form? novice, Form? apprentice, Form? adept, Form? expert, Form? master) {
             NOVICE.AddItem(itemType, novice);
             APPRENTICE.AddItem(itemType, apprentice);
             ADEPT.AddItem(itemType, adept);
@@ -76,13 +76,15 @@ namespace LeveledLoot {
             material.AddItemCount(SmithingMaterial.ProcessedBlacksmith, blackSmithCount, 0, blacksmith);
         }
 
-        public static void Config() {
-            var coolgeRobes = new List<ItemMaterial>();
-            coolgeRobes.Add(NOVICE);
-            coolgeRobes.Add(APPRENTICE);
-            coolgeRobes.Add(ADEPT);
-            coolgeRobes.Add(EXPERT);
-            coolgeRobes.Add(MASTER);
+        public MiscConfig() {
+            var coolgeRobes = new List<ItemMaterial>
+            {
+                NOVICE,
+                APPRENTICE,
+                ADEPT,
+                EXPERT,
+                MASTER
+            };
 
             AddRobes(Enchantment.Regen, SKYA.EnchClothesRobesMageRegen01, SKYA.EnchClothesRobesMageRegen02, SKYA.EnchClothesRobesMageRegen03, SKYA.EnchClothesRobesMageRegen04, SKYA.EnchClothesRobesMageRegen05);
             AddRobes(Enchantment.Restoration, SKYA.EnchClothesRobesMageRestoration01, SKYA.EnchClothesRobesMageRestoration02, SKYA.EnchClothesRobesMageRestoration03, SKYA.EnchClothesRobesMageRestoration04, SKYA.EnchClothesRobesMageRestoration05);
@@ -98,18 +100,20 @@ namespace LeveledLoot {
             LeveledList.LinkList(SKYL.LItemRobesCollegeConjuration, 4, Enchantment.Conjuration, coolgeRobes);
             LeveledList.LinkList(SKYL.LItemRobesCollegeAlteration, 4, Enchantment.Alteration, coolgeRobes);
 
-            var oreIngotOnly = new List<ItemMaterial>();
-            oreIngotOnly.Add(IRON);
-            oreIngotOnly.Add(CORUNDUM);
-            oreIngotOnly.Add(STEEL);
-            oreIngotOnly.Add(DWARVEN);
-            oreIngotOnly.Add(ORICHALCUM);
-            oreIngotOnly.Add(MOONSTONE);
-            oreIngotOnly.Add(MALACHITE);
-            oreIngotOnly.Add(EBONY);
-            oreIngotOnly.Add(QUICKSILVER);
-            oreIngotOnly.Add(SILVER);
-            oreIngotOnly.Add(GOLD);
+            var oreIngotOnly = new List<ItemMaterial>
+            {
+                IRON,
+                CORUNDUM,
+                STEEL,
+                DWARVEN,
+                ORICHALCUM,
+                MOONSTONE,
+                MALACHITE,
+                EBONY,
+                QUICKSILVER,
+                SILVER,
+                GOLD
+            };
 
 
             var smithingMaterials = oreIngotOnly.ToList();

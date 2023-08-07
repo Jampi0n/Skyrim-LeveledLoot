@@ -12,46 +12,67 @@ using Form = Mutagen.Bethesda.Plugins.IFormLink<Mutagen.Bethesda.Plugins.Records
 using static Mutagen.Bethesda.Skyrim.Furniture;
 
 
-namespace LeveledLoot {
-    class Enchanter {
+namespace LeveledLoot
+{
+    class Enchanter
+    {
 
         static readonly string prefix = "JLL_";
-        static readonly int NUM_CHILDREN = 100;
-        static readonly int MAX_DEPTH = 1;
-        static readonly int MAX_LEAVES = (int)Math.Pow(NUM_CHILDREN, MAX_DEPTH);
 
-        static readonly ItemMaterial ENCH_1 = new("1", 80, 20, 0, 40);
-        static readonly ItemMaterial ENCH_2 = new("2", 20, 20, 0, 80);
-        static readonly ItemMaterial ENCH_3 = new("3", 0, 20, 11, 120);
-        static readonly ItemMaterial ENCH_4 = new("4", 0, 20, 24, 160);
-        static readonly ItemMaterial ENCH_5 = new("5", 0, 13, 37, 200);
-        static readonly ItemMaterial ENCH_6 = new("6", 0, 7, 50, 240);
-        static readonly ItemMaterial ENCH_7 = new("6", 0, 3, 70, 240);
+        private static ItemMaterial? ENCH_1   ;
+        private static ItemMaterial? ENCH_1X2 ;
+        private static ItemMaterial? ENCH_2   ;
+        private static  ItemMaterial? ENCH_2X2 ;
+        private static  ItemMaterial? ENCH_3   ;
+        private static  ItemMaterial? ENCH_3X2 ;
+        private static  ItemMaterial? ENCH_4   ;
+        private static  ItemMaterial? ENCH_4X2 ;
+        private static  ItemMaterial? ENCH_5   ;
+        private static  ItemMaterial? ENCH_5X2 ;
+        private static  ItemMaterial? ENCH_6   ;
+        private static  ItemMaterial? ENCH_6X2 ;
 
-        static readonly List<ItemMaterial> EnchTiers = new() {
-            ENCH_1,
-            ENCH_2,
-            ENCH_3,
-            ENCH_4,
-            ENCH_5,
-            ENCH_6,
-            ENCH_7
-        };
-
+        static readonly List<ItemMaterial> EnchTiers = new();
 
         static Dictionary<ItemType, Dictionary<int, Dictionary<IFormLink<IEffectRecordGetter>, Tuple<int, string, string>>>> enchantmentDict = new();
         static Dictionary<Tuple<FormKey, int>, Form> enchantedItems = new();
 
-
-        public static void Reset() {
+        public static void Reset(double doubleChance) {
             enchantmentDict.Clear();
             enchantedItems.Clear();
             foreach(var material in ItemMaterial.ALL) {
                 material.enchListMap.Clear();
             }
+            ENCH_1 = new("1", 80, 24, 0, 40);
+            ENCH_1X2 = new("1x2", 80 * doubleChance, 24 * doubleChance, 0, 40);
+            ENCH_2 = new("2", 20, 28, 0, 80);
+            ENCH_2X2 = new("2x2", 20 * doubleChance, 28 * doubleChance, 0, 80);
+            ENCH_3 = new("3", 0, 24, 11, 120);
+            ENCH_3X2 = new("3x2", 0, 24 * doubleChance, 11, 120);
+            ENCH_4 = new("4", 0, 20, 24, 160);
+            ENCH_4X2 = new("3x2", 0, 20 * doubleChance, 24, 160);
+            ENCH_5 = new("5", 0, 16, 37, 200);
+            ENCH_5X2 = new("5x2", 0, 16 * doubleChance, 37, 200);
+            ENCH_6 = new("6", 0, 12, 50, 240);
+            ENCH_6X2 = new("6x2", 0, 12 * doubleChance, 50, 240);
+
+            EnchTiers.AddRange(new List<ItemMaterial>() {
+                ENCH_1,
+                ENCH_2,
+                ENCH_3,
+                ENCH_4,
+                ENCH_5,
+                ENCH_6,
+                ENCH_1X2,
+                ENCH_2X2,
+                ENCH_3X2,
+                ENCH_4X2,
+                ENCH_5X2,
+                ENCH_6X2
+            });
         }
 
-        static Form EnchantArmor(IArmorGetter itemGetter, ItemType itemType, int enchantTier, string name) {
+        static Form? EnchantArmor(IArmorGetter itemGetter, ItemType itemType, int enchantTier, string name) {
             var key = new Tuple<FormKey, int>(itemGetter.FormKey, -enchantTier);
             if(!enchantedItems.ContainsKey(key)) {
                 if(!enchantmentDict.ContainsKey(itemType)) {
@@ -108,7 +129,7 @@ namespace LeveledLoot {
             return enchantedItems[key];
         }
 
-        static Form EnchantWeapon(IWeaponGetter itemGetter, ItemType itemType, int enchantTier, string name) {
+        static Form? EnchantWeapon(IWeaponGetter itemGetter, ItemType itemType, int enchantTier, string name) {
             var key = new Tuple<FormKey, int>(itemGetter.FormKey, -enchantTier);
             if(!enchantedItems.ContainsKey(key)) {
                 if(!enchantmentDict.ContainsKey(itemType)) {
@@ -188,7 +209,6 @@ namespace LeveledLoot {
 
                     double totalChance = 0;
                     List<double> itemChancesDouble = new();
-                    List<int> itemChancesInt = new();
                     List<Form> newItemList = new();
                     string listName = prefix + name + "_EnchTierSelection_Lvl" + lootLevel + "_";
                     if(armorGetter != null) {
@@ -220,11 +240,7 @@ namespace LeveledLoot {
                         itemChancesDouble.Add(chance);
                     }
 
-                    var itemChancesIntBetter = CustomMath.ApproximateProbabilities(itemChancesDouble, MAX_LEAVES, totalChance);
-
-                    for(int i = 0; i < itemChancesDouble.Count; ++i) {
-                        itemChancesInt.Add((int)(itemChancesDouble.ElementAt(i) * MAX_LEAVES / totalChance));
-                    }
+                    var itemChancesIntBetter = CustomMath.ApproximateProbabilities2(itemChancesDouble);
 
                     var chanceList = ChanceList.GetChanceList(newItemList.ToArray(), itemChancesIntBetter.ToArray())!;
                     var tree = RandomTree.GetRandomTree(chanceList, listName, ref Statistics.instance.enchTierSelectionLists);
@@ -370,9 +386,14 @@ namespace LeveledLoot {
                 // only treat as ADJCETIVE, if it starts with capital letter to avoid words like "the"
                 var minLength = Math.Min(aSplit.Length, bSplit.Length);
                 var name = a + " and";
+                bool doNameMerging = true;
                 for(int i = 2; i < minLength; i++) {
-                    if(aSplit[i] == bSplit[i] && aSplit[i].Substring(0, 1).ToUpper() == aSplit[i].Substring(0, 1)) {
+                    if(doNameMerging && aSplit[i] == bSplit[i] && aSplit[i].Substring(0, 1).ToUpper() == aSplit[i].Substring(0, 1)) {
                         continue;
+                    }
+                    if(aSplit[i] != bSplit[i] && aSplit[i].Substring(0, 1).ToUpper() == aSplit[i].Substring(0, 1))
+                    {
+                        doNameMerging = false;
                     }
                     name += " " + bSplit[i];
                 }
@@ -389,39 +410,52 @@ namespace LeveledLoot {
 
         public static void GenerateDoubleEnchantments(ItemType[] itemTypes) {
             foreach(var itemType in itemTypes) {
-                if(!enchantmentDict[itemType].ContainsKey(6)) {
-                    continue;
-                }
-                var tier6 = enchantmentDict[itemType][6];
-                if(!enchantmentDict[itemType].ContainsKey(7)) {
-                    enchantmentDict[itemType].Add(7, new Dictionary<IFormLink<IEffectRecordGetter>, Tuple<int, string, string>>());
-                }
-                var tier7 = enchantmentDict[itemType][7];
-                var keys = tier6.Keys.ToArray();
-                for(int i = 0; i < keys.Length; i++) {
+                for (int tier = 1; tier <= 6; tier++)
+                {
+                    if (!enchantmentDict[itemType].ContainsKey(tier))
+                    {
+                        continue;
+                    }
+                    var tierSingle = enchantmentDict[itemType][tier];
+                    
+                    if (!enchantmentDict[itemType].ContainsKey(tier+6))
+                    {
+                        enchantmentDict[itemType].Add(tier + 6, new Dictionary<IFormLink<IEffectRecordGetter>, Tuple<int, string, string>>());
+                    }
+                    var tierDouble = enchantmentDict[itemType][tier + 6];
+                    var keys = tierSingle.Keys.ToArray();
+                    for (int i = 0; i < keys.Length; i++)
+                    {
+                        if (keys[i].TryResolve(Program.State.LinkCache, out var effectRecord1))
+                        {
+                            if (effectRecord1 is IObjectEffectGetter ench1)
+                            {
+                                for (int j = i + 1; j < keys.Length; j++)
+                                {
 
-                    if(keys[i].TryResolve(Program.State.LinkCache, out var effectRecord1)) {
-                        if(effectRecord1 is IObjectEffectGetter ench1) {
-                            for(int j = i + 1; j < keys.Length; j++) {
-
-                                if(keys[j].TryResolve(Program.State.LinkCache, out var effectRecord2)) {
-                                    if(effectRecord2 is IObjectEffectGetter ench2) {
-                                        if(ench1.CastType != ench2.CastType || ench1.TargetType != ench2.TargetType || ench1.EnchantType != ench2.EnchantType) {
-                                            continue;
+                                    if (keys[j].TryResolve(Program.State.LinkCache, out var effectRecord2))
+                                    {
+                                        if (effectRecord2 is IObjectEffectGetter ench2)
+                                        {
+                                            if (ench1.CastType != ench2.CastType || ench1.TargetType != ench2.TargetType || ench1.EnchantType != ench2.EnchantType)
+                                            {
+                                                continue;
+                                            }
+                                            var enchCombined = Program.State.PatchMod.ObjectEffects.AddNew();
+                                            enchCombined.DeepCopyIn(ench1);
+                                            foreach (var effect2 in ench2.Effects)
+                                            {
+                                                enchCombined.Effects.Add(effect2.DeepCopy());
+                                            }
+                                            enchCombined.EditorID = prefix + ench1.EditorID + "_" + ench2.EditorID;
+                                            enchCombined.Name += " & " + ench2.Name;
+                                            var v1 = tierSingle[keys[i]];
+                                            var v2 = tierSingle[keys[j]];
+                                            tierDouble.Add(enchCombined.ToLink(), new Tuple<int, string, string>(v1.Item1 + v2.Item1, CombineNames(v1.Item2, v2.Item2), enchCombined.EditorID));
                                         }
-                                        var enchCombined = Program.State.PatchMod.ObjectEffects.AddNew();
-                                        enchCombined.DeepCopyIn(ench1);
-                                        foreach(var effect2 in ench2.Effects) {
-                                            enchCombined.Effects.Add(effect2.DeepCopy());
-                                        }
-                                        enchCombined.EditorID = prefix + ench1.EditorID + "_" + ench2.EditorID;
-                                        enchCombined.Name += " & " + ench2.Name;
-                                        var v1 = tier6[keys[i]];
-                                        var v2 = tier6[keys[j]];
-                                        tier7.Add(enchCombined.ToLink(), new Tuple<int, string, string>(v1.Item1 + v2.Item1, CombineNames(v1.Item2, v2.Item2), enchCombined.EditorID));
                                     }
-                                }
 
+                                }
                             }
                         }
                     }
