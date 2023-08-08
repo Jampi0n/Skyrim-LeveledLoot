@@ -51,18 +51,18 @@ namespace LeveledLoot {
             foreach (var material in ItemMaterial.ALL) {
                 material.enchListMap.Clear();
             }
-            ENCH_1 = new("1", 80, 24, 0, 40);
-            ENCH_1X2 = new("1x2", 80 * doubleChance, 24 * doubleChance, 0, 40);
-            ENCH_2 = new("2", 20, 28, 0, 80);
-            ENCH_2X2 = new("2x2", 20 * doubleChance, 28 * doubleChance, 0, 80);
-            ENCH_3 = new("3", 0, 24, 11, 120);
-            ENCH_3X2 = new("3x2", 0, 24 * doubleChance, 11, 120);
-            ENCH_4 = new("4", 0, 20, 24, 160);
-            ENCH_4X2 = new("3x2", 0, 20 * doubleChance, 24, 160);
-            ENCH_5 = new("5", 0, 16, 37, 200);
-            ENCH_5X2 = new("5x2", 0, 16 * doubleChance, 37, 200);
-            ENCH_6 = new("6", 0, 12, 50, 240);
-            ENCH_6X2 = new("6x2", 0, 12 * doubleChance, 50, 240);
+            ENCH_1 = new("1", Program.Settings.enchantmentLootTable.TIER_1);
+            ENCH_1X2 = new("1x2", Program.Settings.enchantmentLootTable.TIER_1x2);
+            ENCH_2 = new("2", Program.Settings.enchantmentLootTable.TIER_2);
+            ENCH_2X2 = new("2x2", Program.Settings.enchantmentLootTable.TIER_2x2);
+            ENCH_3 = new("3", Program.Settings.enchantmentLootTable.TIER_3);
+            ENCH_3X2 = new("3x2", Program.Settings.enchantmentLootTable.TIER_3x2);
+            ENCH_4 = new("4", Program.Settings.enchantmentLootTable.TIER_4);
+            ENCH_4X2 = new("3x2", Program.Settings.enchantmentLootTable.TIER_4x2);
+            ENCH_5 = new("5", Program.Settings.enchantmentLootTable.TIER_5);
+            ENCH_5X2 = new("5x2", Program.Settings.enchantmentLootTable.TIER_5x2);
+            ENCH_6 = new("6", Program.Settings.enchantmentLootTable.TIER_6);
+            ENCH_6X2 = new("6x2", Program.Settings.enchantmentLootTable.TIER_6x2);
 
             EnchTiers.AddRange(new List<ItemMaterial>() {
                 ENCH_1,
@@ -116,7 +116,7 @@ namespace LeveledLoot {
                 var order = CustomMath.GetRandomOrder(count);
                 Statistics.instance.variantSelectionLists++;
                 var leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
-                leveledList.EditorID = prefix + name + "_" + enchantmentEntry.EnchantmentEditorID;
+                leveledList.EditorID = prefix + name + "_" + enchantmentEntry.EnchantmentEditorID+ "_Variants";
                 for (int i = 0; i < n; i++) {
                     var index = order[i];
                     var toEnchant = itemMaterial.itemMap[itemType].ElementAt(index).item;
@@ -214,18 +214,11 @@ namespace LeveledLoot {
 
                 double totalChance = 0;
                 List<double> itemChancesDouble = new();
-                List<Form> newItemList = new();
+                List<LeveledListEntry> newItemList = new();
                 string listName = prefix + name + "_EnchTierSelection_Lvl" + lootLevel;
 
 
                 for (int t = 0; t < EnchTiers.Count; t++) {
-                    Form? enchantedItem = EnchantTier(itemMaterial, itemType, t + 1, name);
-
-                    if (enchantedItem == null) {
-                        continue;
-                    }
-                    newItemList.Add(enchantedItem);
-
                     var enchTier = EnchTiers[t];
                     // linear weight x between 0 and 1 depending on player level and first and last level of the item
                     // 0 -> start chance
@@ -233,6 +226,17 @@ namespace LeveledLoot {
                     double x = Math.Min(1.0, Math.Max(0.0, (1.0 * lootLevel - enchTier.firstLevel) / (enchTier.lastLevel - enchTier.firstLevel)));
 
                     double chance = x * (enchTier.endChance - enchTier.startChance) + enchTier.startChance;
+                    if(chance <= 0) {
+                        continue;
+                    }
+
+                    Form? enchantedItem = EnchantTier(itemMaterial, itemType, t + 1, name);
+
+                    if (enchantedItem == null) {
+                        continue;
+                    }
+                    newItemList.Add(new LeveledListEntry(enchantedItem, 1));
+
                     totalChance += chance;
                     itemChancesDouble.Add(chance);
                 }
@@ -242,7 +246,7 @@ namespace LeveledLoot {
                 var chanceList = ChanceList.GetChanceList(newItemList.ToArray(), itemChancesIntBetter.ToArray())!;
                 var tree = RandomTree.GetRandomTree(chanceList, listName, ref Statistics.instance.enchTierSelectionLists);
 
-                enchantedVariants[key] = tree.linkedItem;
+                enchantedVariants[key] = tree.linkedItem.itemLink;
 
 
             }

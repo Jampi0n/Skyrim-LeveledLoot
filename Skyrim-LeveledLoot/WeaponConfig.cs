@@ -23,21 +23,21 @@ namespace LeveledLoot {
 
 
     class WeaponConfig : LootConfig<WeaponConfig> {
-        public ItemMaterial DRAUGR = new("Draugr Weapons", Program.Settings.weaponLootTable.DRAUGR);
-        public ItemMaterial DRAUGR_HONED = new("Draugr Honed Weapons", Program.Settings.weaponLootTable.DRAUGR_HONED);
-        public ItemMaterial DRAUGR_HERO = new("Draugr Hero Weapons", Program.Settings.weaponLootTable.DRAUGR_HERO);
-        public ItemMaterial IRON = new("Iron Weapons", Program.Settings.weaponLootTable.IRON);
-        public ItemMaterial STEEL = new("Steel Weapons", Program.Settings.weaponLootTable.STEEL);
-        public ItemMaterial DWARVEN = new("Dwarven Weapons", Program.Settings.weaponLootTable.DWARVEN);
-        public ItemMaterial ELVEN = new("Elven Weapons", Program.Settings.weaponLootTable.ELVEN);
-        public ItemMaterial ORCISH = new("Orcish Weapons", Program.Settings.weaponLootTable.ORCISH);
-        public ItemMaterial NORDIC = new("Nordic Weapons", Program.Settings.weaponLootTable.NORDIC, LootRQ.DLC2);
-        public ItemMaterial GLASS = new("Glass Weapons", Program.Settings.weaponLootTable.GLASS);
-        public ItemMaterial EBONY = new("Ebony Weapons", Program.Settings.weaponLootTable.EBONY);
-        public ItemMaterial STALHRIM = new("Stalhrim Weapons", Program.Settings.weaponLootTable.STALHRIM, LootRQ.Rare, LootRQ.DLC2);
-        public ItemMaterial DRAGON = new("Dragon Weapons", Program.Settings.weaponLootTable.DRAGON, LootRQ.Rare);
-        public ItemMaterial DAEDRIC = new("Daedric Weapons", Program.Settings.weaponLootTable.DAEDRIC, LootRQ.Rare);
-        public ItemMaterial ULTIMATE = new("Ultimate Weapons", Program.Settings.weaponLootTable.ULTIMATE, LootRQ.Rare);
+        public ItemMaterial DRAUGR = new("DraugrWeapons", Program.Settings.weaponLootTable.DRAUGR, 1);
+        public ItemMaterial DRAUGR_HONED = new("DraugrHonedWeapons", Program.Settings.weaponLootTable.DRAUGR_HONED, 2);
+        public ItemMaterial DRAUGR_HERO = new("DraugrHeroWeapons", Program.Settings.weaponLootTable.DRAUGR_HERO, 3);
+        public ItemMaterial IRON = new("IronWeapons", Program.Settings.weaponLootTable.IRON, 1);
+        public ItemMaterial STEEL = new("SteelWeapons", Program.Settings.weaponLootTable.STEEL, 1.5);
+        public ItemMaterial DWARVEN = new("DwarvenWeapons", Program.Settings.weaponLootTable.DWARVEN, 2);
+        public ItemMaterial ELVEN = new("ElvenWeapons", Program.Settings.weaponLootTable.ELVEN, 2.5);
+        public ItemMaterial ORCISH = new("OrcishWeapons", Program.Settings.weaponLootTable.ORCISH, 3);
+        public ItemMaterial NORDIC = new("NordicWeapons", Program.Settings.weaponLootTable.NORDIC, 3, LootRQ.DLC2);
+        public ItemMaterial GLASS = new("GlassWeapons", Program.Settings.weaponLootTable.GLASS, 3.5);
+        public ItemMaterial EBONY = new("EbonyWeapons", Program.Settings.weaponLootTable.EBONY, 4);
+        public ItemMaterial STALHRIM = new("StalhrimWeapons", Program.Settings.weaponLootTable.STALHRIM, 4.5, LootRQ.Rare, LootRQ.DLC2);
+        public ItemMaterial DRAGON = new("DragonWeapons", Program.Settings.weaponLootTable.DRAGON, 5, LootRQ.Rare);
+        public ItemMaterial DAEDRIC = new("DaedricWeapons", Program.Settings.weaponLootTable.DAEDRIC, 5.5, LootRQ.Rare);
+        public ItemMaterial ULTIMATE = new("UltimateWeapons", Program.Settings.weaponLootTable.ULTIMATE, 6, LootRQ.Rare);
 
         public WeaponConfig() {
             var regularMaterials = new List<ItemMaterial>() {

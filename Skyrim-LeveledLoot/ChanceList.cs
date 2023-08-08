@@ -12,18 +12,18 @@ namespace LeveledLoot {
     class ChanceList {
         ChanceList prev;
         ChanceList next;
-        public Form item;
+        public LeveledListEntry item;
         public int chance;
         public int size;
         public int totalChance;
         public string name;
 
-        public static ChanceList Create(Form item, int chance, ChanceList? before) {
+        public static ChanceList Create(LeveledListEntry item, int chance, ChanceList? before) {
             var list = new ChanceList(item, chance, before);
             return list.Update(chance);
         }
 
-        public static ChanceList? GetChanceList(Form[] itemList, int[] chanceList) {
+        public static ChanceList? GetChanceList(LeveledListEntry[] itemList, int[] chanceList) {
             int div = CustomMath.GcdList(chanceList.ToList());
             for(int i = 0; i < chanceList.Length; ++i) {
                 chanceList[i] /= div;
@@ -41,7 +41,7 @@ namespace LeveledLoot {
         }
 
         static int counter = 0;
-        public ChanceList(Form item, int chance, ChanceList? before) {
+        public ChanceList(LeveledListEntry item, int chance, ChanceList? before) {
             name = "CL" + counter;
             counter++;
             this.item = item;
@@ -132,7 +132,7 @@ namespace LeveledLoot {
             
             string str = "";
             foreach(ChanceList chanceElement in this.ToArray()) {
-                str += "C=" + chanceElement.chance + "_I=" + chanceElement.item.ToString()+ ",";
+                str += "C=" + chanceElement.chance + "_I=" + chanceElement.item.itemLink + "x" + chanceElement.item.count + ",";
             }
             return str;
         }
@@ -140,7 +140,7 @@ namespace LeveledLoot {
         public override string ToString() {
             string str = "";
             foreach(ChanceList chanceElement in this.ToArray()) {
-                var item = chanceElement.item.TryResolve(Program.State.LinkCache);
+                var item = chanceElement.item.itemLink.TryResolve(Program.State.LinkCache);
                 str += "" + chanceElement.chance + ":" + item!.EditorID + ", ";
             }
             return str;

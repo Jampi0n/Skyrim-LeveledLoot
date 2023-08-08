@@ -47,8 +47,10 @@ namespace LeveledLoot {
         public EnchantmentExploration enchantmentExploration = EnchantmentExploration.LeveledListCombineItemSlotsSeparateItemType;
         [SynthesisTooltip("Limits the number of jewelry variants for the same enchantment to a fraction of the total variants.")]
         public double maxEnchJewelryVariantsFraction = 1.0;
-        [SynthesisTooltip("Limits the number of jewelry variants for the same enchantment to an absolute value. -1 is no limit.")]
+        [SynthesisTooltip("Limits the number of jewelry variants for the same enchantment to an absolute value. -1 is no limit. Vanilla: 1")]
         public int maxEnchJewelryVariants = 3;
+        [SynthesisTooltip("Limits the number of enchantment tiers per material. Vanilla: 3\nFor example, iron enchanted items will always have tier 1-3, while daedric will have have tier 4-6.")]
+        public int maxTiersPerMaterial = 3;
         [SynthesisTooltip("Loot table changes for bandit armor (low tier armor)")]
         public bool bandit = true;
         [SynthesisTooltip("Loot table changes for draugr loot armor (hide, leather, iron, steel, draugr, scaled, ebony, dragon)")]
@@ -69,6 +71,8 @@ namespace LeveledLoot {
         public double doubleEnchantmentChance = 0.25;
         [SynthesisTooltip("How available enchantments are determined.\n" + EnumInfo.enchantmentExploration)]
         public EnchantmentExploration enchantmentExploration = EnchantmentExploration.LeveledListCombineItemSlotsSeparateItemType;
+        [SynthesisTooltip("Limits the number of enchantment tiers per material. Vanilla: 3\nFor example, iron enchanted items will always have tier 1-3, while daedric will have have tier 4-6.")]
+        public int maxTiersPerMaterial = 3;
         [SynthesisTooltip("Loot table changes for bandit weapons (regular weapons)")]
         public bool bandit = true;
         [SynthesisTooltip("Loot table changes for draugr loot weapons (iron, steel, draugr, draugr honed, draugr hero, ebony, dragon)")]
@@ -116,11 +120,17 @@ namespace LeveledLoot {
     public class EnchantmentLootTable
     {
         public LootEntry TIER_1 = LootEntryManager.Get(80, 24, 0, 40);
+        public LootEntry TIER_1x2 = LootEntryManager.Get(0, 0, 0, 1);
         public LootEntry TIER_2 = LootEntryManager.Get(20, 28, 0, 80);
+        public LootEntry TIER_2x2 = LootEntryManager.Get(0, 0, 0, 1);
         public LootEntry TIER_3 = LootEntryManager.Get(0, 24, 11, 120);
+        public LootEntry TIER_3x2 = LootEntryManager.Get(0, 6, 11, 120);
         public LootEntry TIER_4 = LootEntryManager.Get(0, 20, 24, 160);
+        public LootEntry TIER_4x2 = LootEntryManager.Get(0, 5, 24, 160);
         public LootEntry TIER_5 = LootEntryManager.Get(0, 16, 37, 200);
+        public LootEntry TIER_5x2 = LootEntryManager.Get(0, 4, 37, 200);
         public LootEntry TIER_6 = LootEntryManager.Get(0, 12, 50, 240);
+        public LootEntry TIER_6x2 = LootEntryManager.Get(0, 3, 50, 240);
     }
 
     public class WeaponLootTable

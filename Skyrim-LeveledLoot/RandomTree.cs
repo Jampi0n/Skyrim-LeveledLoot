@@ -15,7 +15,7 @@ namespace LeveledLoot {
 
         public ChanceList chanceList;
         public readonly LinkedList<RandomTree> children = new();
-        public Form linkedItem;
+        public LeveledListEntry linkedItem;
         public string name;
         public bool isLeaf;
 
@@ -44,7 +44,7 @@ namespace LeveledLoot {
                         break;
                     }
                     int currentSplitSize = 0;
-                    LinkedList<Form> newItemList = new();
+                    LinkedList<LeveledListEntry> newItemList = new();
                     LinkedList<int> newChanceList = new();
                     while(this.chanceList.chance > 0 && currentSplitSize < splitSize) {
                         int take = Math.Min(splitSize - currentSplitSize, this.chanceList.chance);
@@ -67,11 +67,11 @@ namespace LeveledLoot {
                     entry.Data ??= new LeveledItemEntryData();
                     entry.Data.Count = 1;
                     entry.Data.Level = 1;
-                    entry.Data.Reference = (Mutagen.Bethesda.Plugins.IFormLink<IItemGetter>)children.ElementAt(i).linkedItem;
+                    entry.Data.Reference.SetTo(children.ElementAt(i).linkedItem.itemLink.FormKey);
                     leveledList.Entries ??= new Noggog.ExtendedList<LeveledItemEntry>();
                     leveledList.Entries!.Add(entry);
                 }
-                linkedItem = leveledList.ToLink();
+                linkedItem = new LeveledListEntry(leveledList.ToLink(), 1);
             } else {
                 linkedItem = this.chanceList.item;
             }

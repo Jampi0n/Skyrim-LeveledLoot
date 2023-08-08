@@ -30,25 +30,31 @@ namespace LeveledLoot {
         public static Form CreateSubList(Enum itemType, int level, string name, IEnumerable<ItemMaterial> materials, bool enchant, params LootRQ[] requirements) {
             double totalChance = 0;
             List<double> itemChancesDouble = new();
-            List<Form> newItemList = new();
+            List<LeveledListEntry> newItemList = new();
 
             foreach(ItemMaterial itemMaterial in materials) {
                 var commonRequirements = itemMaterial.requirements.Intersect(requirements).ToHashSet();
                 if(!commonRequirements.SetEquals(itemMaterial.requirements)) {
                     continue;
                 }
-                Form? f = itemMaterial.GetItem(itemType, enchant, level, name + "_" + itemMaterial.name + "_" + itemType);
-                if(f == null) {
-                    continue;
-                }
-                newItemList.Add(f);
-
                 // linear weight x between 0 and 1 depending on player level and first and last level of the item
                 // 0 -> start chance
                 // 1 -> end chance
                 double x = Math.Min(1.0, Math.Max(0.0, (1.0 * level - itemMaterial.firstLevel) / (itemMaterial.lastLevel - itemMaterial.firstLevel)));
 
                 double chance = x * (itemMaterial.endChance - itemMaterial.startChance) + itemMaterial.startChance;
+
+                if(chance <= 0) {
+                    continue;
+                }
+
+                LeveledListEntry f = itemMaterial.GetItem(itemType, enchant, level, name + "_" + itemMaterial.name + "_" + itemType);
+                if(f == null || f.itemLink == null) {
+                    continue;
+                }
+                newItemList.Add(f);
+
+             
                 totalChance += chance;
                 itemChancesDouble.Add(chance);
             }
@@ -59,7 +65,7 @@ namespace LeveledLoot {
             Statistics.instance.materialSelectionLists++;
             var chanceList = ChanceList.GetChanceList(newItemList.ToArray(), itemChancesIntBetter.ToArray())!;
             var tree = RandomTree.GetRandomTree(chanceList, prefix + name + "_Lvl" + level, ref Statistics.instance.materialSelectionLists);
-            return tree.linkedItem;
+            return tree.linkedItem.itemLink;
         }
 
         public static LeveledItem CreateListCount(Enum itemType, string name, short count, int levelFactor, IEnumerable<ItemMaterial> materials, bool enchant, params LootRQ[] requirements) {
