@@ -3,25 +3,24 @@ using System;
 using System.Collections.Generic;
 using Mutagen.Bethesda;
 using Mutagen.Bethesda.Skyrim;
-using Mutagen.Bethesda.FormKeys.SkyrimLE;
 using Mutagen.Bethesda.Plugins.Records;
 using Noggog;
 using System.Linq;
 using System.Text.RegularExpressions;
 
 using Form = Mutagen.Bethesda.Plugins.IFormLink<Mutagen.Bethesda.Plugins.Records.IMajorRecordGetter>;
-using System.Xml.Linq;
 
 namespace LeveledLoot {
-    record EnchantmentEntry {
+    class EnchantmentEntry {
         public readonly ushort enchAmount;
         public readonly string enchantedItemName = "";
-        public readonly string enchantmentEditorID = "";
+        public string EnchantmentEditorID => enchantment.EditorID!;
+        public readonly IEffectRecordGetter enchantment;
 
-        public EnchantmentEntry(ushort enchAmount, string enchantedItemName, string enchantmentEditorID) {
+        public EnchantmentEntry(IEffectRecordGetter enchantment, ushort enchAmount, string enchantedItemName) {
+            this.enchantment = enchantment;
             this.enchAmount = enchAmount;
             this.enchantedItemName = enchantedItemName;
-            this.enchantmentEditorID = enchantmentEditorID;
         }
     }
     class Enchanter {
@@ -43,13 +42,11 @@ namespace LeveledLoot {
 
         static readonly List<ItemMaterial> EnchTiers = new();
 
-        static Dictionary<ItemType, Dictionary<int, Dictionary<IFormLink<IEffectRecordGetter>, EnchantmentEntry>>> enchantmentDict = new();
-        static Dictionary<Tuple<FormKey, int>, Form> enchantedItems = new();
-        static Dictionary<Tuple<ItemMaterial, ItemType, int>, Form> enchantedVariants = new();
+        static readonly Dictionary<ItemType, Dictionary<int, Dictionary<IFormLink<IEffectRecordGetter>, EnchantmentEntry>>> enchantmentDict = new();
+        static readonly Dictionary<Tuple<ItemMaterial, ItemType, int>, Form> enchantedVariants = new();
 
         public static void Reset(double doubleChance) {
             enchantmentDict.Clear();
-            enchantedItems.Clear();
             enchantedVariants.Clear();
             foreach (var material in ItemMaterial.ALL) {
                 material.enchListMap.Clear();
@@ -90,7 +87,7 @@ namespace LeveledLoot {
             itemCopy.ObjectEffect.SetTo(ench);
             itemCopy.EnchantmentAmount = enchantmentEntry.enchAmount;
             itemCopy.Name = enchantmentEntry.enchantedItemName.Replace("$NAME$", itemName);
-            itemCopy.EditorID += "_" + enchantmentEntry.enchantmentEditorID;
+            itemCopy.EditorID += "_" + enchantmentEntry.EnchantmentEditorID;
             return itemCopy.ToLink();
         }
 
@@ -101,60 +98,57 @@ namespace LeveledLoot {
             itemCopy.ObjectEffect.SetTo(ench);
             itemCopy.EnchantmentAmount = enchantmentEntry.enchAmount;
             itemCopy.Name = enchantmentEntry.enchantedItemName.Replace("$NAME$", itemName);
-            itemCopy.EditorID += "_" + enchantmentEntry.enchantmentEditorID;
+            itemCopy.EditorID += "_" + enchantmentEntry.EnchantmentEditorID;
             return itemCopy.ToLink();
         }
 
-        static Form? EnchantVariant(ItemMaterial itemMaterial, ItemType itemType, IFormLink<IEffectRecordGetter> enchLink, EnchantmentEntry enchantmentEntry, string name) {
+        static Form? EnchantVariant(ItemMaterial itemMaterial, ItemType itemType, EnchantmentEntry enchantmentEntry, string name) {
             var variantList = itemMaterial.itemMap[itemType];
             var count = variantList.Count;
             var n = (int)(count * ItemMaterial.maxVariantFraction);
-            if(ItemMaterial.maxVariants > 0) {
+            if (ItemMaterial.maxVariants > 0) {
                 n = Math.Min(n, ItemMaterial.maxVariants);
             }
-            if (enchLink.TryResolve(Program.State.LinkCache, out var ench)) {
-                if (n > 1) {
-                    var order = CustomMath.GetRandomOrder(count);
-                    var leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
-                    leveledList.EditorID = prefix + name + "_" + enchantmentEntry.enchantmentEditorID;
-                    for (int i = 0; i < n; i++) {
-                        var index = order[i];
-                        var item = itemMaterial.itemMap[itemType].ElementAt(index).item;
-                        if (item.TryResolve(Program.State.LinkCache, out var toEnchant)) {
-                            LeveledItemEntry entry = new();
-                            entry.Data ??= new LeveledItemEntryData();
-                            leveledList.ChanceNone = 0;
-                            entry.Data.Count = 1;
-                            entry.Data.Level = 1;
-                            Form? enchanted = null;
-                            if (toEnchant is IWeaponGetter weaponGetter) {
-                                enchanted = EnchantWeapon(weaponGetter, ench, enchantmentEntry);
-                            } else if (toEnchant is IArmorGetter armorGetter) {
-                                enchanted = EnchantArmor(armorGetter, ench, enchantmentEntry);
-                            } else {
-                                throw new Exception("Must be armor or weapon");
-                            }
-                            entry.Data.Reference.SetTo(enchanted.FormKey);
-
-                            if (leveledList.Entries == null) {
-                                leveledList.Entries = new Noggog.ExtendedList<LeveledItemEntry>();
-                            }
-                            leveledList.Entries!.Add(entry);
-                        }
+            var ench = enchantmentEntry.enchantment;
+            if (n > 1) {
+                var order = CustomMath.GetRandomOrder(count);
+                var leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
+                leveledList.EditorID = prefix + name + "_" + enchantmentEntry.EnchantmentEditorID;
+                for (int i = 0; i < n; i++) {
+                    var index = order[i];
+                    var toEnchant = itemMaterial.itemMap[itemType].ElementAt(index).item;
+                    LeveledItemEntry entry = new();
+                    entry.Data ??= new LeveledItemEntryData();
+                    leveledList.ChanceNone = 0;
+                    entry.Data.Count = 1;
+                    entry.Data.Level = 1;
+                    Form? enchanted;
+                    if (toEnchant is IWeaponGetter weaponGetter) {
+                        enchanted = EnchantWeapon(weaponGetter, ench, enchantmentEntry);
+                    } else if (toEnchant is IArmorGetter armorGetter) {
+                        enchanted = EnchantArmor(armorGetter, ench, enchantmentEntry);
+                    } else {
+                        throw new Exception("Must be armor or weapon");
                     }
-                    return leveledList.ToLink();
+                    entry.Data.Reference.SetTo(enchanted.FormKey);
 
-                } else {
-                    var item = itemMaterial.itemMap[itemType].ElementAt(CustomMath.GetRandomInt(0, count)).item;
-                    if (item.TryResolve(Program.State.LinkCache, out var toEnchant)) {
-                        if (toEnchant is IWeaponGetter weaponGetter) {
-                            return EnchantWeapon(weaponGetter, ench, enchantmentEntry);
-                        } else if (toEnchant is IArmorGetter armorGetter) {
-                            return EnchantArmor(armorGetter, ench, enchantmentEntry);
-                        }
+                    if (leveledList.Entries == null) {
+                        leveledList.Entries = new Noggog.ExtendedList<LeveledItemEntry>();
                     }
+                    leveledList.Entries!.Add(entry);
+
+                }
+                return leveledList.ToLink();
+
+            } else {
+                var toEnchant = itemMaterial.itemMap[itemType].ElementAt(CustomMath.GetRandomInt(0, count)).item;
+                if (toEnchant is IWeaponGetter weaponGetter) {
+                    return EnchantWeapon(weaponGetter, ench, enchantmentEntry);
+                } else if (toEnchant is IArmorGetter armorGetter) {
+                    return EnchantArmor(armorGetter, ench, enchantmentEntry);
                 }
             }
+
             return null;
         }
 
@@ -180,8 +174,8 @@ namespace LeveledLoot {
                         leveledList.ChanceNone = 0;
                         entry.Data.Count = 1;
                         entry.Data.Level = 1;
-                        var enchanted = EnchantVariant(itemMaterial, itemType, enchTuple.Key, enchTuple.Value, name);
-                        if(enchanted == null) {
+                        var enchanted = EnchantVariant(itemMaterial, itemType, enchTuple.Value, name);
+                        if (enchanted == null) {
                             continue;
                         }
                         entry.Data.Reference.SetTo(enchanted.FormKey);
@@ -194,8 +188,8 @@ namespace LeveledLoot {
                     enchantedVariants[key] = leveledList.ToLink();
                 } else if (numEnchantments == 1) {
                     var enchTuple = dict[enchantTier].First();
-                    var enchVariants = EnchantVariant(itemMaterial, itemType, enchTuple.Key, enchTuple.Value, name);
-                    if(enchVariants == null) {
+                    var enchVariants = EnchantVariant(itemMaterial, itemType, enchTuple.Value, name);
+                    if (enchVariants == null) {
                         throw new Exception("Could not create enchantments");
                     }
                     enchantedVariants[key] = enchVariants;
@@ -289,7 +283,7 @@ namespace LeveledLoot {
                             throw new Exception("Enchanted item has no enchantment.");
                         }
                         if (ench.TryResolve(Program.State.LinkCache, out var effectRecord)) {
-                            dict[tier][ench] = new EnchantmentEntry(enchAmount, enchantedItemName.Replace(itemName, "$NAME$"), effectRecord.EditorID!);
+                            dict[tier][ench] = new EnchantmentEntry(effectRecord, enchAmount, enchantedItemName.Replace(itemName, "$NAME$"));
                         }
                     }
                 }
@@ -339,7 +333,7 @@ namespace LeveledLoot {
                                             throw new Exception("Enchanted item has no enchantment.");
                                         }
                                         if (ench.TryResolve(Program.State.LinkCache, out var effectRecord)) {
-                                            dict[i][ench] = new EnchantmentEntry(enchAmount, enchantedItemName.Replace(itemName, "$NAME$"), effectRecord.EditorID!);
+                                            dict[i][ench] = new EnchantmentEntry(effectRecord, enchAmount, enchantedItemName.Replace(itemName, "$NAME$"));
                                         }
                                     }
                                     i++;
@@ -401,7 +395,7 @@ namespace LeveledLoot {
                         if (!dict.ContainsKey(tier)) {
                             dict.Add(tier, new Dictionary<IFormLink<IEffectRecordGetter>, EnchantmentEntry>());
                         }
-                        dict[tier][ench] = new EnchantmentEntry(enchAmount, name, effectRecord.EditorID!);
+                        dict[tier][ench] = new EnchantmentEntry(effectRecord, enchAmount, name);
                     }
 
                 }
@@ -414,21 +408,21 @@ namespace LeveledLoot {
                     var itemName = weapon.Name!.String!;
                     var enchantedItemName = enchantedWeapon.Name!.String!;
                     var ench = enchantedWeapon.ObjectEffect.AsSetter();
-                    var enchEditorID = "";
+
                     var enchAmount = enchantedWeapon.EnchantmentAmount.GetValueOrDefault(0);
                     if (ench.TryResolve(Program.State.LinkCache, out var effectRecord)) {
-                        enchEditorID = effectRecord.EditorID!;
-                    }
-                    foreach (var itemType in itemTypes) {
-                        if (!enchantmentDict.ContainsKey(itemType)) {
-                            enchantmentDict.Add(itemType, new Dictionary<int, Dictionary<IFormLink<IEffectRecordGetter>, EnchantmentEntry>>());
+                        foreach (var itemType in itemTypes) {
+                            if (!enchantmentDict.ContainsKey(itemType)) {
+                                enchantmentDict.Add(itemType, new Dictionary<int, Dictionary<IFormLink<IEffectRecordGetter>, EnchantmentEntry>>());
+                            }
+                            var dict = enchantmentDict[itemType];
+                            if (!dict.ContainsKey(tier)) {
+                                dict.Add(tier, new Dictionary<IFormLink<IEffectRecordGetter>, EnchantmentEntry>());
+                            }
+                            dict[tier][ench] = new EnchantmentEntry(effectRecord, enchAmount, enchantedItemName.Replace(itemName, "$NAME$"));
                         }
-                        var dict = enchantmentDict[itemType];
-                        if (!dict.ContainsKey(tier)) {
-                            dict.Add(tier, new Dictionary<IFormLink<IEffectRecordGetter>, EnchantmentEntry>());
-                        }
-                        dict[tier][ench] = new EnchantmentEntry(enchAmount, enchantedItemName.Replace(itemName, "$NAME$"), enchEditorID);
                     }
+
                 }
             }
         }
@@ -503,7 +497,7 @@ namespace LeveledLoot {
                                             enchCombined.Name += " & " + ench2.Name;
                                             var v1 = tierSingle[keys[i]];
                                             var v2 = tierSingle[keys[j]];
-                                            tierDouble.Add(enchCombined.ToLink(), new EnchantmentEntry((ushort)(v1.enchAmount + v2.enchAmount), CombineNames(v1.enchantedItemName, v2.enchantedItemName), enchCombined.EditorID));
+                                            tierDouble.Add(enchCombined.ToLink(), new EnchantmentEntry(enchCombined, (ushort)(v1.enchAmount + v2.enchAmount), CombineNames(v1.enchantedItemName, v2.enchantedItemName)));
                                         }
                                     }
 

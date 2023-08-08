@@ -171,15 +171,17 @@ namespace LeveledLoot {
 
 
     class ItemVariant {
-        public readonly Form item;
+        public readonly IMajorRecordGetter item;
+        public readonly Form itemLink;
         public readonly int weight;
         public readonly short count;
         public readonly byte chanceNone;
-        public ItemVariant(Form item, int weight, short count, byte chanceNone) {
-            this.item = item;
+        public ItemVariant(Form itemLink, int weight, short count, byte chanceNone) {
+            this.itemLink = itemLink;
             this.weight = weight;
             this.count = count;
             this.chanceNone = chanceNone;
+            item = itemLink.Resolve(Program.State.LinkCache);
         }
     }
 
@@ -288,7 +290,7 @@ namespace LeveledLoot {
             if (!itemMap.ContainsKey(itemType)) {
                 return null;
             }
-            return itemMap[itemType].First!.Value.item;
+            return itemMap[itemType].First!.Value.itemLink;
         }
 
         public Form? GetItem(Enum itemType, bool enchant, int level, string name) {
@@ -306,7 +308,7 @@ namespace LeveledLoot {
                 if (itemMap[itemType].Count == 1) {
                     var itemVariant = itemMap[itemType].First!.Value;
                     if (itemVariant.count == 1 && itemVariant.chanceNone == 0) {
-                        return itemMap[itemType].First!.Value.item;
+                        return itemMap[itemType].First!.Value.itemLink;
                     }
                 }
                 if (!listMap.ContainsKey(itemType)) {
@@ -321,7 +323,7 @@ namespace LeveledLoot {
                             leveledList.ChanceNone = Math.Max(itemVariant.chanceNone, leveledList.ChanceNone);
                             entry.Data.Count = itemVariant.count;
                             entry.Data.Level = 1;
-                            entry.Data.Reference = (Mutagen.Bethesda.Plugins.IFormLink<IItemGetter>)itemVariant.item;
+                            entry.Data.Reference = (IFormLink<IItemGetter>)itemVariant.itemLink;
                             leveledList.Entries ??= new Noggog.ExtendedList<LeveledItemEntry>();
                             leveledList.Entries!.Add(entry);
                         }
