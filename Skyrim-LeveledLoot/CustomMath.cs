@@ -1,4 +1,5 @@
 using DynamicData;
+using Mutagen.Bethesda.Plugins.Utility;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,27 +10,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace LeveledLoot
-{
-    class CustomMath
-    {
-        public static int Gcd(int a, int b)
-        {
-            if (a == 0)
-            {
+namespace LeveledLoot {
+    class CustomMath {
+        private static Random rng = new();
+        public static int Gcd(int a, int b) {
+            if (a == 0) {
                 return b;
             }
             return Gcd(b % a, a);
         }
 
-        public static int GcdList(List<int> a)
-        {
-            if (a.Count <= 0)
-            {
+        public static int GcdList(List<int> a) {
+            if (a.Count <= 0) {
                 return 1;
             }
-            if (a.Count == 1)
-            {
+            if (a.Count == 1) {
                 return a.First();
             }
             int first = a.First();
@@ -37,34 +32,26 @@ namespace LeveledLoot
             return Gcd(first, GcdList(a));
         }
 
-        class Node
-        {
+        class Node {
             public int index;
             public int currentApproximation;
             public double exact;
             public double errorLow;
             public double errorHigh;
 
-            public Node(int index, double exact)
-            {
+            public Node(int index, double exact) {
                 this.index = index;
                 this.exact = exact;
             }
-            public override string ToString()
-            {
+            public override string ToString() {
                 return "[" + index + "]: " + exact + "/" + currentApproximation + "/" + errorLow + "/" + errorHigh + "___" + (errorHigh - errorLow);
             }
-            public void Update()
-            {
-                if (exact > 0)
-                {
+            public void Update() {
+                if (exact > 0) {
                     errorLow = Math.Abs(currentApproximation - exact) / exact;
                     errorHigh = Math.Abs(currentApproximation + 1 - exact) / exact;
-                }
-                else
-                {
-                    if (currentApproximation != 0)
-                    {
+                } else {
+                    if (currentApproximation != 0) {
                         throw new Exception("Error!");
                     }
                     errorLow = 0;
@@ -73,8 +60,7 @@ namespace LeveledLoot
             }
         }
 
-        public static List<int> ApproximateProbabilities2(List<double> sourceList)
-        {
+        public static List<int> ApproximateProbabilities2(List<double> sourceList) {
             var sorted = sourceList.Select((x, i) => new KeyValuePair<double, int>(x, i)).OrderBy(x => x.Key).ToList();
             var sortedList = sorted.Select(x => x.Key).ToList();
             var indexList = sorted.Select(x => x.Value).ToList();
@@ -85,56 +71,45 @@ namespace LeveledLoot
 
             var bestDecider = double.MaxValue;
             var bestList = sortedList.Select(x => (int)Math.Round(x)).ToList();
-            for (int j = firstNonZero; j < sourceList.Count; j++)
-            {
+            for (int j = firstNonZero; j < sourceList.Count; j++) {
                 var normalized = sortedList.Select(x => x / sortedList[j]);
-                for (int i = 1; i < 20; i++)
-                {
+                for (int i = 1; i < 20; i++) {
                     var iList = normalized.Select(x => x * i);
                     var error = 0.0;
-                    foreach (var x in iList)
-                    {
-                        if (x != 0)
-                        {
+                    foreach (var x in iList) {
+                        if (x != 0) {
                             error += Math.Abs((Math.Round(x) - x) / (x + i));
                         }
                     }
                     var penalty = 100 + iList.Sum();
                     var decider = Math.Pow((1 + error), 4) * penalty;
-                    if (decider < bestDecider)
-                    {
+                    if (decider < bestDecider) {
                         bestDecider = decider;
                         bestList = iList.Select(x => (int)Math.Round(x)).ToList();
                     }
                 }
             }
             var approxList = indexList.ToList();
-            for (int i = 0; i < indexList.Count; ++i)
-            {
+            for (int i = 0; i < indexList.Count; ++i) {
                 approxList[indexList[i]] = bestList[i];
             }
             return approxList;
         }
 
-        public static List<int> ApproximateProbabilities(List<double> sourceList, int sum, double total = -1)
-        {
+        public static List<int> ApproximateProbabilities(List<double> sourceList, int sum, double total = -1) {
             List<Node> approxList = new();
 
-            if (total < 0)
-            {
+            if (total < 0) {
                 total = 0;
-                foreach (var x in sourceList)
-                {
+                foreach (var x in sourceList) {
                     total += x;
                 }
             }
 
             int currentSum = 0;
-            for (int i = 0; i < sourceList.Count; ++i)
-            {
+            for (int i = 0; i < sourceList.Count; ++i) {
                 var exact = sourceList.ElementAt(i) / total * sum;
-                var node = new Node(i, exact)
-                {
+                var node = new Node(i, exact) {
                     currentApproximation = (int)exact
                 };
                 node.Update();
@@ -143,18 +118,13 @@ namespace LeveledLoot
             }
             int missing = sum - currentSum;
 
-            while (missing > 0)
-            {
-                approxList.Sort((a, b) =>
-                {
+            while (missing > 0) {
+                approxList.Sort((a, b) => {
                     var introducedErrorA = a.errorHigh - a.errorLow;
                     var introducedErrorB = b.errorHigh - b.errorLow;
-                    if (introducedErrorA < introducedErrorB)
-                    {
+                    if (introducedErrorA < introducedErrorB) {
                         return -1;
-                    }
-                    else if (introducedErrorA > introducedErrorB)
-                    {
+                    } else if (introducedErrorA > introducedErrorB) {
                         return 1;
                     }
                     return 0;
@@ -167,6 +137,25 @@ namespace LeveledLoot
             }
             approxList.Sort((a, b) => a.index - b.index);
             return approxList.Select(node => node.currentApproximation).ToList();
+        }
+
+        public static int[] GetRandomOrder(int max) {
+            var array = new int[max];
+            for (int i = 0; i < max; i++) {
+                array[i] = i;
+            }
+            int n = max;
+            while (n > 1) {
+                int k = rng.Next(n--);
+                int temp = array[n];
+                array[n] = array[k];
+                array[k] = temp;
+            }
+            return array;
+        }
+
+        public static int GetRandomInt(int min, int max) {
+            return rng.Next(min, max);
         }
     }
 }

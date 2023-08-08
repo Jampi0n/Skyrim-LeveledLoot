@@ -37,7 +37,7 @@ namespace LeveledLoot {
                 if(!commonRequirements.SetEquals(itemMaterial.requirements)) {
                     continue;
                 }
-                Form? f = itemMaterial.GetItem(itemType, enchant, level, name + "_" + itemMaterial.name);
+                Form? f = itemMaterial.GetItem(itemType, enchant, level, name + "_" + itemMaterial.name + "_" + itemType);
                 if(f == null) {
                     continue;
                 }

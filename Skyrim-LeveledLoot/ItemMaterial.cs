@@ -189,6 +189,8 @@ namespace LeveledLoot {
         public int firstLevel;
         public int lastLevel;
 
+        public static int maxVariants = -1;
+        public static double maxVariantFraction = 1.0;
         public static LinkedList<ItemMaterial> ALL = new();
         public string name;
         public Dictionary<Enum, LinkedList<ItemVariant>> itemMap = new();
@@ -296,37 +298,7 @@ namespace LeveledLoot {
             if (enchant) {
                 var key = new Tuple<Enum, int>(itemType, level);
                 if (!enchListMap.ContainsKey(key)) {
-
-                    LeveledItem leveledList;
-                    Form listLink;
-                    bool variants = true;
-                    if (itemMap[itemType].Count == 1) {
-                        var itemVariant = itemMap[itemType].First!.Value;
-                        if (itemVariant.count == 1 && itemVariant.chanceNone == 0) {
-                            variants = false;
-                        }
-                    }
-                    if (variants) {
-                        Statistics.instance.variantSelectionLists++;
-                        leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
-                        leveledList.EditorID = LeveledList.prefix + name + "_EnchVariantSelection_Lvl" + level;
-                        for (int i = 0; i < itemMap[itemType].Count; ++i) {
-                            var itemVariant = itemMap[itemType].ElementAt(i);
-                            for (int j = 0; j < itemVariant.weight; ++j) {
-                                LeveledItemEntry entry = new();
-                                entry.Data ??= new LeveledItemEntryData();
-                                leveledList.ChanceNone = Math.Max(itemVariant.chanceNone, leveledList.ChanceNone);
-                                entry.Data.Count = itemVariant.count;
-                                entry.Data.Level = 1;
-                                entry.Data.Reference.SetTo(Enchanter.Enchant(itemVariant.item, level, name).FormKey);
-                                leveledList.Entries ??= new Noggog.ExtendedList<LeveledItemEntry>();
-                                leveledList.Entries!.Add(entry);
-                            }
-                        }
-                        listLink = leveledList.ToLink();
-                    } else {
-                        listLink = Enchanter.Enchant(itemMap[itemType].First!.Value.item, level, name);
-                    }
+                    var listLink = Enchanter.Enchant(this, (ItemType) itemType, level, name);
                     enchListMap.Add(key, listLink);
                 }
                 return enchListMap[key];

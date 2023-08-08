@@ -45,6 +45,10 @@ namespace LeveledLoot {
         public double doubleEnchantmentChance = 0.25;
         [SynthesisTooltip("How available enchantments are determined.\n" + EnumInfo.enchantmentExploration)]
         public EnchantmentExploration enchantmentExploration = EnchantmentExploration.LeveledListCombineItemSlotsSeparateItemType;
+        [SynthesisTooltip("Limits the number of jewelry variants for the same enchantment to a fraction of the total variants.")]
+        public double maxEnchJewelryVariantsFraction = 1.0;
+        [SynthesisTooltip("Limits the number of jewelry variants for the same enchantment to an absolute value. -1 is no limit.")]
+        public int maxEnchJewelryVariants = 3;
         [SynthesisTooltip("Loot table changes for bandit armor (low tier armor)")]
         public bool bandit = true;
         [SynthesisTooltip("Loot table changes for draugr loot armor (hide, leather, iron, steel, draugr, scaled, ebony, dragon)")]

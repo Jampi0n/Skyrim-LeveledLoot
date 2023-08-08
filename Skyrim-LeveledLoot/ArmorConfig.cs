@@ -50,7 +50,7 @@ namespace LeveledLoot {
         public ItemMaterial ULTIMATE_LIGHT = new("Ultimate", Program.Settings.armorLootTable.heavyArmorLootTable.ULTIMATE, LootRQ.Rare);
 
 
-        public ItemMaterial JEWELRY = new("Jewlry", 100, 100, 0, 1);
+        public ItemMaterial JEWELRY = new("Jewelry", 100, 100, 0, 1);
 
         public ArmorConfig() {
             var regularMaterials = new List<ItemMaterial>() {
@@ -328,6 +328,10 @@ namespace LeveledLoot {
             RecipeParser.Parse(armorItemTypesLight, regularMaterials, ULTIMATE_LIGHT, true, false);
             RecipeParser.Parse(armorItemTypesJewelry, jewelryMaterials, JEWELRY, true, false);
 
+
+            ItemMaterial.maxVariantFraction = Program.Settings.apparel.maxEnchJewelryVariantsFraction;
+            ItemMaterial.maxVariants = Program.Settings.apparel.maxEnchJewelryVariants;
+
             var enchRings = LeveledList.CreateListEnchanted(ItemType.Ring, "EnchRings", LeveledList.FACTOR_BEST, jewelryMaterials).ToLink();
             var enchNecklaces = LeveledList.CreateListEnchanted(ItemType.Necklace, "EnchNecklaces", LeveledList.FACTOR_BEST, jewelryMaterials).ToLink();
             var enchCirclets = LeveledList.CreateListEnchanted(ItemType.Circlet, "EnchCirclets", LeveledList.FACTOR_BEST, jewelryMaterials).ToLink();
@@ -339,7 +343,9 @@ namespace LeveledLoot {
             LeveledList.LinkList(SKYL.LItemEnchCircletAll25, enchCirclets);
             LeveledList.LinkList(SKYL.LItemEnchCircletAll75, enchCirclets);
             LeveledList.LinkList(SKYL.LItemEnchCircletAll, enchCirclets);
-            return;
+
+            ItemMaterial.maxVariantFraction = 1.0;
+            ItemMaterial.maxVariants = -1;
 
             // Best = 4
             // Special/Reward = 3
