@@ -77,7 +77,11 @@ namespace LeveledLoot
 
             LeveledList.InitializePatch();
 
+            Enchanter.Reset();
+            Enchanter.numTiers = Program.Settings.apparel.maxTiersPerMaterial;
             ArmorConfig.Run();
+            Enchanter.Reset();
+            Enchanter.numTiers = Program.Settings.weapons.maxTiersPerMaterial;
             WeaponConfig.Run();
             MiscConfig.Run();
             SoulGemConfig.Run();

@@ -27,7 +27,7 @@ namespace LeveledLoot {
         static readonly List<FormLink<ILeveledItemGetter>> lockedLists = new();
         static LeveledItem? dummyList;
 
-        public static Form CreateSubList(Enum itemType, int level, string name, IEnumerable<ItemMaterial> materials, bool enchant, params LootRQ[] requirements) {
+        public static LeveledListEntry CreateSubList(Enum itemType, int level, string name, IEnumerable<ItemMaterial> materials, bool enchant, params LootRQ[] requirements) {
             double totalChance = 0;
             List<double> itemChancesDouble = new();
             List<LeveledListEntry> newItemList = new();
@@ -65,7 +65,7 @@ namespace LeveledLoot {
             Statistics.instance.materialSelectionLists++;
             var chanceList = ChanceList.GetChanceList(newItemList.ToArray(), itemChancesIntBetter.ToArray())!;
             var tree = RandomTree.GetRandomTree(chanceList, prefix + name + "_Lvl" + level, ref Statistics.instance.materialSelectionLists);
-            return tree.linkedItem.itemLink;
+            return tree.linkedItem;
         }
 
         public static LeveledItem CreateListCount(Enum itemType, string name, short count, int levelFactor, IEnumerable<ItemMaterial> materials, bool enchant, params LootRQ[] requirements) {
@@ -74,12 +74,12 @@ namespace LeveledLoot {
             leveledList.EditorID = prefix + name;
             leveledList.Flags = LeveledItem.Flag.CalculateForEachItemInCount | LeveledItem.Flag.SpecialLoot;
             foreach(int level in LEVEL_LIST) {
-                Form f = CreateSubList(itemType, level * levelFactor, name, materials, enchant, requirements);
+                LeveledListEntry f = CreateSubList(itemType, level * levelFactor, name, materials, enchant, requirements);
                 LeveledItemEntry entry = new();
                 entry.Data ??= new LeveledItemEntryData();
-                entry.Data.Count = count;
+                entry.Data.Count = (short) (f.count * count);
                 entry.Data.Level = (short)level;
-                entry.Data.Reference.SetTo(f.FormKey);
+                entry.Data.Reference.SetTo(f.itemLink.FormKey);
                 leveledList.Entries ??= new Noggog.ExtendedList<LeveledItemEntry>();
                 leveledList.Entries!.Add(entry);
             }

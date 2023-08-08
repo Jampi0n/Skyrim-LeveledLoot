@@ -41,8 +41,6 @@ namespace LeveledLoot {
         public bool addCraftableItems = true;
         [SynthesisTooltip("Generate enchanted versions of armor and jewelry for enchanted loot table.")]
         public bool enchantedItems = true;
-        [SynthesisTooltip("Chance to find double enchanted items instead of single enchanted items.")]
-        public double doubleEnchantmentChance = 0.25;
         [SynthesisTooltip("How available enchantments are determined.\n" + EnumInfo.enchantmentExploration)]
         public EnchantmentExploration enchantmentExploration = EnchantmentExploration.LeveledListCombineItemSlotsSeparateItemType;
         [SynthesisTooltip("Limits the number of jewelry variants for the same enchantment to a fraction of the total variants.")]
@@ -67,8 +65,6 @@ namespace LeveledLoot {
         public bool addCraftableItems = true;
         [SynthesisTooltip("Generate enchanted versions of weapons for enchanted loot table.")]
         public bool enchantedItems = true;
-        [SynthesisTooltip("Chance to find double enchanted items instead of single enchanted items.")]
-        public double doubleEnchantmentChance = 0.25;
         [SynthesisTooltip("How available enchantments are determined.\n" + EnumInfo.enchantmentExploration)]
         public EnchantmentExploration enchantmentExploration = EnchantmentExploration.LeveledListCombineItemSlotsSeparateItemType;
         [SynthesisTooltip("Limits the number of enchantment tiers per material. Vanilla: 3\nFor example, iron enchanted items will always have tier 1-3, while daedric will have have tier 4-6.")]

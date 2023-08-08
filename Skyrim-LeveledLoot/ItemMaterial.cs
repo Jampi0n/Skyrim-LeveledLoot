@@ -151,6 +151,7 @@ namespace LeveledLoot {
         public Dictionary<Enum, LeveledListEntry> listMap = new();
         public Dictionary<Tuple<Enum, int>, LeveledListEntry> enchListMap = new();
         public HashSet<LootRQ> requirements;
+        public readonly List<ItemMaterial> enchTierList;
 
         public ItemMaterial(string name, LootEntry lootEntry, double enchantTier, params LootRQ[] requirements) {
             this.name = name;
@@ -159,6 +160,7 @@ namespace LeveledLoot {
             firstLevel = lootEntry.startLevel;
             lastLevel = lootEntry.endLevel;
             this.enchantTier = enchantTier;
+            this.enchTierList = Enchanter.GetEnchTiers(this.enchantTier);
             this.requirements = requirements.ToHashSet();
             ALL.AddLast(this);
         }
@@ -169,6 +171,7 @@ namespace LeveledLoot {
             firstLevel = lootEntry.startLevel;
             lastLevel = lootEntry.endLevel;
             this.enchantTier = -1;
+            this.enchTierList = Enchanter.GetEnchTiers(this.enchantTier);
             this.requirements = requirements.ToHashSet();
             ALL.AddLast(this);
         }
@@ -180,12 +183,13 @@ namespace LeveledLoot {
             this.firstLevel = firstLevel;
             this.lastLevel = lastLevel;
             this.enchantTier = -1;
+            this.enchTierList = Enchanter.GetEnchTiers(this.enchantTier);
             this.requirements = requirements.ToHashSet();
             ALL.AddLast(this);
         }
 
-        public void SetEnchantTier(double tier) {
-
+        public override string ToString() {
+            return name + "(" + startChance + ", " + endChance + ", " + firstLevel + ", " + lastLevel + ")";
         }
 
         public void DefaultHeavyArmor(Form? helmet, Form? cuirass, Form? gauntlets, Form? boots, Form? shield) {

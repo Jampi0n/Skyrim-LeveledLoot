@@ -41,28 +41,77 @@ namespace LeveledLoot {
         private static ItemMaterial? ENCH_6X2;
 
         static readonly List<ItemMaterial> EnchTiers = new();
+        public static int numTiers = 0;
+
+        static Dictionary<Tuple<double, int>, List<ItemMaterial>> enchTierCache = new();
+
+        public static List<ItemMaterial> GetEnchTiers(double enchTier) {
+            if (enchTier < 0) {
+                return EnchTiers;
+            }
+            var key = new Tuple<double, int>(enchTier, numTiers);
+            if (!enchTierCache.ContainsKey(key)) {
+
+                double from = enchTier - 0.5 * (numTiers - 1);
+                double to = enchTier + 0.5 * (numTiers - 1);
+                var tooLow =  1 - from;
+                
+                if(tooLow > 0) {
+                    from += tooLow;
+                    to += tooLow;
+                }
+                var tooHigh = to - 6;
+                if (tooHigh > 0) {
+                    from -= tooHigh;
+                    to -= tooHigh;
+                }
+
+
+                double fromDiff = Math.Abs(Math.Round(from, MidpointRounding.AwayFromZero) - from);
+                double toDiff = Math.Abs(Math.Round(to, MidpointRounding.AwayFromZero) - to);
+                int fromInt = 0;
+                int toInt = 0;
+                if (fromDiff <= toDiff) {
+                    fromInt = (int)Math.Round(from, MidpointRounding.AwayFromZero);
+                    toInt = fromInt + numTiers - 1;
+                } else {
+                    toInt = (int)Math.Round(to, MidpointRounding.AwayFromZero);
+                    fromInt = toInt - numTiers + 1;
+                }
+                fromInt = Math.Clamp(fromInt, 1, 6);
+                toInt = Math.Clamp(toInt, 1, 6);
+
+                var list = new List<ItemMaterial>();
+                for (int i = fromInt - 1; i < toInt; i++) {
+                    list.Add(EnchTiers[i]);
+                    list.Add(EnchTiers[i + 6]);
+                }
+                enchTierCache[key] = list;
+            }
+            return enchTierCache[key];
+        }
 
         static readonly Dictionary<ItemType, Dictionary<int, Dictionary<IFormLink<IEffectRecordGetter>, EnchantmentEntry>>> enchantmentDict = new();
         static readonly Dictionary<Tuple<ItemMaterial, ItemType, int>, Form> enchantedVariants = new();
 
-        public static void Reset(double doubleChance) {
+        public static void Reset() {
             enchantmentDict.Clear();
             enchantedVariants.Clear();
             foreach (var material in ItemMaterial.ALL) {
                 material.enchListMap.Clear();
             }
-            ENCH_1 = new("1", Program.Settings.enchantmentLootTable.TIER_1);
-            ENCH_1X2 = new("1x2", Program.Settings.enchantmentLootTable.TIER_1x2);
-            ENCH_2 = new("2", Program.Settings.enchantmentLootTable.TIER_2);
-            ENCH_2X2 = new("2x2", Program.Settings.enchantmentLootTable.TIER_2x2);
-            ENCH_3 = new("3", Program.Settings.enchantmentLootTable.TIER_3);
-            ENCH_3X2 = new("3x2", Program.Settings.enchantmentLootTable.TIER_3x2);
-            ENCH_4 = new("4", Program.Settings.enchantmentLootTable.TIER_4);
-            ENCH_4X2 = new("3x2", Program.Settings.enchantmentLootTable.TIER_4x2);
-            ENCH_5 = new("5", Program.Settings.enchantmentLootTable.TIER_5);
-            ENCH_5X2 = new("5x2", Program.Settings.enchantmentLootTable.TIER_5x2);
-            ENCH_6 = new("6", Program.Settings.enchantmentLootTable.TIER_6);
-            ENCH_6X2 = new("6x2", Program.Settings.enchantmentLootTable.TIER_6x2);
+            ENCH_1 = new("1", Program.Settings.enchantmentLootTable.TIER_1, -1);
+            ENCH_1X2 = new("1x2", Program.Settings.enchantmentLootTable.TIER_1x2, -7);
+            ENCH_2 = new("2", Program.Settings.enchantmentLootTable.TIER_2, -2);
+            ENCH_2X2 = new("2x2", Program.Settings.enchantmentLootTable.TIER_2x2, -8);
+            ENCH_3 = new("3", Program.Settings.enchantmentLootTable.TIER_3, -3);
+            ENCH_3X2 = new("3x2", Program.Settings.enchantmentLootTable.TIER_3x2, -9);
+            ENCH_4 = new("4", Program.Settings.enchantmentLootTable.TIER_4, -4);
+            ENCH_4X2 = new("4x2", Program.Settings.enchantmentLootTable.TIER_4x2, -10);
+            ENCH_5 = new("5", Program.Settings.enchantmentLootTable.TIER_5, -5);
+            ENCH_5X2 = new("5x2", Program.Settings.enchantmentLootTable.TIER_5x2, -11);
+            ENCH_6 = new("6", Program.Settings.enchantmentLootTable.TIER_6, -6);
+            ENCH_6X2 = new("6x2", Program.Settings.enchantmentLootTable.TIER_6x2, -12);
 
             EnchTiers.AddRange(new List<ItemMaterial>() {
                 ENCH_1,
@@ -116,7 +165,7 @@ namespace LeveledLoot {
                 var order = CustomMath.GetRandomOrder(count);
                 Statistics.instance.variantSelectionLists++;
                 var leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
-                leveledList.EditorID = prefix + name + "_" + enchantmentEntry.EnchantmentEditorID+ "_Variants";
+                leveledList.EditorID = prefix + name + "_" + enchantmentEntry.EnchantmentEditorID + "_Variants";
                 for (int i = 0; i < n; i++) {
                     var index = order[i];
                     var toEnchant = itemMaterial.itemMap[itemType].ElementAt(index).item;
@@ -217,20 +266,19 @@ namespace LeveledLoot {
                 List<LeveledListEntry> newItemList = new();
                 string listName = prefix + name + "_EnchTierSelection_Lvl" + lootLevel;
 
-
-                for (int t = 0; t < EnchTiers.Count; t++) {
-                    var enchTier = EnchTiers[t];
+                for (int t = 0; t < itemMaterial.enchTierList.Count; t++) {
+                    var enchTier = itemMaterial.enchTierList[t];
                     // linear weight x between 0 and 1 depending on player level and first and last level of the item
                     // 0 -> start chance
                     // 1 -> end chance
                     double x = Math.Min(1.0, Math.Max(0.0, (1.0 * lootLevel - enchTier.firstLevel) / (enchTier.lastLevel - enchTier.firstLevel)));
 
                     double chance = x * (enchTier.endChance - enchTier.startChance) + enchTier.startChance;
-                    if(chance <= 0) {
+                    if (chance <= 0) {
                         continue;
                     }
 
-                    Form? enchantedItem = EnchantTier(itemMaterial, itemType, t + 1, name);
+                    Form? enchantedItem = EnchantTier(itemMaterial, itemType, (int) -enchTier.enchantTier, name);
 
                     if (enchantedItem == null) {
                         continue;

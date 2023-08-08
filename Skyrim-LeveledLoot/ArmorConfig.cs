@@ -24,13 +24,13 @@ namespace LeveledLoot {
     class ArmorConfig : LootConfig<ArmorConfig> {
         public ItemMaterial IRON = new("Iron", Program.Settings.armorLootTable.heavyArmorLootTable.IRON, 1);
         public ItemMaterial DRAUGR = new("Draugr", Program.Settings.armorLootTable.heavyArmorLootTable.DRAUGR, 1);
-        public ItemMaterial STEEL = new("Steel", Program.Settings.armorLootTable.heavyArmorLootTable.STEEL, 1.5);
-        public ItemMaterial DWARVEN = new("Dwarven", Program.Settings.armorLootTable.heavyArmorLootTable.DWARVEN, 2);
-        public ItemMaterial BONEMOLD = new("Bonemold", Program.Settings.armorLootTable.heavyArmorLootTable.BONEMOLD, 1.5, LootRQ.DLC2);
-        public ItemMaterial CHITIN_HEAVY = new("ChitinHeavy", Program.Settings.armorLootTable.heavyArmorLootTable.CHITIN_HEAVY, 1.5, LootRQ.DLC2);
-        public ItemMaterial ORCISH = new("Orcish", Program.Settings.armorLootTable.heavyArmorLootTable.ORCISH, 3);
-        public ItemMaterial STEELPLATE = new("SteelPlate", Program.Settings.armorLootTable.heavyArmorLootTable.STEELPLATE, 3);
-        public ItemMaterial NORDIC = new("Nordic", Program.Settings.armorLootTable.heavyArmorLootTable.NORDIC, 3.5, LootRQ.DLC2);
+        public ItemMaterial STEEL = new("Steel", Program.Settings.armorLootTable.heavyArmorLootTable.STEEL, 2);
+        public ItemMaterial DWARVEN = new("Dwarven", Program.Settings.armorLootTable.heavyArmorLootTable.DWARVEN, 2.75);
+        public ItemMaterial BONEMOLD = new("Bonemold", Program.Settings.armorLootTable.heavyArmorLootTable.BONEMOLD, 2, LootRQ.DLC2);
+        public ItemMaterial CHITIN_HEAVY = new("ChitinHeavy", Program.Settings.armorLootTable.heavyArmorLootTable.CHITIN_HEAVY, 2.75, LootRQ.DLC2);
+        public ItemMaterial ORCISH = new("Orcish", Program.Settings.armorLootTable.heavyArmorLootTable.ORCISH, 3.5);
+        public ItemMaterial STEELPLATE = new("SteelPlate", Program.Settings.armorLootTable.heavyArmorLootTable.STEELPLATE, 3.25);
+        public ItemMaterial NORDIC = new("Nordic", Program.Settings.armorLootTable.heavyArmorLootTable.NORDIC, 3.75, LootRQ.DLC2);
         public ItemMaterial EBONY = new("Ebony", Program.Settings.armorLootTable.heavyArmorLootTable.EBONY, 4);
         public ItemMaterial STALHRIM_HEAVY = new("StalhrimHeavy", Program.Settings.armorLootTable.heavyArmorLootTable.STALHRIM_HEAVY, 4.5, LootRQ.Rare, LootRQ.DLC2);
         public ItemMaterial DRAGON_HEAVY = new("DragonHeavy", Program.Settings.armorLootTable.heavyArmorLootTable.DRAGON_HEAVY, 5, LootRQ.Rare);
@@ -39,12 +39,12 @@ namespace LeveledLoot {
 
 
         public ItemMaterial HIDE = new("Hide", Program.Settings.armorLootTable.LightArmorLootTable.HIDE, 1);
-        public ItemMaterial LEATHER = new("Leather", Program.Settings.armorLootTable.LightArmorLootTable.LEATHER, 1.5);
-        public ItemMaterial ELVEN = new("Elven", Program.Settings.armorLootTable.LightArmorLootTable.ELVEN, 2);
+        public ItemMaterial LEATHER = new("Leather", Program.Settings.armorLootTable.LightArmorLootTable.LEATHER, 2);
+        public ItemMaterial ELVEN = new("Elven", Program.Settings.armorLootTable.LightArmorLootTable.ELVEN, 2.75);
         public ItemMaterial ELVEN_LIGHT = new("ElvenLight", Program.Settings.armorLootTable.LightArmorLootTable.ELVEN_LIGHT, -1);
-        public ItemMaterial CHITIN_LIGHT = new("ChitinLight", Program.Settings.armorLootTable.LightArmorLootTable.CHITIN_LIGHT, 2, LootRQ.DLC2);
-        public ItemMaterial SCALED = new("Scaled", Program.Settings.armorLootTable.LightArmorLootTable.SCALED, 3);
-        public ItemMaterial GLASS = new("Glass", Program.Settings.armorLootTable.LightArmorLootTable.GLASS, 4);
+        public ItemMaterial CHITIN_LIGHT = new("ChitinLight", Program.Settings.armorLootTable.LightArmorLootTable.CHITIN_LIGHT, 2.75, LootRQ.DLC2);
+        public ItemMaterial SCALED = new("Scaled", Program.Settings.armorLootTable.LightArmorLootTable.SCALED, 3.25);
+        public ItemMaterial GLASS = new("Glass", Program.Settings.armorLootTable.LightArmorLootTable.GLASS, 3.75);
         public ItemMaterial STALHRIM_LIGHT = new("StalhrimLight", Program.Settings.armorLootTable.LightArmorLootTable.STALHRIM_LIGHT, 4.5, LootRQ.Rare, LootRQ.DLC2);
         public ItemMaterial DRAGON_LIGHT = new("DragonLight", Program.Settings.armorLootTable.LightArmorLootTable.DRAGON_LIGHT, 5.5, LootRQ.Rare);
         public ItemMaterial ULTIMATE_LIGHT = new("UltimateLight", Program.Settings.armorLootTable.heavyArmorLootTable.ULTIMATE, 6, LootRQ.Rare);
@@ -168,7 +168,6 @@ namespace LeveledLoot {
 
 
             // Find enchantments
-            Enchanter.Reset(Program.Settings.apparel.doubleEnchantmentChance);
             Enchanter.RegisterArmorEnchantments(ItemType.HeavyHelmet, SKY.ArmorIronHelmet, SKYL.SublistEnchArmorIronHelmet01, 1);
             Enchanter.RegisterArmorEnchantments(ItemType.HeavyHelmet, SKY.ArmorIronHelmet, SKYL.SublistEnchArmorIronHelmet02, 2);
             Enchanter.RegisterArmorEnchantments(ItemType.HeavyHelmet, SKY.ArmorDwarvenHelmet, SKYL.SublistEnchArmorDwarvenHelmet02, 2);
