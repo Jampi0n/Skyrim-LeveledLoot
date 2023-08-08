@@ -571,40 +571,59 @@ namespace LeveledLoot {
 
             // Draugr / Nordic
 
-            LinkedList<ItemMaterial> draugrArmor = new();
-            draugrArmor.AddLast(DRAUGR);
-            draugrArmor.AddLast(HIDE);
-            draugrArmor.AddLast(LEATHER);
-            draugrArmor.AddLast(IRON);
-            draugrArmor.AddLast(STEEL);
-            draugrArmor.AddLast(STEELPLATE);
-            draugrArmor.AddLast(SCALED);
-            draugrArmor.AddLast(EBONY);
-            draugrArmor.AddLast(DRAGON_HEAVY);
-            draugrArmor.AddLast(DRAGON_LIGHT);
+            var draugrArmorLight = new List<ItemMaterial>() {
+                HIDE,
+                LEATHER,
+                SCALED,
+                DRAGON_LIGHT
+            };
+
+            var draugrArmorHeavy = new List<ItemMaterial>() {
+                DRAUGR,
+                IRON,
+                STEEL,
+                STEELPLATE,
+                EBONY,
+                DRAGON_HEAVY
+            };
+
+
+
 
 
             var factorDraugr = LeveledList.FACTOR_COMMON;
-            var draugrHelmet = LeveledList.CreateList(ItemType.Helmet, "DraugrHelmet", factorDraugr, draugrArmor, LootRQ.Rare);
-            var draugrCuirass = LeveledList.CreateList(ItemType.Cuirass, "DraugrCuirass", factorDraugr, draugrArmor, LootRQ.Rare);
-            var draugrGauntlets = LeveledList.CreateList(ItemType.Gauntlets, "DraugrGauntlest", factorDraugr, draugrArmor, LootRQ.Rare);
-            var draugrBoots = LeveledList.CreateList(ItemType.Boots, "DraugrBoots", factorDraugr, draugrArmor, LootRQ.Rare);
-            var draugrShield = LeveledList.CreateList(ItemType.Shield, "DraugrShield", factorDraugr, draugrArmor, LootRQ.Rare);
+            var draugrHelmetHeavy = LeveledList.CreateList(ItemType.HeavyHelmet, "DraugrHelmetHeavy", factorDraugr, draugrArmorHeavy, LootRQ.Rare);
+            var draugrCuirassHeavy = LeveledList.CreateList(ItemType.HeavyCuirass, "DraugrCuirassHeavy", factorDraugr, draugrArmorHeavy, LootRQ.Rare);
+            var draugrGauntletsHeavy = LeveledList.CreateList(ItemType.HeavyGauntlets, "DraugrGauntletsHeavy", factorDraugr, draugrArmorHeavy, LootRQ.Rare);
+            var draugrBootsHeavy = LeveledList.CreateList(ItemType.HeavyBoots, "DraugrBootsHeavy", factorDraugr, draugrArmorHeavy, LootRQ.Rare);
+            var draugrShieldHeavy = LeveledList.CreateList(ItemType.HeavyShield, "DraugrShieldHeavy", factorDraugr, draugrArmorHeavy, LootRQ.Rare);
 
-            var draugrHelmetEnch = LeveledList.CreateListEnchanted(ItemType.Helmet, "DraugrHelmetEnch", 2, draugrArmor, LootRQ.Rare);
-            var draugrCuirassEnch = LeveledList.CreateListEnchanted(ItemType.Cuirass, "DraugrCuirassEnch", 2, draugrArmor, LootRQ.Rare);
-            var draugrGauntletsEnch = LeveledList.CreateListEnchanted(ItemType.Gauntlets, "DraugrGauntlestEnch", 2, draugrArmor, LootRQ.Rare);
-            var draugrBootsEnch = LeveledList.CreateListEnchanted(ItemType.Boots, "DraugrBootsEnch", 2, draugrArmor, LootRQ.Rare);
-            var draugrShieldEnch = LeveledList.CreateListEnchanted(ItemType.Shield, "DraugrShieldEnch", 2, draugrArmor, LootRQ.Rare);
+            var draugrHelmetEnchHeavy = LeveledList.CreateListEnchanted(ItemType.HeavyHelmet, "DraugrHelmetHeavyEnch", 2, draugrArmorHeavy, LootRQ.Rare);
+            var draugrCuirassEnchHeavy = LeveledList.CreateListEnchanted(ItemType.HeavyCuirass, "DraugrCuirassHeavyEnch", 2, draugrArmorHeavy, LootRQ.Rare);
+            var draugrGauntletsEnchHeavy = LeveledList.CreateListEnchanted(ItemType.HeavyGauntlets, "DraugrGauntletsHeavyEnch", 2, draugrArmorHeavy, LootRQ.Rare);
+            var draugrBootsEnchHeavy = LeveledList.CreateListEnchanted(ItemType.HeavyBoots, "DraugrBootsHeavyEnch", 2, draugrArmorHeavy, LootRQ.Rare);
+            var draugrShieldEnchHeavy = LeveledList.CreateListEnchanted(ItemType.HeavyShield, "DraugrShieldHeavyEnch", 2, draugrArmorHeavy, LootRQ.Rare);
 
-            LeveledList.LinkList(SKYL.LootDraugrArmor10, draugrHelmet.ToLink(), draugrCuirass.ToLink(), draugrGauntlets.ToLink(), draugrBoots.ToLink(), draugrShield.ToLink());
-            LeveledList.LinkList(SKYL.LootDraugrArmor100, draugrHelmet.ToLink(), draugrCuirass.ToLink(), draugrGauntlets.ToLink(), draugrBoots.ToLink(), draugrShield.ToLink());
-            LeveledList.LinkList(SKYL.LootDraugrArmor25, draugrHelmet.ToLink(), draugrCuirass.ToLink(), draugrGauntlets.ToLink(), draugrBoots.ToLink(), draugrShield.ToLink());
-            LeveledList.LinkList(SKYL.LootDraugrArmor50, draugrHelmet.ToLink(), draugrCuirass.ToLink(), draugrGauntlets.ToLink(), draugrBoots.ToLink(), draugrShield.ToLink());
+            var draugrHelmetLight = LeveledList.CreateList(ItemType.LightHelmet, "DraugrHelmetLight", factorDraugr, draugrArmorLight, LootRQ.Rare);
+            var draugrCuirassLight = LeveledList.CreateList(ItemType.LightCuirass, "DraugrCuirassLight", factorDraugr, draugrArmorLight, LootRQ.Rare);
+            var draugrGauntletsLight = LeveledList.CreateList(ItemType.LightGauntlets, "DraugrGauntletsLight", factorDraugr, draugrArmorLight, LootRQ.Rare);
+            var draugrBootsLight = LeveledList.CreateList(ItemType.LightBoots, "DraugrBootsLight", factorDraugr, draugrArmorLight, LootRQ.Rare);
+            var draugrShieldLight = LeveledList.CreateList(ItemType.LightShield, "DraugrShieldLight", factorDraugr, draugrArmorLight, LootRQ.Rare);
 
-            LeveledList.LinkList(SKYL.LootDraugrEnchArmor100, draugrHelmetEnch.ToLink(), draugrCuirassEnch.ToLink(), draugrGauntletsEnch.ToLink(), draugrBootsEnch.ToLink(), draugrShieldEnch.ToLink());
-            LeveledList.LinkList(SKYL.LootDraugrEnchArmor25, draugrHelmetEnch.ToLink(), draugrCuirassEnch.ToLink(), draugrGauntletsEnch.ToLink(), draugrBootsEnch.ToLink(), draugrShieldEnch.ToLink());
-            LeveledList.LinkList(SKYL.LootDraugrEnchArmor15, draugrHelmetEnch.ToLink(), draugrCuirassEnch.ToLink(), draugrGauntletsEnch.ToLink(), draugrBootsEnch.ToLink(), draugrShieldEnch.ToLink());
+            var draugrHelmetEnchLight = LeveledList.CreateListEnchanted(ItemType.LightHelmet, "DraugrHelmetLightEnch", 2, draugrArmorLight, LootRQ.Rare);
+            var draugrCuirassEnchLight = LeveledList.CreateListEnchanted(ItemType.LightCuirass, "DraugrCuirassLightEnch", 2, draugrArmorLight, LootRQ.Rare);
+            var draugrGauntletsEnchLight = LeveledList.CreateListEnchanted(ItemType.LightGauntlets, "DraugrGauntletsLightEnch", 2, draugrArmorLight, LootRQ.Rare);
+            var draugrBootsEnchLight = LeveledList.CreateListEnchanted(ItemType.LightBoots, "DraugrBootsLightEnch", 2, draugrArmorLight, LootRQ.Rare);
+            var draugrShieldEnchLight = LeveledList.CreateListEnchanted(ItemType.LightShield, "DraugrShieldLightEnch", 2, draugrArmorLight, LootRQ.Rare);
+
+            LeveledList.LinkList(SKYL.LootDraugrArmor10, draugrHelmetHeavy.ToLink(), draugrHelmetLight.ToLink(), draugrCuirassHeavy.ToLink(), draugrCuirassLight.ToLink(), draugrGauntletsHeavy.ToLink(), draugrGauntletsLight.ToLink(), draugrBootsHeavy.ToLink(), draugrBootsLight.ToLink(), draugrShieldHeavy.ToLink(), draugrShieldLight.ToLink());
+            LeveledList.LinkList(SKYL.LootDraugrArmor100, draugrHelmetHeavy.ToLink(), draugrHelmetLight.ToLink(), draugrCuirassHeavy.ToLink(), draugrCuirassLight.ToLink(), draugrGauntletsHeavy.ToLink(), draugrGauntletsLight.ToLink(), draugrBootsHeavy.ToLink(), draugrBootsLight.ToLink(), draugrShieldHeavy.ToLink(), draugrShieldLight.ToLink());
+            LeveledList.LinkList(SKYL.LootDraugrArmor25, draugrHelmetHeavy.ToLink(), draugrHelmetLight.ToLink(), draugrCuirassHeavy.ToLink(), draugrCuirassLight.ToLink(), draugrGauntletsHeavy.ToLink(), draugrGauntletsLight.ToLink(), draugrBootsHeavy.ToLink(), draugrBootsLight.ToLink(), draugrShieldHeavy.ToLink(), draugrShieldLight.ToLink());
+            LeveledList.LinkList(SKYL.LootDraugrArmor50, draugrHelmetHeavy.ToLink(), draugrHelmetLight.ToLink(), draugrCuirassHeavy.ToLink(), draugrCuirassLight.ToLink(), draugrGauntletsHeavy.ToLink(), draugrGauntletsLight.ToLink(), draugrBootsHeavy.ToLink(), draugrBootsLight.ToLink(), draugrShieldHeavy.ToLink(), draugrShieldLight.ToLink());
+
+            LeveledList.LinkList(SKYL.LootDraugrEnchArmor100, draugrHelmetEnchHeavy.ToLink(), draugrHelmetEnchLight.ToLink(), draugrCuirassEnchHeavy.ToLink(), draugrCuirassEnchLight.ToLink(), draugrGauntletsEnchHeavy.ToLink(), draugrGauntletsEnchLight.ToLink(), draugrBootsEnchHeavy.ToLink(), draugrBootsEnchLight.ToLink(), draugrShieldEnchHeavy.ToLink(), draugrShieldEnchLight.ToLink());
+            LeveledList.LinkList(SKYL.LootDraugrEnchArmor25, draugrHelmetEnchHeavy.ToLink(), draugrHelmetEnchLight.ToLink(), draugrCuirassEnchHeavy.ToLink(), draugrCuirassEnchLight.ToLink(), draugrGauntletsEnchHeavy.ToLink(), draugrGauntletsEnchLight.ToLink(), draugrBootsEnchHeavy.ToLink(), draugrBootsEnchLight.ToLink(), draugrShieldEnchHeavy.ToLink(), draugrShieldEnchLight.ToLink());
+            LeveledList.LinkList(SKYL.LootDraugrEnchArmor15, draugrHelmetEnchHeavy.ToLink(), draugrHelmetEnchLight.ToLink(), draugrCuirassEnchHeavy.ToLink(), draugrCuirassEnchLight.ToLink(), draugrGauntletsEnchHeavy.ToLink(), draugrGauntletsEnchLight.ToLink(), draugrBootsEnchHeavy.ToLink(), draugrBootsEnchLight.ToLink(), draugrShieldEnchHeavy.ToLink(), draugrShieldEnchLight.ToLink());
 
         }
     }

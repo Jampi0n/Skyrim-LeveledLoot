@@ -8,6 +8,7 @@ namespace LeveledLoot {
     class Statistics {
         public int enchantedWeapons = 0;
         public int enchantedArmor = 0;
+        public int enchSelectionLists = 0;
         public int enchTierSelectionLists = 0;
         public int variantSelectionLists = 0;
         public int levelSelectionLists = 0;

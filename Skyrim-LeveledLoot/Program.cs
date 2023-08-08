@@ -77,8 +77,6 @@ namespace LeveledLoot
 
             LeveledList.InitializePatch();
 
-            ItemTypeConfig.Config();
-
             ArmorConfig.Run();
             WeaponConfig.Run();
             MiscConfig.Run();

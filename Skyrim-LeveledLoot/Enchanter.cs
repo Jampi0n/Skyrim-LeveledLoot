@@ -81,6 +81,7 @@ namespace LeveledLoot {
         }
 
         static Form EnchantArmor(IArmorGetter itemGetter, IEffectRecordGetter ench, EnchantmentEntry enchantmentEntry) {
+            Statistics.instance.enchantedArmor++;
             var itemCopy = Program.State!.PatchMod.Armors.AddNew();
             var itemName = itemGetter.Name == null ? "" : itemGetter.Name.String;
             itemCopy.DeepCopyIn(itemGetter);
@@ -92,6 +93,7 @@ namespace LeveledLoot {
         }
 
         static Form EnchantWeapon(IWeaponGetter itemGetter, IEffectRecordGetter ench, EnchantmentEntry enchantmentEntry) {
+            Statistics.instance.enchantedWeapons++;
             var itemCopy = Program.State!.PatchMod.Weapons.AddNew();
             var itemName = itemGetter.Name == null ? "" : itemGetter.Name.String;
             itemCopy.DeepCopyIn(itemGetter);
@@ -112,6 +114,7 @@ namespace LeveledLoot {
             var ench = enchantmentEntry.enchantment;
             if (n > 1) {
                 var order = CustomMath.GetRandomOrder(count);
+                Statistics.instance.variantSelectionLists++;
                 var leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
                 leveledList.EditorID = prefix + name + "_" + enchantmentEntry.EnchantmentEditorID;
                 for (int i = 0; i < n; i++) {
@@ -165,6 +168,7 @@ namespace LeveledLoot {
                 var numEnchantments = dict[enchantTier].Count();
                 LeveledItem? leveledList = null;
                 if (numEnchantments > 1) {
+                    Statistics.instance.enchSelectionLists++;
                     leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
                     leveledList.EditorID = prefix + name + "_LItem_EnchTier" + enchantTier;
 
