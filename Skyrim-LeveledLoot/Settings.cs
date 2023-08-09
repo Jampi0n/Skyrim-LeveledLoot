@@ -44,7 +44,7 @@ namespace LeveledLoot {
         [SynthesisTooltip("Generate enchanted versions of jewlry for enchanted loot table.")]
         public bool enchantedJewelry = true;
         [SynthesisTooltip("How available enchantments are determined.\n" + EnumInfo.enchantmentExploration)]
-        public EnchantmentExploration enchantmentExploration = EnchantmentExploration.LeveledListCombineItemSlotsSeparateItemType;
+        public EnchantmentExploration enchantmentExploration = EnchantmentExploration.LeveledListCombineItemSlotsArmorTypeCheck;
         [SynthesisTooltip("Limits the number of jewelry variants for the same enchantment to a fraction of the total variants.")]
         public double maxEnchJewelryVariantsFraction = 1.0;
         [SynthesisTooltip("Limits the number of jewelry variants for the same enchantment to an absolute value. -1 is no limit. Vanilla: 1")]
@@ -68,7 +68,7 @@ namespace LeveledLoot {
         [SynthesisTooltip("Generate enchanted versions of weapons for enchanted loot table.")]
         public bool enchantedItems = true;
         [SynthesisTooltip("How available enchantments are determined.\n" + EnumInfo.enchantmentExploration)]
-        public EnchantmentExploration enchantmentExploration = EnchantmentExploration.LeveledListCombineItemSlotsSeparateItemType;
+        public EnchantmentExploration enchantmentExploration = EnchantmentExploration.LeveledListCombineItemSlotsArmorTypeCheck;
         [SynthesisTooltip("Limits the number of enchantment tiers per material. Vanilla: 3\nFor example, iron enchanted items will always have tier 1-3, while daedric will have have tier 4-6.")]
         public int maxTiersPerMaterial = 3;
         [SynthesisTooltip("Loot table changes for bandit weapons (regular weapons)")]

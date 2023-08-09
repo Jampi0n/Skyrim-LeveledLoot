@@ -133,38 +133,40 @@ namespace LeveledLoot {
 
             // Find enchantments
             if (Program.Settings.weapons.enchantedItems) {
-                Enchanter.RegisterWeaponEnchantments(ItemType.Battleaxe, SKY.IronBattleaxe, SKYL.LItemEnchIronBattleaxe, 1);
-                Enchanter.RegisterWeaponEnchantments(ItemType.Battleaxe, SKY.DaedricBattleaxe, SKYL.LItemEnchDaedricBattleaxe, 4);
+                if (Program.Settings.weapons.enchantmentExploration != EnchantmentExploration.All) {
+                    Enchanter.RegisterWeaponEnchantments(ItemType.Battleaxe, SKY.IronBattleaxe, SKYL.LItemEnchIronBattleaxe, 1);
+                    Enchanter.RegisterWeaponEnchantments(ItemType.Battleaxe, SKY.DaedricBattleaxe, SKYL.LItemEnchDaedricBattleaxe, 4);
 
-                Enchanter.RegisterWeaponEnchantments(ItemType.Bow, SKY.HuntingBow, SKYL.LItemEnchHuntingBow, 1);
-                Enchanter.RegisterWeaponEnchantments(ItemType.Bow, SKY.DaedricBow, SKYL.LItemEnchDaedricBow, 4);
+                    Enchanter.RegisterWeaponEnchantments(ItemType.Bow, SKY.HuntingBow, SKYL.LItemEnchHuntingBow, 1);
+                    Enchanter.RegisterWeaponEnchantments(ItemType.Bow, SKY.DaedricBow, SKYL.LItemEnchDaedricBow, 4);
 
-                Enchanter.RegisterWeaponEnchantments(ItemType.Greatsword, SKY.IronGreatsword, SKYL.LItemEnchIronGreatsword, 1);
-                Enchanter.RegisterWeaponEnchantments(ItemType.Greatsword, SKY.DaedricGreatsword, SKYL.LItemEnchDaedricGreatsword, 4);
+                    Enchanter.RegisterWeaponEnchantments(ItemType.Greatsword, SKY.IronGreatsword, SKYL.LItemEnchIronGreatsword, 1);
+                    Enchanter.RegisterWeaponEnchantments(ItemType.Greatsword, SKY.DaedricGreatsword, SKYL.LItemEnchDaedricGreatsword, 4);
 
-                Enchanter.RegisterWeaponEnchantments(ItemType.Mace, SKY.IronMace, SKYL.LItemEnchIronMace, 1);
-                Enchanter.RegisterWeaponEnchantments(ItemType.Mace, SKY.DaedricMace, SKYL.LItemEnchDaedricMace, 4);
+                    Enchanter.RegisterWeaponEnchantments(ItemType.Mace, SKY.IronMace, SKYL.LItemEnchIronMace, 1);
+                    Enchanter.RegisterWeaponEnchantments(ItemType.Mace, SKY.DaedricMace, SKYL.LItemEnchDaedricMace, 4);
 
-                Enchanter.RegisterWeaponEnchantments(ItemType.Dagger, SKY.IronDagger, SKYL.LItemEnchIronDagger, 1);
-                Enchanter.RegisterWeaponEnchantments(ItemType.Dagger, SKY.DaedricDagger, SKYL.LItemEnchDaedricDagger, 4);
+                    Enchanter.RegisterWeaponEnchantments(ItemType.Dagger, SKY.IronDagger, SKYL.LItemEnchIronDagger, 1);
+                    Enchanter.RegisterWeaponEnchantments(ItemType.Dagger, SKY.DaedricDagger, SKYL.LItemEnchDaedricDagger, 4);
 
-                Enchanter.RegisterWeaponEnchantments(ItemType.Sword, SKY.IronSword, SKYL.LItemEnchIronSword, 1);
-                Enchanter.RegisterWeaponEnchantments(ItemType.Sword, SKY.DaedricSword, SKYL.LItemEnchDaedricSword, 4);
+                    Enchanter.RegisterWeaponEnchantments(ItemType.Sword, SKY.IronSword, SKYL.LItemEnchIronSword, 1);
+                    Enchanter.RegisterWeaponEnchantments(ItemType.Sword, SKY.DaedricSword, SKYL.LItemEnchDaedricSword, 4);
 
-                Enchanter.RegisterWeaponEnchantments(ItemType.Waraxe, SKY.IronWarAxe, SKYL.LItemEnchIronWarAxe, 1);
-                Enchanter.RegisterWeaponEnchantments(ItemType.Waraxe, SKY.DaedricWarAxe, SKYL.LItemEnchDaedricWarAxe, 4);
+                    Enchanter.RegisterWeaponEnchantments(ItemType.Waraxe, SKY.IronWarAxe, SKYL.LItemEnchIronWarAxe, 1);
+                    Enchanter.RegisterWeaponEnchantments(ItemType.Waraxe, SKY.DaedricWarAxe, SKYL.LItemEnchDaedricWarAxe, 4);
 
-                Enchanter.RegisterWeaponEnchantments(ItemType.Warhammer, SKY.IronWarhammer, SKYL.LItemEnchIronWarhammer, 1);
-                Enchanter.RegisterWeaponEnchantments(ItemType.Warhammer, SKY.DaedricWarhammer, SKYL.LItemEnchDaedricWarhammer, 4);
+                    Enchanter.RegisterWeaponEnchantments(ItemType.Warhammer, SKY.IronWarhammer, SKYL.LItemEnchIronWarhammer, 1);
+                    Enchanter.RegisterWeaponEnchantments(ItemType.Warhammer, SKY.DaedricWarhammer, SKYL.LItemEnchDaedricWarhammer, 4);
+                }
 
                 var itemTypeHierarchy = new List<List<ItemType>>() {
                     weaponItemTypesOneHanded.ToList(),
                     weaponItemTypesTwoHanded.ToList(),
                     weaponItemTypesRanged.ToList()
                 };
-                
 
-                Enchanter.PostProcessEnchantments(itemTypeHierarchy);
+
+                Enchanter.PostProcessEnchantments(itemTypeHierarchy, Program.Settings.weapons.enchantmentExploration);
             }
             if (Program.Settings.weapons.addCraftableItems) {
                 RecipeParser.Parse(itemTypesCombinedAmmo, regularMaterials, ULTIMATE);

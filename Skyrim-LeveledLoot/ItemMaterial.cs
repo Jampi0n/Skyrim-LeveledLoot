@@ -53,6 +53,30 @@ namespace LeveledLoot {
 
     class ItemTypeConfig {
 
+        public static IFormLink<IKeywordGetter>? GetKeywordFromItemType(ItemType itemType) {
+            return itemType switch {
+                ItemType.HeavyHelmet => Skyrim.Keyword.ArmorHelmet,
+                ItemType.LightHelmet => Skyrim.Keyword.ArmorHelmet,
+                ItemType.HeavyCuirass => Skyrim.Keyword.ArmorCuirass,
+                ItemType.LightCuirass => Skyrim.Keyword.ArmorCuirass,
+                ItemType.HeavyGauntlets => Skyrim.Keyword.ArmorGauntlets,
+                ItemType.LightGauntlets => Skyrim.Keyword.ArmorGauntlets,
+                ItemType.HeavyBoots => Skyrim.Keyword.ArmorBoots,
+                ItemType.LightBoots => Skyrim.Keyword.ArmorBoots,
+                ItemType.HeavyShield => Skyrim.Keyword.ArmorShield,
+                ItemType.LightShield => Skyrim.Keyword.ArmorShield,
+                ItemType.Bow => Skyrim.Keyword.WeapTypeBow,
+                ItemType.Dagger => Skyrim.Keyword.WeapTypeDagger,
+                ItemType.Sword => Skyrim.Keyword.WeapTypeSword,
+                ItemType.Waraxe => Skyrim.Keyword.WeapTypeWarAxe,
+                ItemType.Mace => Skyrim.Keyword.WeapTypeMace,
+                ItemType.Greatsword => Skyrim.Keyword.WeapTypeGreatsword,
+                ItemType.Battleaxe => Skyrim.Keyword.WeapTypeBattleaxe,
+                ItemType.Warhammer => Skyrim.Keyword.WeapTypeWarhammer,
+                _ => null
+            };
+        }
+
         public static ItemType? GetItemTypeFromKeywords(IMajorRecordGetter item) {
             if (item is IArmorGetter armorGetter) {
                 if (armorGetter.BodyTemplate!.ArmorType == ArmorType.HeavyArmor) {
