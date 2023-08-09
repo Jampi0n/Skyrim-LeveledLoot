@@ -47,6 +47,7 @@ namespace LeveledLoot {
                 if(!cache.ContainsKey(key)) {
                     counter++;
                     LeveledItem leveledList = Program.State.PatchMod.LeveledItems.AddNew();
+                    leveledList.Flags = LeveledItem.Flag.CalculateFromAllLevelsLessThanOrEqualPlayer | LeveledItem.Flag.CalculateForEachItemInCount;
                     leveledList.EditorID = name;
                     leveledList.Entries ??= new Noggog.ExtendedList<LeveledItemEntry>();
                     for (var i = 0; i < itemList.Length; i++) {

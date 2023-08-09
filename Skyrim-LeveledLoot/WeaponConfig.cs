@@ -69,7 +69,15 @@ namespace LeveledLoot {
             var weaponItemTypesRanged = new ItemType[] {
                 ItemType.Bow,
             };
+            var weaponItemTypesAmmo = new ItemType[] {
+                ItemType.Arrow,
+                ItemType.Arrow6,
+                ItemType.Arrow12
+            };
+
             var itemTypesCombined = weaponItemTypesOneHanded.Concat(weaponItemTypesTwoHanded).Concat(weaponItemTypesRanged).ToArray();
+            var itemTypesCombinedAmmo = itemTypesCombined.Concat(weaponItemTypesAmmo).ToArray();
+
 
             var baseArrowDragon75 = Program.State.PatchMod.LeveledItems.AddNew();
             baseArrowDragon75.EditorID = LeveledList.prefix + "BaseArrowDragon75";
@@ -159,7 +167,7 @@ namespace LeveledLoot {
                 Enchanter.PostProcessEnchantments(itemTypeHierarchy);
             }
             if (Program.Settings.weapons.addCraftableItems) {
-                RecipeParser.Parse(itemTypesCombined, regularMaterials, ULTIMATE, false, true);
+                RecipeParser.Parse(itemTypesCombinedAmmo, regularMaterials, ULTIMATE);
             }
 
             LeveledList.LinkList(SKYL.LItemWeaponSword, LeveledList.FACTOR_COMMON, ItemType.Sword, regularMaterials, LootRQ.Rare);

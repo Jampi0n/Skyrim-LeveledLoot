@@ -201,6 +201,7 @@ namespace LeveledLoot
                 var order = CustomMath.GetRandomOrder(count);
                 Statistics.instance.variantSelectionLists++;
                 var leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
+                leveledList.Flags = LeveledItem.Flag.CalculateFromAllLevelsLessThanOrEqualPlayer | LeveledItem.Flag.CalculateForEachItemInCount;
                 leveledList.EditorID = prefix + name + "_" + enchantmentEntry.EnchantmentEditorID + "_Variants";
                 for (int i = 0; i < n; i++)
                 {
@@ -272,6 +273,7 @@ namespace LeveledLoot
                 {
                     Statistics.instance.enchSelectionLists++;
                     leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
+                    leveledList.Flags = LeveledItem.Flag.CalculateFromAllLevelsLessThanOrEqualPlayer | LeveledItem.Flag.CalculateForEachItemInCount;
                     leveledList.EditorID = prefix + name + "_LItem_EnchTier" + enchantTier;
 
                     foreach (var enchTuple in dict[enchantTier])

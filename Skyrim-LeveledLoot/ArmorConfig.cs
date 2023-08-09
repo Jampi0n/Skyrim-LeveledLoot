@@ -317,18 +317,18 @@ namespace LeveledLoot {
                 Enchanter.RegisterJewelryEnchantments(ItemType.Circlet, Skyrim.LeveledItem.LItemEnchCircletAll, "Circlet");
 
                 var itemTypeHierarchy = new List<List<ItemType>>() {
-                armorItemTypesHeavy.ToList(),
-                armorItemTypesLight.ToList(),
-                armorItemTypesJewelry.ToList()
-            };
+                    armorItemTypesHeavy.ToList(),
+                    armorItemTypesLight.ToList(),
+                    armorItemTypesJewelry.ToList()
+                };
 
                 Enchanter.PostProcessEnchantments(itemTypeHierarchy);
             }
 
             if (Program.Settings.apparel.addCraftableItems) {
-                RecipeParser.Parse(armorItemTypesHeavy, regularMaterials, ULTIMATE_HEAVY, true, false);
-                RecipeParser.Parse(armorItemTypesLight, regularMaterials, ULTIMATE_LIGHT, true, false);
-                RecipeParser.Parse(armorItemTypesJewelry, jewelryMaterials, JEWELRY, true, false);
+                RecipeParser.Parse(armorItemTypesHeavy, regularMaterials, ULTIMATE_HEAVY);
+                RecipeParser.Parse(armorItemTypesLight, regularMaterials, ULTIMATE_LIGHT);
+                RecipeParser.Parse(armorItemTypesJewelry, jewelryMaterials, JEWELRY);
             }
 
 

@@ -107,6 +107,11 @@ namespace LeveledLoot {
                     return ItemType.Warhammer;
                 }
             }
+            if(item is IAmmunitionGetter ammoGetter) {
+                if (!ammoGetter.Flags.HasFlag(Ammunition.Flag.NonBolt)) {
+                    return ItemType.Arrow;
+                }
+            }
             return null;
         }
     }
@@ -276,6 +281,7 @@ namespace LeveledLoot {
 
                         Statistics.instance.variantSelectionLists++;
                         LeveledItem leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
+                        leveledList.Flags = LeveledItem.Flag.CalculateFromAllLevelsLessThanOrEqualPlayer | LeveledItem.Flag.CalculateForEachItemInCount;
                         leveledList.EditorID = LeveledList.prefix + name + "_" + itemType.ToString() + "_Variants";
                         for (int i = 0; i < itemMap[itemType].Count; ++i) {
                             var itemVariant = itemMap[itemType].ElementAt(i);
