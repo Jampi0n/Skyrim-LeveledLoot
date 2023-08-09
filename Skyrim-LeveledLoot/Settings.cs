@@ -39,8 +39,10 @@ namespace LeveledLoot {
         public bool enabled = true;
         [SynthesisTooltip("Add craftable armor from mods to loot table.")]
         public bool addCraftableItems = true;
-        [SynthesisTooltip("Generate enchanted versions of armor and jewelry for enchanted loot table.")]
-        public bool enchantedItems = true;
+        [SynthesisTooltip("Generate enchanted versions of armor for enchanted loot table.")]
+        public bool enchantedArmor = true;
+        [SynthesisTooltip("Generate enchanted versions of jewlry for enchanted loot table.")]
+        public bool enchantedJewelry = true;
         [SynthesisTooltip("How available enchantments are determined.\n" + EnumInfo.enchantmentExploration)]
         public EnchantmentExploration enchantmentExploration = EnchantmentExploration.LeveledListCombineItemSlotsSeparateItemType;
         [SynthesisTooltip("Limits the number of jewelry variants for the same enchantment to a fraction of the total variants.")]
@@ -53,7 +55,7 @@ namespace LeveledLoot {
         public bool bandit = true;
         [SynthesisTooltip("Loot table changes for draugr loot armor (hide, leather, iron, steel, draugr, scaled, ebony, dragon)")]
         public bool draugrLoot = true;
-        [SynthesisTooltip("Loot table changes for draugr shields (remove ebony shield)")]
+        [SynthesisTooltip("Requires DraugrLoot. Draugr Deathlords will use shields from the Draugr Loot table instead of Ebony Shields.")]
         public bool draugrShields = true;
         [SynthesisTooltip("Loot table changes for thalmor armor (elven light, elven, glass")]
         public bool thalmor = true;
@@ -75,6 +77,8 @@ namespace LeveledLoot {
         public bool draugrLoot = true;
         [SynthesisTooltip("Loot table changes for draugr shields (iron, steel, ebony, drago)")]
         public bool draugrWeapons = true;
+        [SynthesisTooltip("Loot table changes for vampire weapons (regular weapons)")]
+        public bool vampire = true;
         [SynthesisTooltip("Loot table changes for draugr weapons (ebony replaced by nord hero)")]
         public bool thalmor = true;
         [SynthesisTooltip("Loot table changes for dremora weapons (regular weapons with fire enchantments)")]
