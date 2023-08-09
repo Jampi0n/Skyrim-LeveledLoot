@@ -21,8 +21,6 @@ namespace LeveledLoot {
         public static readonly int FACTOR_COMMON = 2;
         public static readonly int FACTOR_RARE = 3;
         public static readonly int FACTOR_BEST = 4;
-        static readonly int MAX_DEPTH = 1;
-        static readonly int MAX_LEAVES = (int)Math.Pow(NUM_CHILDREN, MAX_DEPTH);
         static readonly int[] LEVEL_LIST = new int[] { 1, 5, 10, 15, 21, 27, 34, 42, 50, 60, 70, 80 };
         static readonly List<FormLink<ILeveledItemGetter>> lockedLists = new();
         static LeveledItem? dummyList;
@@ -63,9 +61,7 @@ namespace LeveledLoot {
 
 
             Statistics.instance.materialSelectionLists++;
-            var chanceList = ChanceList.GetChanceList(newItemList.ToArray(), itemChancesIntBetter.ToArray())!;
-            var tree = RandomTree.GetRandomTree(chanceList, prefix + name + "_Lvl" + level, ref Statistics.instance.materialSelectionLists);
-            return tree.linkedItem;
+            return ChanceList.GetChanceList(prefix + name + "_Lvl" + level, newItemList.ToArray(), itemChancesIntBetter.ToArray(), ref Statistics.instance.materialSelectionLists)!;
         }
 
         public static LeveledItem CreateListCount(Enum itemType, string name, short count, int levelFactor, IEnumerable<ItemMaterial> materials, bool enchant, params LootRQ[] requirements) {

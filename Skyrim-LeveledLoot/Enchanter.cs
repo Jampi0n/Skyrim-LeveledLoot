@@ -320,10 +320,6 @@ namespace LeveledLoot
             var key = new Tuple<ItemMaterial, ItemType, int>(itemMaterial, itemType, lootLevel);
             if (!enchantedVariants.ContainsKey(key))
             {
-
-
-
-
                 double totalChance = 0;
                 List<double> itemChancesDouble = new();
                 List<LeveledListEntry> newItemList = new();
@@ -357,12 +353,7 @@ namespace LeveledLoot
 
                 var itemChancesIntBetter = CustomMath.ApproximateProbabilities2(itemChancesDouble);
 
-                var chanceList = ChanceList.GetChanceList(newItemList.ToArray(), itemChancesIntBetter.ToArray())!;
-                var tree = RandomTree.GetRandomTree(chanceList, listName, ref Statistics.instance.enchTierSelectionLists);
-
-                enchantedVariants[key] = tree.linkedItem.itemLink!;
-
-
+                enchantedVariants[key] = ChanceList.GetChanceList(listName, newItemList.ToArray(), itemChancesIntBetter.ToArray(), ref Statistics.instance.enchTierSelectionLists).itemLink;
             }
             return enchantedVariants[key];
         }
