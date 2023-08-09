@@ -48,7 +48,7 @@ namespace LeveledLoot {
                     continue;
                 }
 
-                LeveledListEntry f = itemMaterial.GetItem(itemType, enchant, level, name + "_" + itemMaterial.name + "_" + itemType);
+                LeveledListEntry? f = itemMaterial.GetItem(itemType, enchant, level, name + "_" + itemMaterial.name + "_" + itemType);
                 if(f == null || f.itemLink == null) {
                     continue;
                 }
@@ -79,7 +79,7 @@ namespace LeveledLoot {
                 entry.Data ??= new LeveledItemEntryData();
                 entry.Data.Count = (short) (f.count * count);
                 entry.Data.Level = (short)level;
-                entry.Data.Reference.SetTo(f.itemLink.FormKey);
+                entry.Data.Reference.SetTo(f.itemLink!.FormKey);
                 leveledList.Entries ??= new Noggog.ExtendedList<LeveledItemEntry>();
                 leveledList.Entries!.Add(entry);
             }
