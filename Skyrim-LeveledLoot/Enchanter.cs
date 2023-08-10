@@ -32,6 +32,26 @@ namespace LeveledLoot {
         public override string ToString() {
             return enchantment.EditorID;
         }
+
+        public override bool Equals(Object obj) {
+            if (obj is EnchantmentEntry other) {
+                return enchantment.FormKey == other.enchantment.FormKey &&
+                            enchAmount == other.enchAmount &&
+                            enchantedItemName == other.enchantedItemName &&
+                            allowDisenchant == other.allowDisenchant;
+            }
+            return false;
+        }
+
+        public override int GetHashCode() {
+            HashCode hashCode = default(HashCode);
+            hashCode.Add(enchantment.FormKey);
+            hashCode.Add(enchAmount);
+            hashCode.Add(enchantedItemName);
+            hashCode.Add(allowDisenchant);
+            return hashCode.ToHashCode();
+        }
+
     }
     class Enchanter {
 
@@ -103,6 +123,7 @@ namespace LeveledLoot {
 
         static readonly Dictionary<ItemType, Dictionary<int, Dictionary<IFormLink<IEffectRecordGetter>, EnchantmentEntry>>> enchantmentDict = new();
         static readonly Dictionary<Tuple<ItemMaterial, ItemType, int>, Form> enchantedVariants = new();
+        static readonly Dictionary<Tuple<FormKey, EnchantmentEntry>, Form> enchantedItems = new();
 
         public static void Reset() {
             enchantmentDict.Clear();
@@ -144,12 +165,12 @@ namespace LeveledLoot {
             keyworded.Keywords.Add(Skyrim.Keyword.MagicDisallowEnchanting);
         }
 
-        static Form EnchantArmor(IArmorGetter itemGetter, IEffectRecordGetter ench, EnchantmentEntry enchantmentEntry) {
+        static Form EnchantArmor(IArmorGetter itemGetter, EnchantmentEntry enchantmentEntry) {
             Statistics.instance.enchantedArmor++;
             var itemCopy = Program.State!.PatchMod.Armors.AddNew();
             var itemName = itemGetter.Name == null ? "" : itemGetter.Name.String;
             itemCopy.DeepCopyIn(itemGetter);
-            itemCopy.ObjectEffect.SetTo(ench);
+            itemCopy.ObjectEffect.SetTo(enchantmentEntry.enchantment);
             itemCopy.EnchantmentAmount = enchantmentEntry.enchAmount;
             itemCopy.Name = enchantmentEntry.enchantedItemName.Replace("$NAME$", itemName);
             itemCopy.EditorID += "_" + enchantmentEntry.EnchantmentEditorID;
@@ -159,12 +180,12 @@ namespace LeveledLoot {
             return itemCopy.ToLink();
         }
 
-        static Form EnchantWeapon(IWeaponGetter itemGetter, IEffectRecordGetter ench, EnchantmentEntry enchantmentEntry) {
+        static Form EnchantWeapon(IWeaponGetter itemGetter, EnchantmentEntry enchantmentEntry) {
             Statistics.instance.enchantedWeapons++;
             var itemCopy = Program.State!.PatchMod.Weapons.AddNew();
             var itemName = itemGetter.Name == null ? "" : itemGetter.Name.String;
             itemCopy.DeepCopyIn(itemGetter);
-            itemCopy.ObjectEffect.SetTo(ench);
+            itemCopy.ObjectEffect.SetTo(enchantmentEntry.enchantment);
             itemCopy.EnchantmentAmount = enchantmentEntry.enchAmount;
             itemCopy.Name = enchantmentEntry.enchantedItemName.Replace("$NAME$", itemName);
             itemCopy.EditorID += "_" + enchantmentEntry.EnchantmentEditorID;
@@ -181,7 +202,6 @@ namespace LeveledLoot {
             if (ItemMaterial.maxVariants > 0) {
                 n = Math.Min(n, ItemMaterial.maxVariants);
             }
-            var ench = enchantmentEntry.enchantment;
             if (n > 1) {
                 var order = CustomMath.GetRandomOrder(count);
                 Statistics.instance.variantSelectionLists++;
@@ -196,15 +216,20 @@ namespace LeveledLoot {
                     leveledList.ChanceNone = 0;
                     entry.Data.Count = 1;
                     entry.Data.Level = 1;
-                    Form? enchanted;
-                    if (toEnchant is IWeaponGetter weaponGetter) {
-                        enchanted = EnchantWeapon(weaponGetter, ench, enchantmentEntry);
-                    } else if (toEnchant is IArmorGetter armorGetter) {
-                        enchanted = EnchantArmor(armorGetter, ench, enchantmentEntry);
-                    } else {
-                        throw new Exception("Must be armor or weapon");
+
+                    var key = new Tuple<FormKey, EnchantmentEntry>(toEnchant.FormKey, enchantmentEntry);
+                    if (!enchantedItems.ContainsKey(key)) {
+                        Form enchanted;
+                        if (toEnchant is IWeaponGetter weaponGetter) {
+                            enchanted = EnchantWeapon(weaponGetter, enchantmentEntry);
+                        } else if (toEnchant is IArmorGetter armorGetter) {
+                            enchanted = EnchantArmor(armorGetter, enchantmentEntry);
+                        } else {
+                            throw new Exception("Must be armor or weapon");
+                        }
+                        enchantedItems[key] = enchanted;
                     }
-                    entry.Data.Reference.SetTo(enchanted.FormKey);
+                    entry.Data.Reference.SetTo(enchantedItems[key].FormKey);
 
                     if (leveledList.Entries == null) {
                         leveledList.Entries = new Noggog.ExtendedList<LeveledItemEntry>();
@@ -216,11 +241,19 @@ namespace LeveledLoot {
 
             } else {
                 var toEnchant = itemMaterial.itemMap[itemType].ElementAt(CustomMath.GetRandomInt(0, count)).item;
-                if (toEnchant is IWeaponGetter weaponGetter) {
-                    return EnchantWeapon(weaponGetter, ench, enchantmentEntry);
-                } else if (toEnchant is IArmorGetter armorGetter) {
-                    return EnchantArmor(armorGetter, ench, enchantmentEntry);
+                var key = new Tuple<FormKey, EnchantmentEntry>(toEnchant.FormKey, enchantmentEntry);
+                if (!enchantedItems.ContainsKey(key)) {
+                    Form enchanted;
+                    if (toEnchant is IWeaponGetter weaponGetter) {
+                        enchanted = EnchantWeapon(weaponGetter, enchantmentEntry);
+                    } else if (toEnchant is IArmorGetter armorGetter) {
+                        enchanted = EnchantArmor(armorGetter, enchantmentEntry);
+                    } else {
+                        throw new Exception("Must be armor or weapon");
+                    }
+                    enchantedItems[key] = enchanted;
                 }
+                return enchantedItems[key];
             }
 
             return null;
@@ -527,7 +560,7 @@ namespace LeveledLoot {
             return a.Replace("$NAME$", b);
         }
         private static bool EnchantmentHasSlot(EnchantmentEntry enchantmentEntry, ItemType itemType) {
-            if(enchantmentEntry.enchantment is IObjectEffectGetter ench) {
+            if (enchantmentEntry.enchantment is IObjectEffectGetter ench) {
                 IFormLinkGetter<IFormListGetter>? wornRestrictionsLink = null;
                 if (ench.BaseEnchantment.IsNull) {
                     wornRestrictionsLink = ench.WornRestrictions;
@@ -549,7 +582,7 @@ namespace LeveledLoot {
         private static void ShareEnchantments(List<ItemType> itemTypes, Predicate<EnchantmentEntry> filter) {
             foreach (var copyFrom in itemTypes) {
                 foreach (var copyTo in itemTypes) {
-                    if(copyFrom == copyTo) {
+                    if (copyFrom == copyTo) {
                         continue;
                     }
                     for (int tier = 1; tier <= 6; tier++) {
@@ -581,7 +614,7 @@ namespace LeveledLoot {
                 }
             }
 
-            if(enchantmentExploration == EnchantmentExploration.All) {
+            if (enchantmentExploration == EnchantmentExploration.All) {
 
             }
 
@@ -598,8 +631,8 @@ namespace LeveledLoot {
                     ShareEnchantments(itemTypes, (enchEntry) => {
                         if (enchEntry.enchantment is IObjectEffectGetter ench) {
                             foreach (var effect in ench.Effects) {
-                                if(effect.BaseEffect.TryResolve(Program.State.LinkCache, out var mEffect)) {
-                                    if(mEffect.Archetype.ActorValue == ActorValue.LightArmor || mEffect.Archetype.ActorValue == ActorValue.HeavyArmor) {
+                                if (effect.BaseEffect.TryResolve(Program.State.LinkCache, out var mEffect)) {
+                                    if (mEffect.Archetype.ActorValue == ActorValue.LightArmor || mEffect.Archetype.ActorValue == ActorValue.HeavyArmor) {
                                         return false;
                                     }
                                     if (mEffect.SecondActorValue == ActorValue.LightArmor || mEffect.SecondActorValue == ActorValue.HeavyArmor) {
