@@ -169,7 +169,7 @@ namespace LeveledLoot {
 
             // Find enchantments
             if (Program.Settings.apparel.enchantedArmor) {
-                if (Program.Settings.apparel.enchantmentExploration != EnchantmentExploration.All) {
+                if (Program.Settings.apparel.enchantmentSettings.enchantmentExploration != EnchantmentExploration.All) {
                     Enchanter.RegisterArmorEnchantments(ItemType.HeavyHelmet, SKY.ArmorIronHelmet, SKYL.SublistEnchArmorIronHelmet01, 1);
                     Enchanter.RegisterArmorEnchantments(ItemType.HeavyHelmet, SKY.ArmorIronHelmet, SKYL.SublistEnchArmorIronHelmet02, 2);
                     Enchanter.RegisterArmorEnchantments(ItemType.HeavyHelmet, SKY.ArmorDwarvenHelmet, SKYL.SublistEnchArmorDwarvenHelmet02, 2);
@@ -324,7 +324,7 @@ namespace LeveledLoot {
                     armorItemTypesJewelry.ToList()
                 };
 
-                Enchanter.PostProcessEnchantments(itemTypeHierarchy, Program.Settings.apparel.enchantmentExploration);
+                Enchanter.PostProcessEnchantments(itemTypeHierarchy, Program.Settings.apparel.enchantmentSettings);
             }
 
             if (Program.Settings.apparel.addCraftableItems) {

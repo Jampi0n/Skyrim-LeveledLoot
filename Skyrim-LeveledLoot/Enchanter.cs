@@ -124,6 +124,8 @@ namespace LeveledLoot {
         static readonly Dictionary<ItemType, Dictionary<int, Dictionary<IFormLink<IEffectRecordGetter>, EnchantmentEntry>>> enchantmentDict = new();
         static readonly Dictionary<Tuple<ItemMaterial, ItemType, int>, Form> enchantedVariants = new();
         static readonly Dictionary<Tuple<FormKey, EnchantmentEntry>, Form> enchantedItems = new();
+        static readonly Dictionary<Tuple<FormKey, FormKey>, IObjectEffectGetter> baseEnchantmentDict = new();
+        static readonly Dictionary<FormKey, IMagicEffectGetter> baseEnchantmentEffectDict = new();
 
         public static void Reset() {
             enchantmentDict.Clear();
@@ -606,7 +608,75 @@ namespace LeveledLoot {
             ShareEnchantments(itemTypes, (_) => true);
         }
 
-        public static void PostProcessEnchantments(List<List<ItemType>> itemTypeHierarchy, EnchantmentExploration enchantmentExploration) {
+        private static float SmartRound(double x) {
+            if (x >= 35) {
+                x = 5 * Math.Round(x / 5);
+            }
+
+            if (x > 1) {
+                x = Math.Round(x);
+            }
+            return (float)x;
+        }
+
+        private static ObjectEffect CombineEnchantments(IObjectEffectGetter ench1, IObjectEffectGetter ench2, EnchantmentSettings enchantmentSettings, bool roundSmart) {
+            ObjectEffect enchCombined = Program.State.PatchMod.ObjectEffects.AddNew();
+            enchCombined.DeepCopyIn(ench1);
+            foreach (var effect2 in ench2.Effects) {
+                enchCombined.Effects.Add(effect2.DeepCopy());
+            }
+            enchCombined.EditorID = prefix + ench1.EditorID + "_" + ench2.EditorID;
+            enchCombined.Name += " & " + ench2.Name;
+
+            if (ench1.WornRestrictions.IsNull) {
+                if (!ench2.WornRestrictions.IsNull) {
+                    enchCombined.WornRestrictions.SetTo(ench2.WornRestrictions);
+                }
+            } else {
+                if (!ench2.WornRestrictions.IsNull) {
+                    var forms1 = ench1.WornRestrictions.Resolve(Program.State.LinkCache);
+                    var forms2 = ench2.WornRestrictions.Resolve(Program.State.LinkCache);
+                    var formList = Program.State.PatchMod.FormLists.AddNew();
+                    formList.EditorID = prefix + forms1.EditorID + "_" + forms2.EditorID;
+                    enchCombined.WornRestrictions.SetTo(formList);
+                    var formsCombined = forms1.Items.ToHashSet().Intersect(forms2.Items.ToHashSet());
+                    foreach (var form in formsCombined) {
+                        formList.Items.Add(form);
+                    }
+                }
+            }
+            var factor = enchantmentSettings.doubleEnchantmentsPowerFactor;
+            foreach (var effect in enchCombined.Effects) {
+                effect.Data.Magnitude = roundSmart ? SmartRound(factor * effect.Data.Magnitude) : ((float)(factor * effect.Data.Magnitude));
+            }
+
+            if (enchantmentSettings.requireExtraEffectForDoubleEnchantments) {
+                foreach (var effect in enchCombined.Effects) {
+                    var key = effect.BaseEffect.FormKey;
+                    if(!baseEnchantmentEffectDict.ContainsKey(key)) {
+                        var newBaseEffect = Program.State.PatchMod.MagicEffects.AddNew();
+                        newBaseEffect.EditorID = LeveledList.prefix + newBaseEffect.EditorID;
+                        newBaseEffect.DeepCopyIn(effect.BaseEffect.Resolve(Program.State.LinkCache));
+                        newBaseEffect.Keywords ??= new ExtendedList<IFormLinkGetter<IKeywordGetter>>();
+                        if (ench1.CastType == CastType.ConstantEffect) {
+                            newBaseEffect.Keywords.Add(LeveledList.isDoubleArmorEnchKeyword.ToLink());
+                        } else {
+                            newBaseEffect.Keywords.Add(LeveledList.isDoubleWeaponEnchKeyword.ToLink());
+                        }
+                        baseEnchantmentEffectDict[key] = newBaseEffect;
+                        baseEnchantmentEffectDict[newBaseEffect.FormKey] = newBaseEffect;
+                    }
+                    effect.BaseEffect.SetTo(baseEnchantmentEffectDict[key].FormKey);
+                }
+
+                
+            }
+
+            return enchCombined;
+        }
+
+        public static void PostProcessEnchantments(List<List<ItemType>> itemTypeHierarchy, EnchantmentSettings enchantmentSettings) {
+            var enchantmentExploration = enchantmentSettings.enchantmentExploration;
             var itemTypes = new List<ItemType>();
             foreach (var category in itemTypeHierarchy) {
                 foreach (var itemType in category) {
@@ -646,8 +716,6 @@ namespace LeveledLoot {
                 }
             }
 
-
-
             foreach (var itemType in itemTypes) {
                 for (int tier = 1; tier <= 6; tier++) {
                     if (!enchantmentDict[itemType].ContainsKey(tier)) {
@@ -669,16 +737,20 @@ namespace LeveledLoot {
                                     if (ench1.CastType != ench2.CastType || ench1.TargetType != ench2.TargetType || ench1.EnchantType != ench2.EnchantType) {
                                         continue;
                                     }
-                                    var enchCombined = Program.State.PatchMod.ObjectEffects.AddNew();
-                                    enchCombined.DeepCopyIn(ench1);
-                                    foreach (var effect2 in ench2.Effects) {
-                                        enchCombined.Effects.Add(effect2.DeepCopy());
-                                    }
-                                    enchCombined.EditorID = prefix + ench1.EditorID + "_" + ench2.EditorID;
-                                    enchCombined.Name += " & " + ench2.Name;
+                                    var enchCombined = CombineEnchantments(ench1, ench2, enchantmentSettings, true);
                                     var v1 = tierSingle[keys[i]];
                                     var v2 = tierSingle[keys[j]];
-                                    tierDouble.Add(enchCombined.ToLink(), new EnchantmentEntry(enchCombined, v1.enchAmount, CombineNames(v1.enchantedItemName, v2.enchantedItemName), false));
+                                    tierDouble.Add(enchCombined.ToLink(), new EnchantmentEntry(enchCombined, v1.enchAmount, CombineNames(v1.enchantedItemName, v2.enchantedItemName), enchantmentSettings.allowDisenchantDoubleEnchantments));
+
+                                    if (enchantmentSettings.allowDisenchantDoubleEnchantments) {
+                                        if (ench1.BaseEnchantment.TryResolve(Program.State.LinkCache, out var base1) && ench2.BaseEnchantment.TryResolve(Program.State.LinkCache, out var base2)) {
+                                            var key = new Tuple<FormKey, FormKey>(base1.FormKey, base2.FormKey);
+                                            if (!baseEnchantmentDict.ContainsKey(key)) {
+                                                baseEnchantmentDict[key] = CombineEnchantments(base1, base2, enchantmentSettings, false);
+                                            }
+                                            enchCombined.BaseEnchantment.SetTo(baseEnchantmentDict[key].FormKey);
+                                        }
+                                    }
                                 }
                             }
                         }

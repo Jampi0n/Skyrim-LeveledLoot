@@ -11,6 +11,7 @@ using Mutagen.Bethesda.Plugins;
 using Mutagen.Bethesda.Plugins.Records;
 
 using Form = Mutagen.Bethesda.Plugins.IFormLink<Mutagen.Bethesda.Plugins.Records.IMajorRecordGetter>;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LeveledLoot {
     class LeveledList {
@@ -24,15 +25,17 @@ namespace LeveledLoot {
         static readonly int[] LEVEL_LIST = new int[] { 1, 5, 10, 15, 21, 27, 34, 42, 50, 60, 70, 80 };
         static readonly List<FormLink<ILeveledItemGetter>> lockedLists = new();
         static LeveledItem? dummyList;
+        public static Keyword? isDoubleArmorEnchKeyword { get; private set; }
+        public static Keyword? isDoubleWeaponEnchKeyword { get; private set; }
 
         public static LeveledListEntry CreateSubList(Enum itemType, int level, string name, IEnumerable<ItemMaterial> materials, bool enchant, params LootRQ[] requirements) {
             double totalChance = 0;
             List<double> itemChancesDouble = new();
             List<LeveledListEntry> newItemList = new();
 
-            foreach(ItemMaterial itemMaterial in materials) {
+            foreach (ItemMaterial itemMaterial in materials) {
                 var commonRequirements = itemMaterial.requirements.Intersect(requirements).ToHashSet();
-                if(!commonRequirements.SetEquals(itemMaterial.requirements)) {
+                if (!commonRequirements.SetEquals(itemMaterial.requirements)) {
                     continue;
                 }
                 // linear weight x between 0 and 1 depending on player level and first and last level of the item
@@ -42,17 +45,17 @@ namespace LeveledLoot {
 
                 double chance = x * (itemMaterial.endChance - itemMaterial.startChance) + itemMaterial.startChance;
 
-                if(chance <= 0) {
+                if (chance <= 0) {
                     continue;
                 }
 
                 LeveledListEntry? f = itemMaterial.GetItem(itemType, enchant, level, name + "_" + itemMaterial.name + "_" + itemType);
-                if(f == null || f.itemLink == null) {
+                if (f == null || f.itemLink == null) {
                     continue;
                 }
                 newItemList.Add(f);
 
-             
+
                 totalChance += chance;
                 itemChancesDouble.Add(chance);
             }
@@ -69,11 +72,11 @@ namespace LeveledLoot {
             LeveledItem leveledList = Program.State!.PatchMod.LeveledItems.AddNew();
             leveledList.EditorID = prefix + name;
             leveledList.Flags = LeveledItem.Flag.CalculateForEachItemInCount | LeveledItem.Flag.SpecialLoot;
-            foreach(int level in LEVEL_LIST) {
+            foreach (int level in LEVEL_LIST) {
                 LeveledListEntry f = CreateSubList(itemType, level * levelFactor, name, materials, enchant, requirements);
                 LeveledItemEntry entry = new();
                 entry.Data ??= new LeveledItemEntryData();
-                entry.Data.Count = (short) (f.count * count);
+                entry.Data.Count = (short)(f.count * count);
                 entry.Data.Level = (short)level;
                 entry.Data.Reference.SetTo(f.itemLink!.FormKey);
                 leveledList.Entries ??= new Noggog.ExtendedList<LeveledItemEntry>();
@@ -117,7 +120,7 @@ namespace LeveledLoot {
             LeveledItem leveledList = Program.State!.PatchMod.LeveledItems.GetOrAddAsOverride(oldList, Program.State.LinkCache);
             leveledList.Flags = LeveledItem.Flag.CalculateForEachItemInCount;
             leveledList.Entries = new Noggog.ExtendedList<LeveledItemEntry>();
-            foreach(var list in newList) {
+            foreach (var list in newList) {
                 LeveledItemEntry entry = new();
                 entry.Data ??= new LeveledItemEntryData();
                 entry.Data.Count = 1;
@@ -131,7 +134,7 @@ namespace LeveledLoot {
             LeveledItem leveledList = Program.State!.PatchMod.LeveledItems.GetOrAddAsOverride(oldList, Program.State.LinkCache);
             leveledList.Flags = LeveledItem.Flag.CalculateForEachItemInCount;
             leveledList.Entries = new Noggog.ExtendedList<LeveledItemEntry>();
-            foreach(var list in newList) {
+            foreach (var list in newList) {
                 LeveledItemEntry entry = new();
                 entry.Data ??= new LeveledItemEntryData();
                 entry.Data.Count = count;
@@ -142,7 +145,7 @@ namespace LeveledLoot {
         }
 
         public static void LockLists(params FormLink<ILeveledItemGetter>[] lists) {
-            foreach(var list in lists) {
+            foreach (var list in lists) {
                 lockedLists.Add(list);
             }
         }
@@ -151,15 +154,73 @@ namespace LeveledLoot {
             dummyList = Program.State.PatchMod.LeveledItems.AddNew();
             dummyList.Entries = new Noggog.ExtendedList<LeveledItemEntry>();
             dummyList.EditorID = prefix + "THIS_LIST_ABSORBS_RUNTIME_LIST_CHANGES_FROM_DLC2";
+
+
+
+            if (Program.Settings.apparel.enchantmentSettings.requireExtraEffectForDoubleEnchantments || Program.Settings.weapons.enchantmentSettings.requireExtraEffectForDoubleEnchantments) {
+                isDoubleArmorEnchKeyword = Program.State.PatchMod.Keywords.AddNew();
+                isDoubleArmorEnchKeyword.EditorID = prefix + "DoubleArmorEnch";
+                isDoubleWeaponEnchKeyword = Program.State.PatchMod.Keywords.AddNew();
+                isDoubleWeaponEnchKeyword.EditorID = prefix + "DoubleWeaponEnch";
+
+                var limitDoubleEnchPerk = Program.State.PatchMod.Perks.AddNew();
+                limitDoubleEnchPerk.EditorID = prefix + "LimitDoubleEnchPerk";
+                var hasPerkConditionData = new HasPerkConditionData();
+                hasPerkConditionData.Perk.Link.SetTo(Skyrim.Perk.ExtraEffect);
+                var isDoubleArmorEnchConditionData = new HasKeywordConditionData();
+                isDoubleArmorEnchConditionData.Keyword.Link.SetTo(isDoubleArmorEnchKeyword);
+                var isDoubleWeaponEnchConditionData = new HasKeywordConditionData();
+                isDoubleWeaponEnchConditionData.Keyword.Link.SetTo(isDoubleWeaponEnchKeyword);
+                limitDoubleEnchPerk.Effects.Add(new PerkEntryPointModifyValue() {
+                    Modification = PerkEntryPointModifyValue.ModificationType.Set,
+                    Value = 0,
+                    PerkConditionTabCount = 3,
+                    EntryPoint = APerkEntryPointEffect.EntryType.ModEnchantmentPower,
+                    Conditions = new Noggog.ExtendedList<PerkCondition>() {
+                        new PerkCondition() {
+                            RunOnTabIndex = 0,
+                            Conditions = new Noggog.ExtendedList<Condition>() {
+                                new ConditionFloat() {
+                                    CompareOperator = CompareOperator.EqualTo,
+                                    ComparisonValue = 0,
+                                    Data = hasPerkConditionData
+                                }
+                            }
+                        },
+                        new PerkCondition() {
+                            RunOnTabIndex = 1,
+                            Conditions = new Noggog.ExtendedList<Condition>() {
+                                new ConditionFloat() {
+                                    CompareOperator = CompareOperator.EqualTo,
+                                    ComparisonValue = 1,
+                                    Data = isDoubleArmorEnchConditionData,
+                                    Flags = Condition.Flag.OR
+                                },
+                                new ConditionFloat() {
+                                    CompareOperator = CompareOperator.EqualTo,
+                                    ComparisonValue = 1,
+                                    Data = isDoubleWeaponEnchConditionData,
+                                    Flags = Condition.Flag.OR
+                                }
+                            }
+                        }
+                    }
+                });
+                if (Skyrim.Npc.Player.TryResolve(Program.State.LinkCache, out var playerGetter)) {
+                    var player = Program.State.PatchMod.Npcs.GetOrAddAsOverride(playerGetter);
+                    player.Perks.Add(new PerkPlacement() { Perk = limitDoubleEnchPerk.ToLink(), Rank = 1 });
+                }
+            }
         }
+
 
         public static void FinalizePatch() {
             var dlc2Init = Program.State.PatchMod.Quests.GetOrAddAsOverride(Dragonborn.Quest.DLC2Init, Program.State.LinkCache);
             var script = dlc2Init.VirtualMachineAdapter!.Scripts.Find((entry) => entry.Name == "DLC2_QF_DLC2_MQ04_02016E02")!;
-            foreach(var list in lockedLists) {
-                foreach(var property in script.Properties) {
-                    if(property is ScriptObjectProperty oProperty) {
-                        if(oProperty.Object.FormKey.Equals(list.FormKey)) {
+            foreach (var list in lockedLists) {
+                foreach (var property in script.Properties) {
+                    if (property is ScriptObjectProperty oProperty) {
+                        if (oProperty.Object.FormKey.Equals(list.FormKey)) {
                             oProperty.Object.SetTo(dummyList);
                         }
                     }

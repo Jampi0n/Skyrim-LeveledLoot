@@ -133,7 +133,7 @@ namespace LeveledLoot {
 
             // Find enchantments
             if (Program.Settings.weapons.enchantedItems) {
-                if (Program.Settings.weapons.enchantmentExploration != EnchantmentExploration.All) {
+                if (Program.Settings.weapons.enchantmentSettings.enchantmentExploration != EnchantmentExploration.All) {
                     Enchanter.RegisterWeaponEnchantments(ItemType.Battleaxe, SKY.IronBattleaxe, SKYL.LItemEnchIronBattleaxe, 1);
                     Enchanter.RegisterWeaponEnchantments(ItemType.Battleaxe, SKY.DaedricBattleaxe, SKYL.LItemEnchDaedricBattleaxe, 4);
 
@@ -166,7 +166,7 @@ namespace LeveledLoot {
                 };
 
 
-                Enchanter.PostProcessEnchantments(itemTypeHierarchy, Program.Settings.weapons.enchantmentExploration);
+                Enchanter.PostProcessEnchantments(itemTypeHierarchy, Program.Settings.weapons.enchantmentSettings);
             }
             if (Program.Settings.weapons.addCraftableItems) {
                 RecipeParser.Parse(itemTypesCombinedAmmo, regularMaterials, ULTIMATE);

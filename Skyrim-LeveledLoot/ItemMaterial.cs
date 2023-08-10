@@ -76,7 +76,6 @@ namespace LeveledLoot {
                 _ => null
             };
         }
-
         public static ItemType? GetItemTypeFromKeywords(IMajorRecordGetter item) {
             if (item is IArmorGetter armorGetter) {
                 if (armorGetter.BodyTemplate!.ArmorType == ArmorType.HeavyArmor) {

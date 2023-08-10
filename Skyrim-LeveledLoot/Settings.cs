@@ -34,6 +34,14 @@ namespace LeveledLoot {
                 "For example 'Silent Moon Enchantment' is a learnable enchantment and will therefore be added to items in the regular loot table, even if the enchantment can usually only be found at a specific location.";
     }
 
+    public class EnchantmentSettings {
+        [SynthesisTooltip("How available enchantments are determined.\n" + EnumInfo.enchantmentExploration)]
+        public EnchantmentExploration enchantmentExploration = EnchantmentExploration.LeveledListCombineItemSlotsArmorTypeCheck;
+        public bool allowDisenchantDoubleEnchantments = false;
+        public double doubleEnchantmentsPowerFactor = 0.666667;
+        public bool requireExtraEffectForDoubleEnchantments = false;
+    }
+
     public class Apparel {
         [SynthesisTooltip("Patch regular armor loot table")]
         public bool enabled = true;
@@ -43,8 +51,7 @@ namespace LeveledLoot {
         public bool enchantedArmor = true;
         [SynthesisTooltip("Generate enchanted versions of jewlry for enchanted loot table.")]
         public bool enchantedJewelry = true;
-        [SynthesisTooltip("How available enchantments are determined.\n" + EnumInfo.enchantmentExploration)]
-        public EnchantmentExploration enchantmentExploration = EnchantmentExploration.LeveledListCombineItemSlotsArmorTypeCheck;
+        public EnchantmentSettings enchantmentSettings = new();
         [SynthesisTooltip("Limits the number of jewelry variants for the same enchantment to a fraction of the total variants.")]
         public double maxEnchJewelryVariantsFraction = 1.0;
         [SynthesisTooltip("Limits the number of jewelry variants for the same enchantment to an absolute value. -1 is no limit. Vanilla: 1")]
@@ -67,8 +74,7 @@ namespace LeveledLoot {
         public bool addCraftableItems = true;
         [SynthesisTooltip("Generate enchanted versions of weapons for enchanted loot table.")]
         public bool enchantedItems = true;
-        [SynthesisTooltip("How available enchantments are determined.\n" + EnumInfo.enchantmentExploration)]
-        public EnchantmentExploration enchantmentExploration = EnchantmentExploration.LeveledListCombineItemSlotsArmorTypeCheck;
+        public EnchantmentSettings enchantmentSettings = new();
         [SynthesisTooltip("Limits the number of enchantment tiers per material. Vanilla: 3\nFor example, iron enchanted items will always have tier 1-3, while daedric will have have tier 4-6.")]
         public int maxTiersPerMaterial = 3;
         [SynthesisTooltip("Loot table changes for bandit weapons (regular weapons)")]
