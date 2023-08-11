@@ -154,63 +154,6 @@ namespace LeveledLoot {
             dummyList = Program.State.PatchMod.LeveledItems.AddNew();
             dummyList.Entries = new Noggog.ExtendedList<LeveledItemEntry>();
             dummyList.EditorID = prefix + "THIS_LIST_ABSORBS_RUNTIME_LIST_CHANGES_FROM_DLC2";
-
-
-
-            if (Program.Settings.apparel.enchantmentSettings.requireExtraEffectForDoubleEnchantments || Program.Settings.weapons.enchantmentSettings.requireExtraEffectForDoubleEnchantments) {
-                isDoubleArmorEnchKeyword = Program.State.PatchMod.Keywords.AddNew();
-                isDoubleArmorEnchKeyword.EditorID = prefix + "DoubleArmorEnch";
-                isDoubleWeaponEnchKeyword = Program.State.PatchMod.Keywords.AddNew();
-                isDoubleWeaponEnchKeyword.EditorID = prefix + "DoubleWeaponEnch";
-
-                var limitDoubleEnchPerk = Program.State.PatchMod.Perks.AddNew();
-                limitDoubleEnchPerk.EditorID = prefix + "LimitDoubleEnchPerk";
-                var hasPerkConditionData = new HasPerkConditionData();
-                hasPerkConditionData.Perk.Link.SetTo(Skyrim.Perk.ExtraEffect);
-                var isDoubleArmorEnchConditionData = new HasKeywordConditionData();
-                isDoubleArmorEnchConditionData.Keyword.Link.SetTo(isDoubleArmorEnchKeyword);
-                var isDoubleWeaponEnchConditionData = new HasKeywordConditionData();
-                isDoubleWeaponEnchConditionData.Keyword.Link.SetTo(isDoubleWeaponEnchKeyword);
-                limitDoubleEnchPerk.Effects.Add(new PerkEntryPointModifyValue() {
-                    Modification = PerkEntryPointModifyValue.ModificationType.Set,
-                    Value = 0,
-                    PerkConditionTabCount = 3,
-                    EntryPoint = APerkEntryPointEffect.EntryType.ModEnchantmentPower,
-                    Conditions = new Noggog.ExtendedList<PerkCondition>() {
-                        new PerkCondition() {
-                            RunOnTabIndex = 0,
-                            Conditions = new Noggog.ExtendedList<Condition>() {
-                                new ConditionFloat() {
-                                    CompareOperator = CompareOperator.EqualTo,
-                                    ComparisonValue = 0,
-                                    Data = hasPerkConditionData
-                                }
-                            }
-                        },
-                        new PerkCondition() {
-                            RunOnTabIndex = 1,
-                            Conditions = new Noggog.ExtendedList<Condition>() {
-                                new ConditionFloat() {
-                                    CompareOperator = CompareOperator.EqualTo,
-                                    ComparisonValue = 1,
-                                    Data = isDoubleArmorEnchConditionData,
-                                    Flags = Condition.Flag.OR
-                                },
-                                new ConditionFloat() {
-                                    CompareOperator = CompareOperator.EqualTo,
-                                    ComparisonValue = 1,
-                                    Data = isDoubleWeaponEnchConditionData,
-                                    Flags = Condition.Flag.OR
-                                }
-                            }
-                        }
-                    }
-                });
-                if (Skyrim.Npc.Player.TryResolve(Program.State.LinkCache, out var playerGetter)) {
-                    var player = Program.State.PatchMod.Npcs.GetOrAddAsOverride(playerGetter);
-                    player.Perks.Add(new PerkPlacement() { Perk = limitDoubleEnchPerk.ToLink(), Rank = 1 });
-                }
-            }
         }
 
 

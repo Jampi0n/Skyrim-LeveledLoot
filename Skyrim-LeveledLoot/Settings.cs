@@ -37,9 +37,7 @@ namespace LeveledLoot {
     public class EnchantmentSettings {
         [SynthesisTooltip("How available enchantments are determined.\n" + EnumInfo.enchantmentExploration)]
         public EnchantmentExploration enchantmentExploration = EnchantmentExploration.LeveledListCombineItemSlotsArmorTypeCheck;
-        public bool allowDisenchantDoubleEnchantments = false;
         public double doubleEnchantmentsPowerFactor = 0.666667;
-        public bool requireExtraEffectForDoubleEnchantments = false;
     }
 
     public class Apparel {
