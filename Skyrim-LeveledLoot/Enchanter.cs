@@ -30,10 +30,10 @@ namespace LeveledLoot {
         }
 
         public override string ToString() {
-            return enchantment.EditorID;
+            return enchantment.EditorID ?? "";
         }
 
-        public override bool Equals(Object obj) {
+        public override bool Equals(Object? obj) {
             if (obj is EnchantmentEntry other) {
                 return enchantment.FormKey == other.enchantment.FormKey &&
                             enchAmount == other.enchAmount &&
@@ -257,8 +257,6 @@ namespace LeveledLoot {
                 }
                 return enchantedItems[key];
             }
-
-            return null;
         }
 
         static Form? EnchantTier(ItemMaterial itemMaterial, ItemType itemType, int enchantTier, string name) {
@@ -674,7 +672,9 @@ namespace LeveledLoot {
                 }
 
                 foreach (var effect in enchCombined.Effects) {
-                    effect.Data.Magnitude = SmartRound(factor * effect.Data.Magnitude);
+                    if (effect.Data != null) {
+                        effect.Data.Magnitude = SmartRound(factor * effect.Data.Magnitude);
+                    }
                 }
                 combinedEnchantments[key] = enchCombined;
             }

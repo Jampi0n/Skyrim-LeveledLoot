@@ -140,9 +140,9 @@ namespace LeveledLoot {
     }
 
     class LeveledListEntry {
-        public readonly Form? itemLink;
+        public readonly Form itemLink;
         public readonly int count;
-        public LeveledListEntry(Form? itemLink, int count) {
+        public LeveledListEntry(Form itemLink, int count) {
             this.itemLink = itemLink;
             this.count = count;
         }

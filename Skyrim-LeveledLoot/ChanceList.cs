@@ -14,15 +14,7 @@ using Form = Mutagen.Bethesda.Plugins.IFormLink<Mutagen.Bethesda.Plugins.Records
 
 
 namespace LeveledLoot {
-    class ChanceList {
-        ChanceList prev;
-        ChanceList next;
-        public LeveledListEntry item;
-        public int chance;
-        public int size;
-        public int totalChance;
-        public string name;
-
+    static class ChanceList {
         private static readonly Dictionary<string, LeveledListEntry> cache = new();
 
         public static LeveledListEntry GetChanceList(string name, LeveledListEntry[] itemList, int[] chanceList, ref int counter) {
