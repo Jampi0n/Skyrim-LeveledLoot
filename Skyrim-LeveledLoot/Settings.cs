@@ -13,6 +13,7 @@ namespace LeveledLoot {
         LeveledListCombineItemSlotsSeparateItemType,
         LeveledListCombineItemSlotsArmorTypeCheck,
         All,
+        None,
     }
 
     public static class EnumInfo
@@ -36,7 +37,11 @@ namespace LeveledLoot {
 
     public class EnchantmentSettings {
         [SynthesisTooltip("How available enchantments are determined.\n" + EnumInfo.enchantmentExploration)]
-        public EnchantmentExploration enchantmentExploration = EnchantmentExploration.LeveledListCombineItemSlotsArmorTypeCheck;
+        public EnchantmentExploration enchantmentExploration = EnchantmentExploration.None;
+        [SynthesisTooltip("Enchantments can be marked for use with this patcher by containing \"JLL\" in the editorID. These enchantments will also be used to generate enchanted items. This can be useful for patching mods adding new enchantments.")]
+        public bool considerMarkedEnchantments = true;
+        [SynthesisTooltip("This setting will not generate enchantments on items if the enchantments violate WornRestrictions. This is useful, if a mod modifies WornRestrictions without adjusting the leveled lists accordingly.")]
+        public bool enforceWornRestrictions = true;
         public double doubleEnchantmentsPowerFactor = 0.666667;
     }
 
@@ -53,7 +58,7 @@ namespace LeveledLoot {
         [SynthesisTooltip("Limits the number of jewelry variants for the same enchantment to a fraction of the total variants.")]
         public double maxEnchJewelryVariantsFraction = 1.0;
         [SynthesisTooltip("Limits the number of jewelry variants for the same enchantment to an absolute value. -1 is no limit. Vanilla: 1")]
-        public int maxEnchJewelryVariants = 3;
+        public int maxEnchJewelryVariants = 1;
         [SynthesisTooltip("Limits the number of enchantment tiers per material. Vanilla: 3\nFor example, iron enchanted items will always have tier 1-3, while daedric will have have tier 4-6.")]
         public int maxTiersPerMaterial = 3;
         [SynthesisTooltip("Loot table changes for bandit armor (low tier armor)")]
@@ -246,7 +251,7 @@ namespace LeveledLoot {
         public LootEntry PETTY = LootEntryManager.Get(75, 20, 0, 50);
         public LootEntry LESSER = LootEntryManager.Get(20, 20, 0, 75);
         public LootEntry COMMON = LootEntryManager.Get(5, 20, 0, 125);
-        public LootEntry GREATER = LootEntryManager.Get(16, 20, 5, 175);
+        public LootEntry GREATER = LootEntryManager.Get(0, 20, 5, 175);
         public LootEntry GRAND = LootEntryManager.Get(0, 12, 10, 225);
         public LootEntry BLACK = LootEntryManager.Get(0, 12, 10, 225);
     }
@@ -258,6 +263,16 @@ namespace LeveledLoot {
         public SoulGemLootTable soulGemLootTable = new();
     }
 
+    public class JewelryLootTable {
+
+        public LootEntry SILVER = LootEntryManager.Get(75, 20, 0, 50);
+        public LootEntry GOLD_AND_SILVER_WITH_GEMS = LootEntryManager.Get(20, 20, 0, 75);
+        public LootEntry GOLD_WITH_GEMS = LootEntryManager.Get(5, 20, 0, 125);
+        public LootEntry GOLD_WITH_DIAMONDS = LootEntryManager.Get(0, 20, 5, 175);
+        public LootEntry ULTIMATE = LootEntryManager.Get(0, 12, 10, 225);
+
+    }
+
     public class Settings {
         public Apparel apparel = new();
         public Weapons weapons = new();
@@ -266,5 +281,6 @@ namespace LeveledLoot {
         public WeaponLootTable weaponLootTable = new();
         public EnchantmentLootTable enchantmentLootTable = new();
         public MiscLootTable miscLootTable = new();
+        public JewelryLootTable jewelryLootTable = new();
     }
 }

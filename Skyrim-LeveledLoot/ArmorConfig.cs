@@ -50,7 +50,12 @@ namespace LeveledLoot {
         public ItemMaterial ULTIMATE_LIGHT = new("UltimateLight", Program.Settings.armorLootTable.heavyArmorLootTable.ULTIMATE, 6, LootRQ.Rare);
 
 
-        public ItemMaterial JEWELRY = new("Jewelry", 100, 100, 0, 1);
+        public ItemMaterial JEWELRY_1 = new("Jewelry_1", Program.Settings.jewelryLootTable.SILVER, 1);
+        public ItemMaterial JEWELRY_2 = new("Jewelry_2", Program.Settings.jewelryLootTable.GOLD_AND_SILVER_WITH_GEMS, 2.67);
+        public ItemMaterial JEWELRY_3 = new("Jewelry_3", Program.Settings.jewelryLootTable.GOLD_WITH_GEMS, 4.33);
+        public ItemMaterial JEWELRY_4 = new("Jewelry_4", Program.Settings.jewelryLootTable.GOLD_WITH_DIAMONDS, 6);
+        public ItemMaterial JEWELRY_5 = new("Jewelry_5", Program.Settings.jewelryLootTable.ULTIMATE, 6);
+
 
         public ArmorConfig() {
             var regularMaterials = new List<ItemMaterial>() {
@@ -79,7 +84,8 @@ namespace LeveledLoot {
 
             var jewelryMaterials = new List<ItemMaterial>()
             {
-                JEWELRY
+                JEWELRY_1,
+                JEWELRY_2,JEWELRY_3,JEWELRY_4
             };
 
             var armorItemTypesHeavy = new ItemType[] {
@@ -157,19 +163,29 @@ namespace LeveledLoot {
             DRAGON_LIGHT.DefaultLightArmor(SKY.ArmorDragonscaleHelmet, SKY.ArmorDragonscaleCuirass, SKY.ArmorDragonscaleGauntlets, SKY.ArmorDragonscaleBoots, SKY.ArmorDragonscaleShield);
 
 
-            JEWELRY.AddItem(ItemType.Ring, SKY.JewelryRingSilver, SKY.JewelryRingSilverAmethyst, SKY.JewelryRingSilverGarnet, SKY.JewelryRingSilverRuby);
-            JEWELRY.AddItem(ItemType.Ring, SKY.JewelryRingGold, SKY.JewelryRingGoldDiamond, SKY.JewelryRingGoldEmerald, SKY.JewelryRingGoldSapphire);
+            JEWELRY_1.AddItem(ItemType.Ring, SKY.JewelryRingSilver);
+            JEWELRY_2.AddItem(ItemType.Ring, SKY.JewelryRingSilverAmethyst, SKY.JewelryRingSilverGarnet, SKY.JewelryRingGold);
+            JEWELRY_3.AddItem(ItemType.Ring, SKY.JewelryRingSilverRuby, SKY.JewelryRingGoldEmerald, SKY.JewelryRingGoldSapphire);
+            JEWELRY_4.AddItem(ItemType.Ring, SKY.JewelryRingGoldDiamond);
 
-            JEWELRY.AddItem(ItemType.Necklace, SKY.JewelryNecklaceSilver, SKY.JewelryNecklaceSilverEmerald, SKY.JewelryNecklaceSilverGems, SKY.JewelryNecklaceSilverSapphire);
-            JEWELRY.AddItem(ItemType.Necklace, SKY.JewelryNecklaceGold, SKY.JewelryNecklaceGoldDiamond, SKY.JewelryNecklaceGoldGems, SKY.JewelryNecklaceGoldRuby);
 
-            JEWELRY.AddItem(ItemType.Circlet, SKY.ClothesCirclet01, SKY.ClothesCirclet02, SKY.ClothesCirclet03, SKY.ClothesCirclet04, SKY.ClothesCirclet05);
-            JEWELRY.AddItem(ItemType.Circlet, SKY.ClothesCirclet06, SKY.ClothesCirclet07, SKY.ClothesCirclet08, SKY.ClothesCirclet09, SKY.ClothesCirclet10);
+            JEWELRY_1.AddItem(ItemType.Necklace, SKY.JewelryNecklaceSilver);
+            JEWELRY_2.AddItem(ItemType.Necklace, SKY.JewelryNecklaceSilverGems, SKY.JewelryNecklaceSilverEmerald, SKY.JewelryNecklaceGold);
+            JEWELRY_3.AddItem(ItemType.Necklace, SKY.JewelryNecklaceSilverSapphire, SKY.JewelryNecklaceGoldGems, SKY.JewelryNecklaceGoldRuby);
+            JEWELRY_4.AddItem(ItemType.Necklace, SKY.JewelryNecklaceGoldDiamond);
+
+
+            JEWELRY_1.AddItem(ItemType.Circlet, SKY.ClothesCirclet05, SKY.ClothesCirclet09);
+            JEWELRY_2.AddItem(ItemType.Circlet, SKY.ClothesCirclet02, SKY.ClothesCirclet04, SKY.ClothesCirclet10);
+            JEWELRY_3.AddItem(ItemType.Circlet, SKY.ClothesCirclet01, SKY.ClothesCirclet06, SKY.ClothesCirclet07);
+            JEWELRY_4.AddItem(ItemType.Circlet, SKY.ClothesCirclet03, SKY.ClothesCirclet08);
+
 
 
             // Find enchantments
             if (Program.Settings.apparel.enchantedArmor) {
-                if (Program.Settings.apparel.enchantmentSettings.enchantmentExploration != EnchantmentExploration.All) {
+                if (Program.Settings.apparel.enchantmentSettings.enchantmentExploration != EnchantmentExploration.All &&
+                    Program.Settings.apparel.enchantmentSettings.enchantmentExploration != EnchantmentExploration.None) {
                     Enchanter.RegisterArmorEnchantments(ItemType.HeavyHelmet, SKY.ArmorIronHelmet, SKYL.SublistEnchArmorIronHelmet01, 1);
                     Enchanter.RegisterArmorEnchantments(ItemType.HeavyHelmet, SKY.ArmorIronHelmet, SKYL.SublistEnchArmorIronHelmet02, 2);
                     Enchanter.RegisterArmorEnchantments(ItemType.HeavyHelmet, SKY.ArmorDwarvenHelmet, SKYL.SublistEnchArmorDwarvenHelmet02, 2);
@@ -330,7 +346,7 @@ namespace LeveledLoot {
             if (Program.Settings.apparel.addCraftableItems) {
                 RecipeParser.Parse(armorItemTypesHeavy, regularMaterials, ULTIMATE_HEAVY);
                 RecipeParser.Parse(armorItemTypesLight, regularMaterials, ULTIMATE_LIGHT);
-                RecipeParser.Parse(armorItemTypesJewelry, jewelryMaterials, JEWELRY);
+                RecipeParser.Parse(armorItemTypesJewelry, jewelryMaterials, JEWELRY_5);
             }
 
 

@@ -56,6 +56,10 @@ namespace LeveledLoot {
                     continue;
                 }
                 if (cob.CreatedObjectCount == 1) {
+                    if (cob.WorkbenchKeyword.FormKey == Skyrim.Keyword.CraftingSmithingArmorTable.FormKey || cob.WorkbenchKeyword.FormKey == Skyrim.Keyword.CraftingSmithingSharpeningWheel.FormKey) {
+                        isValidCob = false;
+                    }
+
                     foreach (var cond in cob.Conditions) {
                         if (cond.Data.Function == Condition.Function.HasPerk) {
                             if (cond.Data is HasPerkConditionData hasPerk) {
@@ -77,26 +81,35 @@ namespace LeveledLoot {
                 }
                 if (isValidCob) {
                     if (cob.CreatedObject.TryResolve(Program.State.LinkCache, out var createdItem)) {
+                        modName = createdItem.FormKey.ModKey.Name;
+                        if (modName == "Skyrim" || modName == "Dawnguard" || modName == "HearthFires" || modName == "Dragonborn") {
+                            continue;
+                        }
+
                         if (createdItem is IArmorGetter armor) {
-                            ItemType? itemType = ItemTypeConfig.GetItemTypeFromKeywords(armor);
-                            if (itemType != null && tierList.ContainsKey(itemType.Value)) {
-                                var list = tierList[itemType.Value];
-                                for (int i = 0; i < list.Count; i++) {
-                                    if (armor.Value <= list[i].Item1) {
-                                        list[i].Item2.AddItem(itemType, armor.ToLink());
-                                        break;
+                            if (armor.ObjectEffect.IsNull && (armor.Keywords == null || !armor.Keywords.Contains(Skyrim.Keyword.MagicDisallowEnchanting.FormKey))) {
+                                ItemType? itemType = ItemTypeConfig.GetItemTypeFromKeywords(armor);
+                                if (itemType != null && tierList.ContainsKey(itemType.Value)) {
+                                    var list = tierList[itemType.Value];
+                                    for (int i = 0; i < list.Count; i++) {
+                                        if (armor.Value <= list[i].Item1) {
+                                            list[i].Item2.AddItem(itemType, armor.ToLink());
+                                            break;
+                                        }
                                     }
                                 }
                             }
                         }
                         if (createdItem is IWeaponGetter weapon) {
-                            ItemType? itemType = ItemTypeConfig.GetItemTypeFromKeywords(weapon);
-                            if (itemType != null && tierList.ContainsKey(itemType.Value)) {
-                                var list = tierList[itemType.Value];
-                                for (int i = 0; i < list.Count; i++) {
-                                    if (weapon.BasicStats!.Value <= list[i].Item1) {
-                                        list[i].Item2.AddItem(itemType, weapon.ToLink());
-                                        break;
+                            if (weapon.ObjectEffect.IsNull && (weapon.Keywords == null || !weapon.Keywords.Contains(Skyrim.Keyword.MagicDisallowEnchanting.FormKey))) {
+                                ItemType? itemType = ItemTypeConfig.GetItemTypeFromKeywords(weapon);
+                                if (itemType != null && tierList.ContainsKey(itemType.Value)) {
+                                    var list = tierList[itemType.Value];
+                                    for (int i = 0; i < list.Count; i++) {
+                                        if (weapon.BasicStats!.Value <= list[i].Item1) {
+                                            list[i].Item2.AddItem(itemType, weapon.ToLink());
+                                            break;
+                                        }
                                     }
                                 }
                             }

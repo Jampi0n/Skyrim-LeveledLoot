@@ -76,6 +76,67 @@ namespace LeveledLoot {
                 _ => null
             };
         }
+        public static HashSet<ItemType> GetItemTypeFromKeywords(IEnumerable<IFormLinkGetter<IKeywordGetter>> keywords) {
+            var ret = new HashSet<ItemType>();
+            if (keywords.Contains(Skyrim.Keyword.ArmorHelmet)) {
+                ret.Add(ItemType.HeavyHelmet);
+                ret.Add(ItemType.LightHelmet);
+            }
+            if (keywords.Contains(Skyrim.Keyword.ArmorCuirass)) {
+                ret.Add(ItemType.HeavyCuirass);
+                ret.Add(ItemType.LightCuirass);
+            }
+            if (keywords.Contains(Skyrim.Keyword.ArmorGauntlets)) {
+                ret.Add(ItemType.HeavyGauntlets);
+                ret.Add(ItemType.LightGauntlets);
+            }
+            if (keywords.Contains(Skyrim.Keyword.ArmorBoots)) {
+                ret.Add(ItemType.HeavyBoots);
+                ret.Add(ItemType.LightBoots);
+            }
+            if (keywords.Contains(Skyrim.Keyword.ArmorShield)) {
+                ret.Add(ItemType.HeavyShield);
+                ret.Add(ItemType.LightShield);
+            }
+
+            if (keywords.Contains(Skyrim.Keyword.ClothingRing)) {
+                ret.Add(ItemType.Ring);
+            }
+            if (keywords.Contains(Skyrim.Keyword.ClothingNecklace)) {
+                ret.Add(ItemType.Necklace);
+            }
+            if (keywords.Contains(Skyrim.Keyword.ClothingCirclet)) {
+                ret.Add(ItemType.Circlet);
+            }
+
+            if (keywords.Contains(Skyrim.Keyword.WeapTypeBattleaxe)) {
+                ret.Add(ItemType.Battleaxe);
+            }
+            if (keywords.Contains(Skyrim.Keyword.WeapTypeBow)) {
+                ret.Add(ItemType.Bow);
+            }
+            if (keywords.Contains(Skyrim.Keyword.WeapTypeDagger)) {
+                ret.Add(ItemType.Dagger);
+            }
+            if (keywords.Contains(Skyrim.Keyword.WeapTypeGreatsword)) {
+                ret.Add(ItemType.Greatsword);
+            }
+            if (keywords.Contains(Skyrim.Keyword.WeapTypeMace)) {
+                ret.Add(ItemType.Mace);
+            }
+            if (keywords.Contains(Skyrim.Keyword.WeapTypeSword)) {
+                ret.Add(ItemType.Sword);
+            }
+            if (keywords.Contains(Skyrim.Keyword.WeapTypeWarAxe)) {
+                ret.Add(ItemType.Waraxe);
+            }
+            if (keywords.Contains(Skyrim.Keyword.WeapTypeWarhammer)) {
+                ret.Add(ItemType.Warhammer);
+            }
+
+            return ret;
+        }
+
         public static ItemType? GetItemTypeFromKeywords(IMajorRecordGetter item) {
             if (item is IArmorGetter armorGetter) {
                 if (armorGetter.BodyTemplate!.ArmorType == ArmorType.HeavyArmor) {
@@ -130,7 +191,7 @@ namespace LeveledLoot {
                     return ItemType.Warhammer;
                 }
             }
-            if(item is IAmmunitionGetter ammoGetter) {
+            if (item is IAmmunitionGetter ammoGetter) {
                 if (!ammoGetter.Flags.HasFlag(Ammunition.Flag.NonBolt)) {
                     return ItemType.Arrow;
                 }

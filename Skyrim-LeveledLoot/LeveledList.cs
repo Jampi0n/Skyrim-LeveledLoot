@@ -25,8 +25,8 @@ namespace LeveledLoot {
         static readonly int[] LEVEL_LIST = new int[] { 1, 5, 10, 15, 21, 27, 34, 42, 50, 60, 70, 80 };
         static readonly List<FormLink<ILeveledItemGetter>> lockedLists = new();
         static LeveledItem? dummyList;
-        public static Keyword? isDoubleArmorEnchKeyword { get; private set; }
-        public static Keyword? isDoubleWeaponEnchKeyword { get; private set; }
+        public static Keyword? IsDoubleArmorEnchKeyword { get; private set; }
+        public static Keyword? IsDoubleWeaponEnchKeyword { get; private set; }
 
         public static LeveledListEntry CreateSubList(Enum itemType, int level, string name, IEnumerable<ItemMaterial> materials, bool enchant, params LootRQ[] requirements) {
             double totalChance = 0;
