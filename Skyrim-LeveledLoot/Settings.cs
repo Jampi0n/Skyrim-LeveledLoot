@@ -12,7 +12,6 @@ namespace LeveledLoot {
         LeveledListCombineItemSlots,
         LeveledListCombineItemSlotsSeparateItemType,
         LeveledListCombineItemSlotsArmorTypeCheck,
-        All,
         None,
     }
 
@@ -29,11 +28,9 @@ namespace LeveledLoot {
                 "    Example: 'Fortify Heavy Armor' is only used on heavy cuirasses, rings and necklaces (heavy and jewelry). " +
                 "This will add the enchantment to other slots of heavy armors and jewelry, but not to light armor or clothing.\n" +
             "LeveledListCombineItemSlotsArmorTypeCheck: Same as LeveledListCombineItemSlots, but enchantments affecting heavy or light armor are not added to " +
-                "the other armor type.\n"+
+                "the other armor type.\n" +
                 "    Example: 'Fortify Heavy Armor' will not be added to light armor, because it is only part of the heavy armor leveled lists " +
-                "and the enchantment contains the heavy armor actor value.\n" +
-            "All: Parses all available enchantments for learnable enchantments and applies them to available item types.\n" +
-                "    Example: 'Silent Moon Enchantment' is a learnable enchantment and will therefore be added to items in the regular loot table, even if the enchantment can usually only be found at a specific location.";
+                "and the enchantment contains the heavy armor actor value.\n";
     }
 
     public class EnchantmentSettings {

@@ -184,8 +184,7 @@ namespace LeveledLoot {
 
             // Find enchantments
             if (Program.Settings.apparel.enchantedArmor) {
-                if (Program.Settings.apparel.enchantmentSettings.enchantmentExploration != EnchantmentExploration.All &&
-                    Program.Settings.apparel.enchantmentSettings.enchantmentExploration != EnchantmentExploration.None) {
+                if (Program.Settings.apparel.enchantmentSettings.enchantmentExploration != EnchantmentExploration.None) {
                     Enchanter.RegisterArmorEnchantments(ItemType.HeavyHelmet, SKY.ArmorIronHelmet, SKYL.SublistEnchArmorIronHelmet01, 1);
                     Enchanter.RegisterArmorEnchantments(ItemType.HeavyHelmet, SKY.ArmorIronHelmet, SKYL.SublistEnchArmorIronHelmet02, 2);
                     Enchanter.RegisterArmorEnchantments(ItemType.HeavyHelmet, SKY.ArmorDwarvenHelmet, SKYL.SublistEnchArmorDwarvenHelmet02, 2);

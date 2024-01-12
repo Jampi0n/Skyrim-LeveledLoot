@@ -167,7 +167,7 @@ namespace LeveledLoot {
                 if (nextEnch == null) {
                     throw new Exception("BaseEnchantment is null");
                 }
-                if(currentEnch.FormKey == nextEnch.FormKey) {
+                if (currentEnch.FormKey == nextEnch.FormKey) {
                     return currentEnch;
                 }
                 currentEnch = nextEnch;
@@ -262,7 +262,7 @@ namespace LeveledLoot {
                     } else if (toEnchant is IArmorGetter armorGetter) {
                         enchanted = EnchantArmor(armorGetter, enchantmentEntry);
                     } else {
-                        throw new RecordException(toEnchant ,"Must be armor or weapon");
+                        throw new RecordException(toEnchant, "Must be armor or weapon");
                     }
                     enchantedItems[key] = enchanted;
                 }
@@ -291,7 +291,7 @@ namespace LeveledLoot {
                     var enchSelectionList = new List<LeveledItem>();
                     if (numEnchantments >= 256) {
                         var extraLists = (int)Math.Ceiling(numEnchantments / 255.0);
-                        for(int i = 0; i < extraLists; i++) {
+                        for (int i = 0; i < extraLists; i++) {
                             Statistics.instance.enchSelectionLists++;
                             var extraList = Program.State!.PatchMod.LeveledItems.AddNew();
                             extraList.Flags = LeveledItem.Flag.CalculateFromAllLevelsLessThanOrEqualPlayer | LeveledItem.Flag.CalculateForEachItemInCount;
@@ -299,7 +299,7 @@ namespace LeveledLoot {
 
                             LeveledItemEntry entry = new();
                             entry.Data ??= new LeveledItemEntryData();
-                            
+
                             entry.Data.Count = 1;
                             entry.Data.Level = 1;
                             entry.Data.Reference.SetTo(extraList.FormKey);
@@ -409,23 +409,27 @@ namespace LeveledLoot {
                         string enchantedItemName = "";
                         IFormLink<IEffectRecordGetter> ench;
                         ushort enchAmount = 0;
-                        if (enchantedItem is IArmorGetter armor) {
-                            enchantedItemName = armor.Name!.String!;
-                            ench = armor.ObjectEffect.AsSetter();
-                            enchAmount = armor.EnchantmentAmount.GetValueOrDefault(0);
-                        } else {
-                            throw new RecordException(enchantedItem, "Must be armor.");
-                        }
-                        if (!enchantedItemName.Contains(itemName)) {
-                            throw new RecordException(enchantedItem, "Enchanted item name must contain base item name as substring.\nEnchanted name: '" + enchantedItemName + "' Base name: '" + itemName +  "'");
-                        }
-                        if (ench.IsNull) {
-                            throw new RecordException(enchantedItem, "Enchanted item has no enchantment.");
-                        }
-                        if (ench.TryResolve(Program.State.LinkCache, out var effectRecord)) {
-                            if (effectRecord is IObjectEffectGetter objectEffectGetter) {
-                                dict[tier][GetBaseEnch(objectEffectGetter).ToLink()] = new EnchantmentEntry(effectRecord, enchAmount, enchantedItemName.Replace(itemName, "$NAME$"), true);
+                        try {
+                            if (enchantedItem is IArmorGetter armor) {
+                                enchantedItemName = armor.Name!.String!;
+                                ench = armor.ObjectEffect.AsSetter();
+                                enchAmount = armor.EnchantmentAmount.GetValueOrDefault(0);
+                            } else {
+                                throw new RecordException(enchantedItem, "Must be armor.");
                             }
+                            if (!enchantedItemName.Contains(itemName)) {
+                                throw new RecordException(enchantedItem, "Enchanted item name must contain base item name as substring: '" + enchantedItemName + "' vs '" + itemName + "'");
+                            }
+                            if (ench.IsNull) {
+                                throw new RecordException(enchantedItem, "Enchanted item has no enchantment.");
+                            }
+                            if (ench.TryResolve(Program.State.LinkCache, out var effectRecord)) {
+                                if (effectRecord is IObjectEffectGetter objectEffectGetter) {
+                                    dict[tier][GetBaseEnch(objectEffectGetter).ToLink()] = new EnchantmentEntry(effectRecord, enchAmount, enchantedItemName.Replace(itemName, "$NAME$"), true);
+                                }
+                            }
+                        } catch (RecordException re) {
+                            Console.WriteLine("Warning: " + re.Message);
                         }
                     }
                 }
@@ -456,33 +460,37 @@ namespace LeveledLoot {
                             int i = startingTier;
                             if (subList.Entries != null) {
                                 foreach (var subEntry in subList.Entries) {
-                                    if (!dict.ContainsKey(i)) {
-                                        dict.Add(i, new Dictionary<IFormLink<IEffectRecordGetter>, EnchantmentEntry>());
-                                    }
-                                    if (subEntry.Data!.Reference.TryResolve(Program.State.LinkCache, out var enchantedItem)) {
-                                        string enchantedItemName = "";
-                                        IFormLink<IEffectRecordGetter> ench;
-                                        ushort enchAmount = 0;
-                                        if (enchantedItem is IWeaponGetter weapon) {
-                                            enchantedItemName = weapon.Name!.String!;
-                                            ench = weapon.ObjectEffect.AsSetter();
-                                            enchAmount = weapon.EnchantmentAmount.GetValueOrDefault(0);
-                                        } else {
-                                            throw new RecordException(enchantedItem, "Must be weapon.");
+                                    try {
+                                        if (!dict.ContainsKey(i)) {
+                                            dict.Add(i, new Dictionary<IFormLink<IEffectRecordGetter>, EnchantmentEntry>());
                                         }
-                                        if (!enchantedItemName.Contains(itemName)) {
-                                            throw new RecordException(enchantedItem, "Enchanted item name must contain base item name as substring.\nEnchanted name: '" + enchantedItemName + "' Base name: '" + itemName + "'");
-                                        }
-                                        if (ench.IsNull) {
-                                            throw new RecordException(enchantedItem, "Enchanted item has no enchantment.");
-                                        }
-                                        if (ench.TryResolve(Program.State.LinkCache, out var effectRecord)) {
-                                            if (effectRecord is IObjectEffectGetter objectEffectGetter) {
-                                                dict[i][GetBaseEnch(objectEffectGetter).ToLink()] = new EnchantmentEntry(effectRecord, enchAmount, enchantedItemName.Replace(itemName, "$NAME$"), true);
+                                        if (subEntry.Data!.Reference.TryResolve(Program.State.LinkCache, out var enchantedItem)) {
+                                            string enchantedItemName = "";
+                                            IFormLink<IEffectRecordGetter> ench;
+                                            ushort enchAmount = 0;
+                                            if (enchantedItem is IWeaponGetter weapon) {
+                                                enchantedItemName = weapon.Name!.String!;
+                                                ench = weapon.ObjectEffect.AsSetter();
+                                                enchAmount = weapon.EnchantmentAmount.GetValueOrDefault(0);
+                                            } else {
+                                                throw new RecordException(enchantedItem, "Must be weapon.");
+                                            }
+                                            if (!enchantedItemName.Contains(itemName)) {
+                                                throw new RecordException(enchantedItem, "Enchanted item name must contain base item name as substring: '" + enchantedItemName + "' vs '" + itemName + "'");
+                                            }
+                                            if (ench.IsNull) {
+                                                throw new RecordException(enchantedItem, "Enchanted item has no enchantment.");
+                                            }
+                                            if (ench.TryResolve(Program.State.LinkCache, out var effectRecord)) {
+                                                if (effectRecord is IObjectEffectGetter objectEffectGetter) {
+                                                    dict[i][GetBaseEnch(objectEffectGetter).ToLink()] = new EnchantmentEntry(effectRecord, enchAmount, enchantedItemName.Replace(itemName, "$NAME$"), true);
+                                                }
                                             }
                                         }
+                                        i++;
+                                    } catch (RecordException re) {
+                                        Console.WriteLine("Warning: " + re.Message);
                                     }
-                                    i++;
                                 }
                             }
                         }
@@ -497,8 +505,11 @@ namespace LeveledLoot {
             }
             var dict = enchantmentDict[itemType];
             if (enchantmentLists.TryResolve(Program.State.LinkCache, out var enchList)) {
+                if(enchList.Entries == null) {
+                    return;
+                }
                 var armorList = new List<Tuple<int, IArmorGetter>>();
-                foreach (var entry in enchList.Entries!) {
+                foreach (var entry in enchList.Entries) {
 
                     if (entry.Data!.Reference.TryResolve(Program.State.LinkCache, out var entryLink)) {
                         if (entryLink is ILeveledItemGetter leveldItem) {
@@ -800,7 +811,7 @@ namespace LeveledLoot {
                             }
 
                             string enchName = name;
-                            if(enchName.Contains("NAME")) {
+                            if (enchName.Contains("NAME")) {
                                 enchName = enchName.Replace("NAME", "$NAME$");
                             } else {
                                 enchName = "$NAME$ " + enchName;
@@ -812,7 +823,7 @@ namespace LeveledLoot {
                                     var minTier = tier == 0 ? 1 : tier;
                                     var maxTier = tier == 0 ? 6 : tier;
                                     for (int i = minTier; i <= maxTier; i++) {
-                                        enchantmentDict[itemType][i][baseEnchLink] = new EnchantmentEntry(ench, (ushort) (500 * i), enchName, true); ;
+                                        enchantmentDict[itemType][i][baseEnchLink] = new EnchantmentEntry(ench, (ushort)(500 * i), enchName, true); ;
                                     }
                                 }
                             }
@@ -821,9 +832,6 @@ namespace LeveledLoot {
                 }
             }
 
-            if (enchantmentExploration == EnchantmentExploration.All) {
-
-            }
 
             for (int tier = 1; tier <= 6; tier++) {
                 if (enchantmentExploration == EnchantmentExploration.LeveledListCombineItemSlots) {
@@ -888,7 +896,7 @@ namespace LeveledLoot {
             // double enc
             foreach (var itemType in itemTypes) {
                 for (int tier = 1; tier <= 6; tier++) {
-                    if (EnchTiers[tier+5].endChance == 0 && EnchTiers[tier+5].startChance == 0) {
+                    if (EnchTiers[tier + 5].endChance == 0 && EnchTiers[tier + 5].startChance == 0) {
                         continue;
                     }
 

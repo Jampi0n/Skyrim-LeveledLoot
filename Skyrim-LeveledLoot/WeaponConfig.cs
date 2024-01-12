@@ -133,8 +133,7 @@ namespace LeveledLoot {
 
             // Find enchantments
             if (Program.Settings.weapons.enchantedItems) {
-                if (Program.Settings.weapons.enchantmentSettings.enchantmentExploration != EnchantmentExploration.All &&
-                    Program.Settings.weapons.enchantmentSettings.enchantmentExploration != EnchantmentExploration.None) {
+                if (Program.Settings.weapons.enchantmentSettings.enchantmentExploration != EnchantmentExploration.None) {
                     Enchanter.RegisterWeaponEnchantments(ItemType.Battleaxe, SKY.IronBattleaxe, SKYL.LItemEnchIronBattleaxe, 1);
                     Enchanter.RegisterWeaponEnchantments(ItemType.Battleaxe, SKY.DaedricBattleaxe, SKYL.LItemEnchDaedricBattleaxe, 4);
 
