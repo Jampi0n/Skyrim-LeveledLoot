@@ -19,25 +19,26 @@ namespace LeveledLoot {
     public static class EnumInfo
     {
         public const string enchantmentExploration = "" +
-            "LeveledList: Parses the leveled list of generic enchanted armor/weapons to determine available enchantments for specific item types. " +
-                "For example 'Fortify Magicka' will not be used for Gauntlets, because regular enchanted Gauntlets do not exist with this enchantment.\n" +
+            "LeveledList: Parses the leveled list of generic enchanted armor/weapons to determine available enchantments for specific item types.\n" +
+                "    Example: 'Fortify Magicka' will not be used for Gauntlets, because regular enchanted Gauntlets do not exist with this enchantment.\n" +
             "LeveledListCombineItemSlots: Same as LeveledList, but adds enchantments available to different item slots.\n" +
-                "For example 'Fortify Magicka' will now be used for Gauntlets, because the enchantment exists for a different item type (Helmet) and " +
+                "    Example: 'Fortify Magicka' will now be used for Gauntlets, because the enchantment exists for a different item type (Helmet) and " +
                 "the enchantment can also be put on Gauntlets.\n" +
             "LeveledListCombineItemSlotsSeparateItemType: Same as LeveledListCombineItemSlots, but different armor types (light, heavy, clothing, jewelry) " +
                 "and weapon types (onehanded, twohanded, bow) are treated separately.\n" +
-                "For example 'Fortify Heavy Armor' is only used on heavy cuirasses, rings and necklaces (heavy and jewelry). " +
-                "This will add the enchantment to other slots of heavy armors and jewelry, but not to light armor or clothing." +
+                "    Example: 'Fortify Heavy Armor' is only used on heavy cuirasses, rings and necklaces (heavy and jewelry). " +
+                "This will add the enchantment to other slots of heavy armors and jewelry, but not to light armor or clothing.\n" +
             "LeveledListCombineItemSlotsArmorTypeCheck: Same as LeveledListCombineItemSlots, but enchantments affecting heavy or light armor are not added to " +
-                "the other armor type. For example 'Fortify Heavy Armor' will not be added to light armor, because it is only part of the heavy armor leveled lists " +
-                "and the enchantment contains the heavy armor actor value." +
-            "All: Parses all available enchantments for learnable enchantments and applys them according available item types.\n" +
-                "For example 'Silent Moon Enchantment' is a learnable enchantment and will therefore be added to items in the regular loot table, even if the enchantment can usually only be found at a specific location.";
+                "the other armor type.\n"+
+                "    Example: 'Fortify Heavy Armor' will not be added to light armor, because it is only part of the heavy armor leveled lists " +
+                "and the enchantment contains the heavy armor actor value.\n" +
+            "All: Parses all available enchantments for learnable enchantments and applies them to available item types.\n" +
+                "    Example: 'Silent Moon Enchantment' is a learnable enchantment and will therefore be added to items in the regular loot table, even if the enchantment can usually only be found at a specific location.";
     }
 
     public class EnchantmentSettings {
         [SynthesisTooltip("How available enchantments are determined.\n" + EnumInfo.enchantmentExploration)]
-        public EnchantmentExploration enchantmentExploration = EnchantmentExploration.None;
+        public EnchantmentExploration enchantmentExploration = EnchantmentExploration.LeveledListCombineItemSlotsSeparateItemType;
         [SynthesisTooltip("Enchantments can be marked for use with this patcher by containing \"JLL\" in the editorID. These enchantments will also be used to generate enchanted items. This can be useful for patching mods adding new enchantments.")]
         public bool considerMarkedEnchantments = true;
         [SynthesisTooltip("This setting will not generate enchantments on items if the enchantments violate WornRestrictions. This is useful, if a mod modifies WornRestrictions without adjusting the leveled lists accordingly.")]

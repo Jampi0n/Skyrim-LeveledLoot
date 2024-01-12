@@ -240,7 +240,7 @@ namespace LeveledLoot {
                         } else if (toEnchant is IArmorGetter armorGetter) {
                             enchanted = EnchantArmor(armorGetter, enchantmentEntry);
                         } else {
-                            throw new Exception("Must be armor or weapon");
+                            throw new RecordException(toEnchant, "Must be armor or weapon");
                         }
                         enchantedItems[key] = enchanted;
                     }
@@ -262,7 +262,7 @@ namespace LeveledLoot {
                     } else if (toEnchant is IArmorGetter armorGetter) {
                         enchanted = EnchantArmor(armorGetter, enchantmentEntry);
                     } else {
-                        throw new Exception("Must be armor or weapon");
+                        throw new RecordException(toEnchant ,"Must be armor or weapon");
                     }
                     enchantedItems[key] = enchanted;
                 }
@@ -390,9 +390,11 @@ namespace LeveledLoot {
                 if (item is IArmorGetter armor) {
                     itemName = armor.Name!.String!;
                 }
+            } else {
+                throw new RecordException(itemLink, "Item is null.");
             }
             if (itemName == "") {
-                throw new Exception("Item has no name.");
+                throw new RecordException(item, "Item has no name.");
             }
             if (!enchantmentDict.ContainsKey(itemType)) {
                 enchantmentDict.Add(itemType, new Dictionary<int, Dictionary<IFormLink<IEffectRecordGetter>, EnchantmentEntry>>());
@@ -412,13 +414,13 @@ namespace LeveledLoot {
                             ench = armor.ObjectEffect.AsSetter();
                             enchAmount = armor.EnchantmentAmount.GetValueOrDefault(0);
                         } else {
-                            throw new Exception("Must be armor.");
+                            throw new RecordException(enchantedItem, "Must be armor.");
                         }
                         if (!enchantedItemName.Contains(itemName)) {
-                            throw new Exception("Enchanted item name must contain base item name as substring.");
+                            throw new RecordException(enchantedItem, "Enchanted item name must contain base item name as substring.\nEnchanted name: '" + enchantedItemName + "' Base name: '" + itemName +  "'");
                         }
                         if (ench.IsNull) {
-                            throw new Exception("Enchanted item has no enchantment.");
+                            throw new RecordException(enchantedItem, "Enchanted item has no enchantment.");
                         }
                         if (ench.TryResolve(Program.State.LinkCache, out var effectRecord)) {
                             if (effectRecord is IObjectEffectGetter objectEffectGetter) {
@@ -437,9 +439,11 @@ namespace LeveledLoot {
                 if (item is IWeaponGetter weapon) {
                     itemName = weapon.Name!.String!;
                 }
+            } else {
+                throw new RecordException(itemLink, "Item is null.");
             }
             if (itemName == "") {
-                throw new Exception("Item has no name.");
+                throw new RecordException(item, "Item has no name.");
             }
             if (!enchantmentDict.ContainsKey(itemType)) {
                 enchantmentDict.Add(itemType, new Dictionary<int, Dictionary<IFormLink<IEffectRecordGetter>, EnchantmentEntry>>());
@@ -464,13 +468,13 @@ namespace LeveledLoot {
                                             ench = weapon.ObjectEffect.AsSetter();
                                             enchAmount = weapon.EnchantmentAmount.GetValueOrDefault(0);
                                         } else {
-                                            throw new Exception("Must be weapon.");
+                                            throw new RecordException(enchantedItem, "Must be weapon.");
                                         }
                                         if (!enchantedItemName.Contains(itemName)) {
-                                            throw new Exception("Enchanted item name must contain base item name as substring.");
+                                            throw new RecordException(enchantedItem, "Enchanted item name must contain base item name as substring.\nEnchanted name: '" + enchantedItemName + "' Base name: '" + itemName + "'");
                                         }
                                         if (ench.IsNull) {
-                                            throw new Exception("Enchanted item has no enchantment.");
+                                            throw new RecordException(enchantedItem, "Enchanted item has no enchantment.");
                                         }
                                         if (ench.TryResolve(Program.State.LinkCache, out var effectRecord)) {
                                             if (effectRecord is IObjectEffectGetter objectEffectGetter) {
@@ -515,7 +519,7 @@ namespace LeveledLoot {
                     IFormLink<IEffectRecordGetter> ench = armor.ObjectEffect.AsSetter();
                     var enchAmount = armor.EnchantmentAmount.GetValueOrDefault(0);
                     if (ench.IsNull) {
-                        throw new Exception("Enchanted item has no enchantment.");
+                        throw new RecordException(armor, "Enchanted item has no enchantment.");
                     }
                     if (ench.TryResolve(Program.State.LinkCache, out var effectRecord)) {
                         var editorID = effectRecord.EditorID!;
