@@ -33,6 +33,10 @@ namespace LeveledLoot {
         LightGauntlets,
         LightBoots,
         LightShield,
+        ClothingHead,
+        ClothingBody,
+        ClothingHands,
+        ClothingFeet,
         Sword,
         Waraxe,
         Mace,
@@ -65,6 +69,10 @@ namespace LeveledLoot {
                 ItemType.LightBoots => Skyrim.Keyword.ArmorBoots,
                 ItemType.HeavyShield => Skyrim.Keyword.ArmorShield,
                 ItemType.LightShield => Skyrim.Keyword.ArmorShield,
+                ItemType.ClothingHead => Skyrim.Keyword.ClothingHead,
+                ItemType.ClothingBody => Skyrim.Keyword.ClothingBody,
+                ItemType.ClothingHands => Skyrim.Keyword.ClothingHands,
+                ItemType.ClothingFeet => Skyrim.Keyword.ClothingFeet,
                 ItemType.Bow => Skyrim.Keyword.WeapTypeBow,
                 ItemType.Dagger => Skyrim.Keyword.WeapTypeDagger,
                 ItemType.Sword => Skyrim.Keyword.WeapTypeSword,
@@ -81,18 +89,22 @@ namespace LeveledLoot {
             if (keywords.Contains(Skyrim.Keyword.ArmorHelmet)) {
                 ret.Add(ItemType.HeavyHelmet);
                 ret.Add(ItemType.LightHelmet);
+                ret.Add(ItemType.ClothingHead);
             }
             if (keywords.Contains(Skyrim.Keyword.ArmorCuirass)) {
                 ret.Add(ItemType.HeavyCuirass);
                 ret.Add(ItemType.LightCuirass);
+                ret.Add(ItemType.ClothingBody);
             }
             if (keywords.Contains(Skyrim.Keyword.ArmorGauntlets)) {
                 ret.Add(ItemType.HeavyGauntlets);
                 ret.Add(ItemType.LightGauntlets);
+                ret.Add(ItemType.ClothingHands);
             }
             if (keywords.Contains(Skyrim.Keyword.ArmorBoots)) {
                 ret.Add(ItemType.HeavyBoots);
                 ret.Add(ItemType.LightBoots);
+                ret.Add(ItemType.ClothingFeet);
             }
             if (keywords.Contains(Skyrim.Keyword.ArmorShield)) {
                 ret.Add(ItemType.HeavyShield);
@@ -170,6 +182,14 @@ namespace LeveledLoot {
                         return ItemType.Necklace;
                     } else if (armorGetter.HasKeyword(Skyrim.Keyword.ClothingCirclet)) {
                         return ItemType.Circlet;
+                    } else if (armorGetter.HasKeyword(Skyrim.Keyword.ClothingHead)) {
+                        return ItemType.ClothingHead;
+                    } else if (armorGetter.HasKeyword(Skyrim.Keyword.ClothingBody)) {
+                        return ItemType.ClothingBody;
+                    } else if (armorGetter.HasKeyword(Skyrim.Keyword.ClothingHands)) {
+                        return ItemType.ClothingHands;
+                    } else if (armorGetter.HasKeyword(Skyrim.Keyword.ClothingFeet)) {
+                        return ItemType.ClothingFeet;
                     }
                 }
             } else if (item is IWeaponGetter weaponGetter) {
@@ -312,6 +332,14 @@ namespace LeveledLoot {
             AddItemCount(ItemType.Arrow, 1, 0, baseArrowList);
             AddItemCount(ItemType.Arrow6, 6, 0, baseArrowList);
             AddItemCount(ItemType.Arrow12, 12, 0, baseArrowList);
+        }
+
+        public bool HasItemType(Enum itemType) {
+            if (!itemMap.ContainsKey(itemType)) {
+                return false;
+            } else {
+                return itemMap[itemType].Count > 0;
+            }
         }
 
         public void AddItem(Enum itemType, Form? item, int weight, short count = 1, byte chanceNone = 0) {

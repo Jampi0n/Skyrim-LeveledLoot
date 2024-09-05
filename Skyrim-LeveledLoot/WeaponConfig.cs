@@ -133,6 +133,13 @@ namespace LeveledLoot {
 
             // Find enchantments
             if (Program.Settings.weapons.enchantedItems) {
+                var itemTypeHierarchy = new List<List<ItemType>>() {
+                    weaponItemTypesOneHanded.ToList(),
+                    weaponItemTypesTwoHanded.ToList(),
+                    weaponItemTypesRanged.ToList()
+                };
+                Enchanter.PreProcessEnchantments(itemTypeHierarchy, Program.Settings.weapons.enchantmentSettings);
+
                 if (Program.Settings.weapons.enchantmentSettings.enchantmentExploration != EnchantmentExploration.None) {
                     Enchanter.RegisterWeaponEnchantments(ItemType.Battleaxe, SKY.IronBattleaxe, SKYL.LItemEnchIronBattleaxe, 1);
                     Enchanter.RegisterWeaponEnchantments(ItemType.Battleaxe, SKY.DaedricBattleaxe, SKYL.LItemEnchDaedricBattleaxe, 4);
@@ -159,14 +166,15 @@ namespace LeveledLoot {
                     Enchanter.RegisterWeaponEnchantments(ItemType.Warhammer, SKY.DaedricWarhammer, SKYL.LItemEnchDaedricWarhammer, 4);
                 }
 
-                var itemTypeHierarchy = new List<List<ItemType>>() {
-                    weaponItemTypesOneHanded.ToList(),
-                    weaponItemTypesTwoHanded.ToList(),
-                    weaponItemTypesRanged.ToList()
-                };
 
 
-                Enchanter.PostProcessEnchantments(itemTypeHierarchy, Program.Settings.weapons.enchantmentSettings);
+                var enchFactors = new Dictionary<ItemType, double>();
+                enchFactors.Add(ItemType.Bow, Program.Settings.weapons.rangedPowerFactor);
+
+                enchFactors.Add(ItemType.Greatsword, Program.Settings.weapons.twoHandedPowerFactor);
+                enchFactors.Add(ItemType.Battleaxe, Program.Settings.weapons.twoHandedPowerFactor);
+                enchFactors.Add(ItemType.Warhammer, Program.Settings.weapons.twoHandedPowerFactor);
+                Enchanter.PostProcessEnchantments(itemTypeHierarchy, Program.Settings.weapons.enchantmentSettings, enchFactors);
             }
             if (Program.Settings.weapons.addCraftableItems) {
                 RecipeParser.Parse(itemTypesCombinedAmmo, regularMaterials, ULTIMATE);

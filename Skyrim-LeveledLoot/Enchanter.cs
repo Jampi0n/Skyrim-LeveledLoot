@@ -123,6 +123,7 @@ namespace LeveledLoot {
         static readonly Dictionary<Tuple<ItemMaterial, ItemType, int>, Form> enchantedVariants = new();
         static readonly Dictionary<Tuple<FormKey, EnchantmentEntry>, Form> enchantedItems = new();
         static readonly Dictionary<Tuple<FormKey, FormKey, double>, ObjectEffect> combinedEnchantments = new();
+        static readonly Dictionary<Tuple<FormKey, double>, ObjectEffect> adjustedEnchantments = new();
         static readonly Dictionary<HashSet<FormKey>, FormList> wornRestrictionsDict = new();
 
         public static void Reset() {
@@ -505,7 +506,7 @@ namespace LeveledLoot {
             }
             var dict = enchantmentDict[itemType];
             if (enchantmentLists.TryResolve(Program.State.LinkCache, out var enchList)) {
-                if(enchList.Entries == null) {
+                if (enchList.Entries == null) {
                     return;
                 }
                 var armorList = new List<Tuple<int, IArmorGetter>>();
@@ -649,6 +650,24 @@ namespace LeveledLoot {
             return true;
         }
 
+        public static void CopySharedEnchantments(ItemType source1, ItemType source2, ItemType target) {
+            for (int tier = 1; tier <= 6; tier++) {
+                var dict1 = enchantmentDict[source1][tier];
+                var dict2 = enchantmentDict[source2][tier];
+                foreach (var kv in dict1) {
+                    if (dict2.ContainsKey(kv.Key) && dict2[kv.Key].Equals(kv.Value)) {
+                        if (!enchantmentDict.ContainsKey(target)) {
+                            enchantmentDict.Add(target, new Dictionary<int, Dictionary<IFormLink<IEffectRecordGetter>, EnchantmentEntry>>());
+                        }
+                        if (!enchantmentDict[target].ContainsKey(tier)) {
+                            enchantmentDict[target].Add(tier, new Dictionary<IFormLink<IEffectRecordGetter>, EnchantmentEntry>());
+                        }
+                        enchantmentDict[target][tier].Add(kv.Key, kv.Value);
+                    }
+                }
+            }
+        }
+
         private static void ShareEnchantments(List<ItemType> itemTypes, Predicate<EnchantmentEntry> filter) {
             foreach (var copyFrom in itemTypes) {
                 foreach (var copyTo in itemTypes) {
@@ -737,9 +756,7 @@ namespace LeveledLoot {
             }
             return combinedEnchantments[key];
         }
-
-        public static void PostProcessEnchantments(List<List<ItemType>> itemTypeHierarchy, EnchantmentSettings enchantmentSettings) {
-            var enchantmentExploration = enchantmentSettings.enchantmentExploration;
+        public static void PreProcessEnchantments(List<List<ItemType>> itemTypeHierarchy, EnchantmentSettings enchantmentSettings) {
             var itemTypes = new List<ItemType>();
             foreach (var category in itemTypeHierarchy) {
                 foreach (var itemType in category) {
@@ -831,7 +848,16 @@ namespace LeveledLoot {
                     }
                 }
             }
+        }
 
+        public static void PostProcessEnchantments(List<List<ItemType>> itemTypeHierarchy, EnchantmentSettings enchantmentSettings, Dictionary<ItemType, double> enchFactors) {
+            var enchantmentExploration = enchantmentSettings.enchantmentExploration;
+            var itemTypes = new List<ItemType>();
+            foreach (var category in itemTypeHierarchy) {
+                foreach (var itemType in category) {
+                    itemTypes.Add(itemType);
+                }
+            }
 
             for (int tier = 1; tier <= 6; tier++) {
                 if (enchantmentExploration == EnchantmentExploration.LeveledListCombineItemSlots) {
@@ -889,6 +915,47 @@ namespace LeveledLoot {
                         foreach (var key in keysToRremove) {
                             tierKvPair.Value.Remove(key);
                         }
+                    }
+                }
+            }
+
+            // enchFactors
+            foreach (var itemType in enchFactors.Keys) {
+                var factor = enchFactors[itemType];
+                if (factor == 1.0) {
+                    continue;
+                }
+
+                for (int tier = 1; tier <= 6; tier++) {
+                    if (!enchantmentDict[itemType].ContainsKey(tier)) {
+                        continue;
+                    }
+                    var list = new List<EnchantmentEntry>();
+                    foreach (var kv in enchantmentDict[itemType][tier]) {
+                        var effectRecord = kv.Value.enchantment;
+                        if (effectRecord is IObjectEffectGetter ench) {
+
+                            var key = new Tuple<FormKey, double>(ench.FormKey, factor);
+                            if (!adjustedEnchantments.ContainsKey(key)) {
+                                ObjectEffect enchAdjusted = Program.State.PatchMod.ObjectEffects.AddNew();
+                                enchAdjusted.DeepCopyIn(ench);
+
+                                enchAdjusted.EditorID = prefix + enchAdjusted.EditorID + "_Factor" + factor.ToString().Replace(".", "dot");
+
+                                foreach (var effect in enchAdjusted.Effects) {
+                                    if (effect.Data != null) {
+                                        effect.Data.Magnitude = SmartRound(factor * effect.Data.Magnitude);
+                                    }
+                                }
+                                adjustedEnchantments.Add(key, enchAdjusted);
+                            }
+
+                            list.Add(new EnchantmentEntry(adjustedEnchantments[key], kv.Value.enchAmount, kv.Value.enchantedItemName, true));
+                        }
+                    }
+                    enchantmentDict[itemType][tier].Clear();
+                    foreach (var item in list) {
+                        enchantmentDict[itemType][tier].Add(item.enchantment.ToLink(), item);
                     }
                 }
             }

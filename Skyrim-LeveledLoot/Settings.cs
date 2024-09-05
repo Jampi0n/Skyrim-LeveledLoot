@@ -35,7 +35,7 @@ namespace LeveledLoot {
 
     public class EnchantmentSettings {
         [SynthesisTooltip("How available enchantments are determined.\n" + EnumInfo.enchantmentExploration)]
-        public EnchantmentExploration enchantmentExploration = EnchantmentExploration.LeveledListCombineItemSlotsSeparateItemType;
+        public EnchantmentExploration enchantmentExploration = EnchantmentExploration.None;
         [SynthesisTooltip("Enchantments can be marked for use with this patcher by containing \"JLL\" in the editorID. These enchantments will also be used to generate enchanted items. This can be useful for patching mods adding new enchantments.")]
         public bool considerMarkedEnchantments = true;
         [SynthesisTooltip("This setting will not generate enchantments on items if the enchantments violate WornRestrictions. This is useful, if a mod modifies WornRestrictions without adjusting the leveled lists accordingly.")]
@@ -52,13 +52,19 @@ namespace LeveledLoot {
         public bool enchantedArmor = true;
         [SynthesisTooltip("Generate enchanted versions of jewlry for enchanted loot table.")]
         public bool enchantedJewelry = true;
+        [SynthesisTooltip("Generate enchanted versions of clothing for enchanted loot table.")]
+        public bool enchantedClothing = true;
+        [SynthesisTooltip("Modify enchantment power for jewelry.")]
+        public double jewelryPowerFactor = 1.0;
+        [SynthesisTooltip("Modify enchantment power for clothing.")]
+        public double clothingPowerFactor = 1.25;
         public EnchantmentSettings enchantmentSettings = new();
         [SynthesisTooltip("Limits the number of jewelry variants for the same enchantment to a fraction of the total variants.")]
         public double maxEnchJewelryVariantsFraction = 1.0;
         [SynthesisTooltip("Limits the number of jewelry variants for the same enchantment to an absolute value. -1 is no limit. Vanilla: 1")]
         public int maxEnchJewelryVariants = 1;
         [SynthesisTooltip("Limits the number of enchantment tiers per material. Vanilla: 3\nFor example, iron enchanted items will always have tier 1-3, while daedric will have have tier 4-6.")]
-        public int maxTiersPerMaterial = 3;
+        public int maxTiersPerMaterial = 2;
         [SynthesisTooltip("Loot table changes for bandit armor (low tier armor)")]
         public bool bandit = true;
         [SynthesisTooltip("Loot table changes for draugr loot armor (hide, leather, iron, steel, draugr, scaled, ebony, dragon)")]
@@ -75,9 +81,13 @@ namespace LeveledLoot {
         public bool addCraftableItems = true;
         [SynthesisTooltip("Generate enchanted versions of weapons for enchanted loot table.")]
         public bool enchantedItems = true;
+        [SynthesisTooltip("Modify enchantment power for two-handed weapons.")]
+        public double twoHandedPowerFactor = 1.5;
+        [SynthesisTooltip("Modify enchantment power for ranged weapons.")]
+        public double rangedPowerFactor = 1.5;        
         public EnchantmentSettings enchantmentSettings = new();
         [SynthesisTooltip("Limits the number of enchantment tiers per material. Vanilla: 3\nFor example, iron enchanted items will always have tier 1-3, while daedric will have have tier 4-6.")]
-        public int maxTiersPerMaterial = 3;
+        public int maxTiersPerMaterial = 2;
         [SynthesisTooltip("Loot table changes for bandit weapons (regular weapons)")]
         public bool bandit = true;
         [SynthesisTooltip("Loot table changes for draugr loot weapons (iron, steel, draugr, draugr honed, draugr hero, ebony, dragon)")]
@@ -131,7 +141,7 @@ namespace LeveledLoot {
         public LootEntry TIER_2 = LootEntryManager.Get(20, 28, 0, 80);
         public LootEntry TIER_2x2 = LootEntryManager.Get(0, 0, 0, 1);
         public LootEntry TIER_3 = LootEntryManager.Get(0, 24, 11, 120);
-        public LootEntry TIER_3x2 = LootEntryManager.Get(0, 6, 11, 120);
+        public LootEntry TIER_3x2 = LootEntryManager.Get(0, 0, 0, 1);
         public LootEntry TIER_4 = LootEntryManager.Get(0, 20, 24, 160);
         public LootEntry TIER_4x2 = LootEntryManager.Get(0, 5, 24, 160);
         public LootEntry TIER_5 = LootEntryManager.Get(0, 16, 37, 200);

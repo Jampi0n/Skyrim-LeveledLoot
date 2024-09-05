@@ -17,6 +17,8 @@ using DG = Mutagen.Bethesda.FormKeys.SkyrimLE.Dawnguard.Armor;
 using SKYL = Mutagen.Bethesda.FormKeys.SkyrimLE.Skyrim.LeveledItem;
 using DBL = Mutagen.Bethesda.FormKeys.SkyrimLE.Dragonborn.LeveledItem;
 using DGL = Mutagen.Bethesda.FormKeys.SkyrimLE.Dawnguard.LeveledItem;
+using DynamicData;
+using Noggog;
 
 namespace LeveledLoot {
 
@@ -56,6 +58,8 @@ namespace LeveledLoot {
         public ItemMaterial JEWELRY_4 = new("Jewelry_4", Program.Settings.jewelryLootTable.GOLD_WITH_DIAMONDS, 6);
         public ItemMaterial JEWELRY_5 = new("Jewelry_5", Program.Settings.jewelryLootTable.ULTIMATE, 6);
 
+        public ItemMaterial CLOTHING = new("Clothing", LootEntryManager.Get(1, 1, 0, 1), -1);
+
 
         public ArmorConfig() {
             var regularMaterials = new List<ItemMaterial>() {
@@ -84,8 +88,12 @@ namespace LeveledLoot {
 
             var jewelryMaterials = new List<ItemMaterial>()
             {
-                JEWELRY_1,
-                JEWELRY_2,JEWELRY_3,JEWELRY_4
+                JEWELRY_1, JEWELRY_2,JEWELRY_3,JEWELRY_4
+            };
+
+            var clothingMaterials = new List<ItemMaterial>()
+            {
+                CLOTHING
             };
 
             var armorItemTypesHeavy = new ItemType[] {
@@ -104,6 +112,12 @@ namespace LeveledLoot {
                 ItemType.Ring,
                 ItemType.Necklace,
                 ItemType.Circlet
+            };
+            var armorItemTypesClothing = new ItemType[] {
+                ItemType.ClothingHead,
+                ItemType.ClothingBody,
+                ItemType.ClothingHands,
+                ItemType.ClothingFeet
             };
 
             IRON.DefaultHeavyArmor(SKY.ArmorIronHelmet, null, SKY.ArmorIronGauntlets, SKY.ArmorIronBoots, null);
@@ -168,22 +182,26 @@ namespace LeveledLoot {
             JEWELRY_3.AddItem(ItemType.Ring, SKY.JewelryRingSilverRuby, SKY.JewelryRingGoldEmerald, SKY.JewelryRingGoldSapphire);
             JEWELRY_4.AddItem(ItemType.Ring, SKY.JewelryRingGoldDiamond);
 
-
             JEWELRY_1.AddItem(ItemType.Necklace, SKY.JewelryNecklaceSilver);
             JEWELRY_2.AddItem(ItemType.Necklace, SKY.JewelryNecklaceSilverGems, SKY.JewelryNecklaceSilverEmerald, SKY.JewelryNecklaceGold);
             JEWELRY_3.AddItem(ItemType.Necklace, SKY.JewelryNecklaceSilverSapphire, SKY.JewelryNecklaceGoldGems, SKY.JewelryNecklaceGoldRuby);
             JEWELRY_4.AddItem(ItemType.Necklace, SKY.JewelryNecklaceGoldDiamond);
-
 
             JEWELRY_1.AddItem(ItemType.Circlet, SKY.ClothesCirclet05, SKY.ClothesCirclet09);
             JEWELRY_2.AddItem(ItemType.Circlet, SKY.ClothesCirclet02, SKY.ClothesCirclet04, SKY.ClothesCirclet10);
             JEWELRY_3.AddItem(ItemType.Circlet, SKY.ClothesCirclet01, SKY.ClothesCirclet06, SKY.ClothesCirclet07);
             JEWELRY_4.AddItem(ItemType.Circlet, SKY.ClothesCirclet03, SKY.ClothesCirclet08);
 
-
-
             // Find enchantments
             if (Program.Settings.apparel.enchantedArmor) {
+                var itemTypeHierarchy = new List<List<ItemType>>() {
+                    armorItemTypesHeavy.ToList(),
+                    armorItemTypesLight.ToList(),
+                    armorItemTypesJewelry.ToList(),
+                    armorItemTypesClothing.ToList(),
+                };
+                Enchanter.PreProcessEnchantments(itemTypeHierarchy, Program.Settings.apparel.enchantmentSettings);
+
                 if (Program.Settings.apparel.enchantmentSettings.enchantmentExploration != EnchantmentExploration.None) {
                     Enchanter.RegisterArmorEnchantments(ItemType.HeavyHelmet, SKY.ArmorIronHelmet, SKYL.SublistEnchArmorIronHelmet01, 1);
                     Enchanter.RegisterArmorEnchantments(ItemType.HeavyHelmet, SKY.ArmorIronHelmet, SKYL.SublistEnchArmorIronHelmet02, 2);
@@ -333,19 +351,29 @@ namespace LeveledLoot {
                     Enchanter.RegisterJewelryEnchantments(ItemType.Circlet, Skyrim.LeveledItem.LItemEnchCircletAll, "Circlet");
                 }
 
-                var itemTypeHierarchy = new List<List<ItemType>>() {
-                    armorItemTypesHeavy.ToList(),
-                    armorItemTypesLight.ToList(),
-                    armorItemTypesJewelry.ToList()
-                };
+                /*Enchanter.CopySharedEnchantments(ItemType.HeavyHelmet, ItemType.LightHelmet, ItemType.ClothingHead);
+                Enchanter.CopySharedEnchantments(ItemType.HeavyCuirass, ItemType.LightCuirass, ItemType.ClothingBody);
+                Enchanter.CopySharedEnchantments(ItemType.HeavyGauntlets, ItemType.LightGauntlets, ItemType.ClothingHands);
+                Enchanter.CopySharedEnchantments(ItemType.HeavyBoots, ItemType.LightBoots, ItemType.ClothingFeet);*/
 
-                Enchanter.PostProcessEnchantments(itemTypeHierarchy, Program.Settings.apparel.enchantmentSettings);
+                var enchFactors = new Dictionary<ItemType, double>();
+                enchFactors.Add(ItemType.ClothingHead, Program.Settings.apparel.clothingPowerFactor);
+                enchFactors.Add(ItemType.ClothingBody, Program.Settings.apparel.clothingPowerFactor);
+                enchFactors.Add(ItemType.ClothingHands, Program.Settings.apparel.clothingPowerFactor);
+                enchFactors.Add(ItemType.ClothingFeet, Program.Settings.apparel.clothingPowerFactor);
+
+                enchFactors.Add(ItemType.Ring, Program.Settings.apparel.jewelryPowerFactor);
+                enchFactors.Add(ItemType.Necklace, Program.Settings.apparel.jewelryPowerFactor);
+                enchFactors.Add(ItemType.Circlet, Program.Settings.apparel.jewelryPowerFactor);
+
+                Enchanter.PostProcessEnchantments(itemTypeHierarchy, Program.Settings.apparel.enchantmentSettings, enchFactors);
             }
 
             if (Program.Settings.apparel.addCraftableItems) {
                 RecipeParser.Parse(armorItemTypesHeavy, regularMaterials, ULTIMATE_HEAVY);
                 RecipeParser.Parse(armorItemTypesLight, regularMaterials, ULTIMATE_LIGHT);
                 RecipeParser.Parse(armorItemTypesJewelry, jewelryMaterials, JEWELRY_5);
+                RecipeParser.Parse(armorItemTypesClothing, clothingMaterials, CLOTHING);
             }
 
 
@@ -368,6 +396,74 @@ namespace LeveledLoot {
 
             ItemMaterial.maxVariantFraction = 1.0;
             ItemMaterial.maxVariants = -1;
+
+            if (Program.Settings.apparel.enchantedClothing) {
+                CLOTHING.AddItem(ItemType.ClothingHead, SKY.ClothesCollegeHood, SKY.ClothesCollegeHoodVariant1, SKY.ClothesCollegeHoodVariant2);
+                CLOTHING.AddItem(ItemType.ClothingBody, SKY.ClothesCollegeRobesCommon, SKY.ClothesCollegeRobesCommonVariant1, SKY.ClothesCollegeRobesApprentice, SKY.ClothesCollegeRobesApprenticeVariant1, SKY.ClothesCollegeRobesApprenticeVariant2);
+                CLOTHING.AddItem(ItemType.ClothingFeet, SKY.ClothesMGBoots);
+
+                if (!CLOTHING.HasItemType(ItemType.ClothingHands)) {
+                    CLOTHING.AddItem(ItemType.ClothingHands, SKY.ClothesFarmGloves03);
+                }
+
+                var enchRobes = LeveledList.CreateListEnchanted(ItemType.ClothingBody, "EnchClothingBody", LeveledList.FACTOR_BEST, clothingMaterials).ToLink();
+                var enchBoots = LeveledList.CreateListEnchanted(ItemType.ClothingFeet, "EnchClothingFeet", LeveledList.FACTOR_BEST, clothingMaterials).ToLink();
+                var enchClothingHead = LeveledList.CreateListEnchanted(ItemType.ClothingHead, "EnchClothingHead", LeveledList.FACTOR_BEST, clothingMaterials).ToLink();
+                var enchGloves = LeveledList.CreateListEnchanted(ItemType.ClothingHands, "EnchClothingHands", LeveledList.FACTOR_BEST, clothingMaterials).ToLink();
+
+                var list = Program.State.PatchMod.LeveledItems.AddNew();
+                list.EditorID = LeveledList.prefix + "EnchantedClothing";
+                list.Entries = new ExtendedList<LeveledItemEntry> {
+                    new LeveledItemEntry {
+                        Data = new LeveledItemEntryData() {
+                            Level = 1,
+                            Count = 1,
+                            Reference = enchRobes
+                        }
+                    },
+                    new LeveledItemEntry {
+                        Data = new LeveledItemEntryData() {
+                            Level = 1,
+                            Count = 1,
+                            Reference = enchBoots
+                        }
+                    },
+                    new LeveledItemEntry {
+                        Data = new LeveledItemEntryData() {
+                            Level = 1,
+                            Count = 1,
+                            Reference = enchClothingHead
+                        }
+                    },
+                    new LeveledItemEntry {
+                        Data = new LeveledItemEntryData() {
+                            Level = 1,
+                            Count = 1,
+                            Reference = enchGloves
+                        }
+                    }
+                };
+                list.Flags = LeveledItem.Flag.CalculateForEachItemInCount;
+
+                var specialLoot100 = Program.State.PatchMod.LeveledItems.GetOrAddAsOverride(SKYL.LItemSpecialLoot100, Program.State.LinkCache);
+                var specialLoot10 = Program.State.PatchMod.LeveledItems.GetOrAddAsOverride(SKYL.LItemSpecialLoot10, Program.State.LinkCache);
+                for (int i = 0; i < 2; i++) {
+                    specialLoot100.Entries!.Add(new LeveledItemEntry {
+                        Data = new LeveledItemEntryData() {
+                            Level = 1,
+                            Count = 1,
+                            Reference = list.ToLink()
+                        }
+                    });
+                    specialLoot10.Entries!.Add(new LeveledItemEntry {
+                        Data = new LeveledItemEntryData() {
+                            Level = 1,
+                            Count = 1,
+                            Reference = list.ToLink()
+                        }
+                    });
+                }
+            }
 
             // Best = 4
             // Special/Reward = 3
@@ -409,23 +505,25 @@ namespace LeveledLoot {
             LeveledList.LinkList(SKYL.LItemArmorBootsLightBest, LeveledList.FACTOR_BEST, ItemType.LightBoots, regularMaterials, LootRQ.Rare);
             LeveledList.LinkList(SKYL.LItemArmorShieldLightBest, LeveledList.FACTOR_BEST, ItemType.LightShield, regularMaterials, LootRQ.Rare);
 
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightHelmet, LeveledList.FACTOR_COMMON, ItemType.LightHelmet, regularMaterials);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightCuirass, LeveledList.FACTOR_COMMON, ItemType.LightCuirass, regularMaterials);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightGauntlets, LeveledList.FACTOR_COMMON, ItemType.LightGauntlets, regularMaterials);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightBoots, LeveledList.FACTOR_COMMON, ItemType.LightBoots, regularMaterials);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightShield, LeveledList.FACTOR_COMMON, ItemType.LightShield, regularMaterials);
+            if (Program.Settings.apparel.enchantedArmor) {
+                LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightHelmet, LeveledList.FACTOR_COMMON, ItemType.LightHelmet, regularMaterials);
+                LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightCuirass, LeveledList.FACTOR_COMMON, ItemType.LightCuirass, regularMaterials);
+                LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightGauntlets, LeveledList.FACTOR_COMMON, ItemType.LightGauntlets, regularMaterials);
+                LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightBoots, LeveledList.FACTOR_COMMON, ItemType.LightBoots, regularMaterials);
+                LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightShield, LeveledList.FACTOR_COMMON, ItemType.LightShield, regularMaterials);
 
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightHelmetNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightHelmet, regularMaterials);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightCuirassNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightCuirass, regularMaterials);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightGauntletsNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightGauntlets, regularMaterials);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightBootsNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightBoots, regularMaterials);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightShieldNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightShield, regularMaterials);
+                LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightHelmetNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightHelmet, regularMaterials);
+                LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightCuirassNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightCuirass, regularMaterials);
+                LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightGauntletsNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightGauntlets, regularMaterials);
+                LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightBootsNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightBoots, regularMaterials);
+                LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightShieldNoDragon, LeveledList.FACTOR_COMMON, ItemType.LightShield, regularMaterials);
 
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightHelmetSpecial, LeveledList.FACTOR_RARE, ItemType.LightHelmet, regularMaterials, LootRQ.Rare);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightCuirassSpecial, LeveledList.FACTOR_RARE, ItemType.LightCuirass, regularMaterials, LootRQ.Rare);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightGauntletsSpecial, LeveledList.FACTOR_RARE, ItemType.LightGauntlets, regularMaterials, LootRQ.Rare);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightBootsSpecial, LeveledList.FACTOR_RARE, ItemType.LightBoots, regularMaterials, LootRQ.Rare);
-            LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightShieldSpecial, LeveledList.FACTOR_RARE, ItemType.LightShield, regularMaterials, LootRQ.Rare);
+                LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightHelmetSpecial, LeveledList.FACTOR_RARE, ItemType.LightHelmet, regularMaterials, LootRQ.Rare);
+                LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightCuirassSpecial, LeveledList.FACTOR_RARE, ItemType.LightCuirass, regularMaterials, LootRQ.Rare);
+                LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightGauntletsSpecial, LeveledList.FACTOR_RARE, ItemType.LightGauntlets, regularMaterials, LootRQ.Rare);
+                LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightBootsSpecial, LeveledList.FACTOR_RARE, ItemType.LightBoots, regularMaterials, LootRQ.Rare);
+                LeveledList.LinkListEnchanted(SKYL.LItemEnchArmorLightShieldSpecial, LeveledList.FACTOR_RARE, ItemType.LightShield, regularMaterials, LootRQ.Rare);
+            }
 
             // DLC2 Light
 
